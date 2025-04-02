@@ -1,3 +1,8 @@
+<a href="https://www.bisecthosting.com/thosea">
+  <img src="https://www.bisecthosting.com/partners/custom-banners/7714c6cf-b028-488b-a4d3-0ce8e73e777b.webp" width= "837">
+</a>
+<p>
+
 ## BadOptimizations
 A collection of mostly micro optimizations that add up to something bigger!
 
