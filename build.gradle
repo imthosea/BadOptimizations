@@ -1,7 +1,11 @@
 plugins {
+    id "java"
+    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
+
+    id "com.gradleup.shadow" version "9.0.0-beta12" apply false
     id "io.github.pacifistmc.forgix" version "1.2.7"
+
     id "me.modmuss50.mod-publish-plugin" version "0.5.0"
 }
 
@@ -12,7 +16,17 @@ architectury {
 }
 
 subprojects {
+    apply plugin: "java"
     apply plugin: "dev.architectury.loom"
+    apply plugin: "architectury-plugin"
+
+    base {
+        archivesName = "BadOptimizations-$project.name"
+    }
+
+    repositories {
+        maven { url = "https://maven.terraformersmc.com/" }
+    }
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
@@ -24,32 +38,22 @@ subprojects {
         }
         implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.2"))
     }
-}
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 21
+    }
 
-    archivesBaseName = rootProject.archives_base_name
     version = rootProject.mod_version
     group = rootProject.maven_group
 
-    repositories {
-        maven { url = "https://maven.terraformersmc.com/" }
-    }
-
-    forgix {
-        group "me.thosea"
-        outputDir "build/libs/merged"
-        mergedJarName jarName
-        tasks.build.finalizedBy mergeJars
-    }
+    rootProject.tasks.build.dependsOn project.tasks.build
 }
 
-file("changelog.md").withInputStream {
-    var str = new String(it.readAllBytes())
-    while(str.endsWith("\n")) str = str.substring(0, str.length() - 1)
-    publishMods.changelog = str
+forgix {
+    group "me.thosea"
+    outputDir "build/libs/merged"
+    mergedJarName jarName
+    tasks.build.finalizedBy mergeJars
 }
 
 publishMods {
@@ -75,4 +79,12 @@ publishMods {
         minecraftVersions.add("1.20.6")
         clientRequired = true
     }
+
+    file("changelog.md").withInputStream {
+        var str = new String(it.readAllBytes())
+        while(str.endsWith("\n")) str = str.substring(0, str.length() - 1)
+        publishMods.changelog = str
+    }
+
+    tasks.publishMods.dependsOn tasks.mergeJars
 }
