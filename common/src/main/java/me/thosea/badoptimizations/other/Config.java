@@ -151,6 +151,14 @@ public final class Config {
 					() -> enable_lightmap_caching = false
 			);
 		}
+
+		if(enable_entity_flag_caching) {
+			disableIf(
+					"enable_entity_flag_caching",
+					Collections.singletonList("biomeswevegone"),
+					() -> enable_entity_flag_caching = false
+			);
+		}
 	}
 
 	private static void disableIf(String option, List<String> mods, Runnable disabler) {
