@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
+import net.minecraft.datafixer.fix.StatusEffectDurationFix;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import org.spongepowered.asm.mixin.Final;
@@ -39,49 +40,44 @@ public abstract class MixinLightmapManager {
 	}
 
 	private boolean bo$isDirty() {
-		boolean result = false;
-
-		DimensionEffects dimension = client.world.getDimensionEffects();
-		if(bo$lastDimension != dimension) {
-			bo$lastDimension = dimension;
-			result = true;
-		}
-		float skyDarkness = bo$gameRendererAccessor.bo$getSkyDarkness();
-		if(bo$previousSkyDarkness != skyDarkness) {
-			bo$previousSkyDarkness = skyDarkness;
-			result = true;
-		}
-		double gamma = client.options.getGamma().getValue();
-		if(bo$lastGamma != gamma) { // jamma celestial??
-			bo$lastGamma = gamma;
-			result = true;
-		}
-
-		PlayerAccessor accessor = (PlayerAccessor) client.player;
-		if(client.player.isSubmergedInWater() && accessor.bo$underwaterVisibilityTicks() < 600) {
-			result = true;
-		}
+		if(bo$commonFactors.getTimeDelta() >= Config.lightmap_time_change_needed_for_update)
+			return true;
+		if(client.player.isSubmergedInWater() && ((PlayerAccessor) client.player).bo$underwaterVisibilityTicks() < 600)
+			return true; // water light fading
 
 		StatusEffectInstance nightVision = client.player.getStatusEffect(StatusEffects.NIGHT_VISION);
 		boolean hasNightVision = nightVision != null;
 		if(bo$lastNightVision != hasNightVision) {
 			bo$lastNightVision = hasNightVision;
-			result = true;
-		} else if(nightVision != null && nightVision.isDurationBelow(200)) {
-			result = true; // flicker effect
-		}
+			return true;
+		} else if(nightVision != null && nightVision.isDurationBelow(200))
+			return true; // flicker effect
+		else if(client.player.hasStatusEffect(StatusEffects.DARKNESS))
+			return true; // flicker effect
+
+		// Stuff that doesn't change as often
 
 		boolean conduitPower = client.player.hasStatusEffect(StatusEffects.CONDUIT_POWER);
 		if(bo$lastConduitPower != conduitPower) {
 			bo$lastConduitPower = conduitPower;
-			result = true;
+			return true;
 		}
-
-		if(bo$commonFactors.getTimeDelta() >= Config.lightmap_time_change_needed_for_update) {
-			result = true;
+		DimensionEffects dimension = client.world.getDimensionEffects();
+		if(bo$lastDimension != dimension) {
+			bo$lastDimension = dimension;
+			return true;
 		}
-
-		return result;
+		float skyDarkness = bo$gameRendererAccessor.bo$getSkyDarkness();
+		if(bo$previousSkyDarkness != skyDarkness) {
+			bo$previousSkyDarkness = skyDarkness;
+			return true;
+		}
+		double gamma = client.options.getGamma().getValue();
+		if(bo$lastGamma != gamma) { // jamma celestial??
+			bo$lastGamma = gamma;
+			return true;
+		}
+		return false;
 	}
 
 	@Inject(method = "enable", at = @At("TAIL"))
