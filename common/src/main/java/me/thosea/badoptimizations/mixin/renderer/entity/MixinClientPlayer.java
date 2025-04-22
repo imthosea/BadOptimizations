@@ -21,7 +21,7 @@ public abstract class MixinClientPlayer extends MixinEntity { // renderer.MixinE
 		} else if(model == Model.SLIM) {
 			return PlayerModelRendererHolder.SLIM_RENDERER;
 		} else {
-			throw new IncompatibleClassChangeError("BadOptimizations: unexpected player model type " + model);
+			return null;
 		}
 	}
 }
