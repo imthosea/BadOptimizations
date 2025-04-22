@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "me.thosea.badoptimizations.mixin",
   "plugin": "me.thosea.badoptimizations.mixin.BOMixinPlugin",
