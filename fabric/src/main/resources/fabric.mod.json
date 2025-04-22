@@ -10,8 +10,8 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/badoptimizations/",
-    "sources": "https://github.com/ItsThosea/BadOptimizations/",
-    "issues": "https://github.com/ItsThosea/BadOptimizations/issues/"
+    "sources": "https://github.com/imthosea/BadOptimizations/",
+    "issues": "https://github.com/imthosea/BadOptimizations/issues/"
   },
   "environment": "client",
   "mixins": [
