@@ -129,7 +129,7 @@ public final class Config {
 		if(enable_entity_renderer_caching) {
 			disableIf(
 					"enable_entity_renderer_caching",
-					List.of("twilightforest", "skinshuffle", "bedrockskinutility"),
+					List.of("twilightforest", "bedrockskinutility"),
 					() -> enable_entity_renderer_caching = false
 			);
 		}
