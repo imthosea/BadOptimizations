@@ -11,7 +11,6 @@ public abstract class MixinClientPlayer extends MixinEntity { // renderer.MixinE
 	@Shadow public abstract String getModel();
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public EntityRenderer<?> bo$getRenderer() {
 		String model = getModel();
 
@@ -20,7 +19,7 @@ public abstract class MixinClientPlayer extends MixinEntity { // renderer.MixinE
 		} else if(model.equals("slim")) {
 			return PlayerModelRendererHolder.SLIM_RENDERER;
 		} else {
-			throw new IncompatibleClassChangeError("BadOptimizations: unexpected player model type " + model);
+			return null;
 		}
 	}
 }
