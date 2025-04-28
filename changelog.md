@@ -5,4 +5,4 @@
 - (1.20.5-) Make `enable_entity_flag_caching` incompatible with `biomeswevegone` and `performant`
 - Make both `enable_entity_renderer_caching` and `enable_block_entity_renderer_caching` incompatible with `lazyyyyy` (I fell asleep writing that)
 
-By the way I hate the number "2.2.2". Somebody repot bugs so I can bump to 2.2.3 asap.
+By the way I hate the number "2.2.2". Somebody report bugs so I can bump to 2.2.3 asap.
