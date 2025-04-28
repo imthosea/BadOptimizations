@@ -125,7 +125,7 @@ public final class Config {
 		disableIf(prop, "enable_sky_color_caching", List.of("polytone"));
 		disableIf(prop, "enable_lightmap_caching", List.of("polytone"));
 
-		disableIf(prop, "enable_entity_flag_caching", List.of("biomeswevegone"));
+		disableIf(prop, "enable_entity_flag_caching", List.of("biomeswevegone", "performant"));
 	}
 
 	private static void disableIf(Properties prop, String option, List<String> mods) {
