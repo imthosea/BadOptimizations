@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -37,8 +36,6 @@ public final class Config {
 	public static boolean enable_remove_tutorial_if_not_demo = true;
 
 	public static boolean show_f3_text = true;
-	public static boolean ignore_mod_incompatibilities = false;
-	public static boolean log_config = true;
 
 	public static void load() {
 		if(FILE.exists()) {
@@ -78,6 +75,20 @@ public final class Config {
 			LOGGER.info("Config version: {}", CONFIG_VER);
 		}
 
+		if(ver >= 2) {
+			// Config version 2 (v2.1.1)
+			if(!bool(prop, "ignore_mod_incompatibilities")) {
+				disableIncompatibleOptions(prop);
+			}
+
+			if(bool(prop, "log_config")) {
+				LOGGER.info("BadOptimizations config dump:");
+				prop.forEach((key, value) -> {
+					LOGGER.info("{}: {}", key, value);
+				});
+			}
+		}
+
 		lightmap_time_change_needed_for_update = num(prop, "lightmap_time_change_needed_for_update");
 		enable_lightmap_caching = bool(prop, "enable_lightmap_caching")
 				&& lightmap_time_change_needed_for_update > 1;
@@ -96,75 +107,37 @@ public final class Config {
 
 		show_f3_text = bool(prop, "show_f3_text");
 
-		if(ver >= 2) {
-			// Config version 2 (v2.1.1)
-			ignore_mod_incompatibilities = bool(prop, "ignore_mod_incompatibilities");
-			log_config = bool(prop, "log_config");
-		}
-
 		// Config v3 removed the fps string optimization, nothing to do
 		// Config v4 only rephrases comments
 
 		if(ver < CONFIG_VER) {
 			writeConfig();
 			loadConfig();
-			return;
-		}
-
-		if(log_config) {
-			LOGGER.info("BadOptimizations config dump:");
-			prop.forEach((key, value) -> {
-				LOGGER.info("{}: {}", key, value);
-			});
 		}
 
 		if(Boolean.parseBoolean(prop.getProperty("enable_entity_flag_caching"))) {
-			LOGGER.info("Note: Entity flag caching has no effect in Minecraft 1.20.5+ as the optimization is now in vanilla.");
-		}
-
-		if(!ignore_mod_incompatibilities) {
-			disableIncompatibleOptions();
+			LOGGER.info("Note: Entity flag caching has no effect in Minecraft 1.20.5+ as the optimization is obsoleted by vanilla changes.");
 		}
 	}
 
-	private static void disableIncompatibleOptions() {
-		if(enable_entity_renderer_caching) {
-			disableIf(
-					"enable_entity_renderer_caching",
-					List.of("twilightforest", "bedrockskinutility"),
-					() -> enable_entity_renderer_caching = false
-			);
-		}
+	private static void disableIncompatibleOptions(Properties prop) {
+		disableIf(prop, "enable_entity_renderer_caching", List.of("twilightforest", "bedrockskinutility"));
 
-		if(enable_sky_color_caching) {
-			disableIf(
-					"enable_sky_color_caching",
-					Collections.singletonList("polytone"),
-					() -> enable_sky_color_caching = false
-			);
-		}
+		disableIf(prop, "enable_sky_color_caching", List.of("polytone"));
+		disableIf(prop, "enable_lightmap_caching", List.of("polytone"));
 
-		if(enable_lightmap_caching) {
-			disableIf(
-					"enable_lightmap_caching",
-					Collections.singletonList("polytone"),
-					() -> enable_lightmap_caching = false
-			);
-		}
-
-		if(enable_entity_flag_caching) {
-			disableIf(
-					"enable_entity_flag_caching",
-					Collections.singletonList("biomeswevegone"),
-					() -> enable_entity_flag_caching = false
-			);
-		}
+		disableIf(prop, "enable_entity_flag_caching", List.of("biomeswevegone"));
 	}
 
-	private static void disableIf(String option, List<String> mods, Runnable disabler) {
+	private static void disableIf(Properties prop, String option, List<String> mods) {
+		if(!prop.containsKey(option)) {
+			LOGGER.warn("Missing option \"{}\"", option);
+			return;
+		}
+
 		for(String mod : mods) {
 			if(isModLoaded(mod)) {
-				disabler.run();
+				prop.setProperty(option, "false");
 				LOGGER.info("Disabled {} because mod \"{}\" is present.", option, mod);
 				break;
 			}
@@ -305,12 +278,12 @@ public final class Config {
 						enable_sky_angle_caching_in_worldrenderer,
 						enable_entity_renderer_caching,
 						enable_block_entity_renderer_caching,
-						true, // enable_entity_flag_caching
+						/*enable_entity_flag_caching=*/true,
 						enable_remove_redundant_fov_calculations,
 						enable_remove_tutorial_if_not_demo,
 						show_f3_text,
-						ignore_mod_incompatibilities,
-						log_config,
+						/*ignore_mod_incompatibilities=*/false,
+						/*log_config=*/true,
 						CONFIG_VER
 				);
 
