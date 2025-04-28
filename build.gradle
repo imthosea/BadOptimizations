@@ -63,14 +63,16 @@ publishMods {
     modLoaders.add("fabric")
     modLoaders.add("neoforge")
 
+    // tokens from HOME/.gradle/gradle.properties
+
     modrinth {
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        accessToken = "$mr_token"
         projectId = "g96Z4WVZ"
         minecraftVersions.add("1.21.1")
     }
 
     curseforge {
-        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        accessToken = "$cf_token"
         projectId = "949555"
         minecraftVersions.add("1.21.1")
         clientRequired = true
