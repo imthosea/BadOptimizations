@@ -126,6 +126,8 @@ public final class Config {
 		disableIf(prop, "enable_lightmap_caching", List.of("polytone"));
 
 		disableIf(prop, "enable_entity_flag_caching", List.of("biomeswevegone", "performant"));
+
+		disableIf(prop, "enable_remove_redundant_fov_calculations", List.of("camera_lock_on"));
 	}
 
 	private static void disableIf(Properties prop, String option, List<String> mods) {
