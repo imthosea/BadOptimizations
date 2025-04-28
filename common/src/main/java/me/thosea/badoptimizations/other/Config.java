@@ -119,7 +119,8 @@ public final class Config {
 	}
 
 	private static void disableIncompatibleOptions(Properties prop) {
-		disableIf(prop, "enable_entity_renderer_caching", List.of("twilightforest", "bedrockskinutility"));
+		disableIf(prop, "enable_entity_renderer_caching", List.of("twilightforest", "bedrockskinutility", "lazyyyyy"));
+		disableIf(prop, "enable_block_entity_renderer_caching", List.of("lazyyyyy"));
 
 		disableIf(prop, "enable_sky_color_caching", List.of("polytone"));
 		disableIf(prop, "enable_lightmap_caching", List.of("polytone"));
