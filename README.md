@@ -19,13 +19,13 @@ You can disable any optimization in the config file if you need to.
 ## How much does it help?
 Depends on your system and luck, but on my own PC, an RTX 3060, intel i7 12700 and 4GB of allocated ram on Fabulously Optimized:<p>
 Without toasts, it goes from *1926-1955 FPS*:<p>
-<img src="https://cdn.teamcelestial.org/api/shares/U3OTQ0N/files/d48c2c68-470f-4b9e-b319-2ced7496a94f?download=false" width="400"><p>
+<img src="https://raw.githubusercontent.com/imthosea/images/refs/heads/master/badoptimizations/v1/image1.png" width="400"><p>
 To 2008-2023 FPS:<p>
-<img src="https://cdn.teamcelestial.org/api/shares/U3OTQ0N/files/491fc5a6-4dc7-43bd-b0fc-c9981890815a?download=false" width="400"><p>
+<img src="https://raw.githubusercontent.com/imthosea/images/refs/heads/master/badoptimizations/v1/image2.png" width="400"><p>
 And with toasts, it goes from *1351-1384 FPS*:<p>
-<img src="https://cdn.teamcelestial.org/api/shares/U3OTQ0N/files/46f5bf33-4536-4381-9ae1-800f9881c4e8?download=false" width="400"><p>
+<img src="https://raw.githubusercontent.com/imthosea/images/refs/heads/master/badoptimizations/v1/image3.png" width="400"><p>
 To *1414-1458 FPS*:<p>
-<img src="https://cdn.teamcelestial.org/api/shares/U3OTQ0N/files/62fd0efd-c77b-4e4b-be16-52187f06cb2b?download=false" width="400"><p>
+<img src="https://raw.githubusercontent.com/imthosea/images/refs/heads/master/badoptimizations/v1/image4.png" width="400"><p>
 
 ## Dependencies?
 None.
