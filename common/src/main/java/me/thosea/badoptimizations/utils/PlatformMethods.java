@@ -3,8 +3,9 @@ package me.thosea.badoptimizations.utils;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 // don't throw dummy exception so intellij doesn't mark code as unreachable
 public final class PlatformMethods {
@@ -16,8 +17,8 @@ public final class PlatformMethods {
 	}
 
 	@ExpectPlatform
-	public static File getConfigFolder() {
-		return new File(".");
+	public static Path getConfigFolder() {
+		return Paths.get("mario");
 	}
 
 	@ExpectPlatform
