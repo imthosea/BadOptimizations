@@ -1,8 +1,8 @@
 package me.thosea.badoptimizations.mixin.tick;
 
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
-import me.thosea.badoptimizations.other.CommonColorFactors;
 import me.thosea.badoptimizations.other.Config;
+import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -22,9 +22,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static me.thosea.badoptimizations.other.CommonColorFactors.lastLightningTicks;
-import static me.thosea.badoptimizations.other.CommonColorFactors.rainGradientMultiplier;
-import static me.thosea.badoptimizations.other.CommonColorFactors.thunderGradientMultiplier;
+import static me.thosea.badoptimizations.utils.CommonColorFactors.lastLightningTicks;
+import static me.thosea.badoptimizations.utils.CommonColorFactors.rainGradientMultiplier;
+import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradientMultiplier;
 
 @Mixin(ClientWorld.class)
 public abstract class MixinClientWorld extends World {
