@@ -1,14 +1,13 @@
 package me.thosea.badoptimizations.mixin.tick;
 
-import me.thosea.badoptimizations.mixin.accessor.GameRendererAccessor;
-import me.thosea.badoptimizations.mixin.accessor.PlayerAccessor;
-import me.thosea.badoptimizations.other.CommonColorFactors;
+import me.thosea.badoptimizations.mixin.accessors.GameRendererAccessor;
+import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
 import me.thosea.badoptimizations.other.Config;
+import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.datafixer.fix.StatusEffectDurationFix;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import org.spongepowered.asm.mixin.Final;

@@ -1,7 +1,6 @@
-package me.thosea.badoptimizations.other;
+package me.thosea.badoptimizations.utils;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
