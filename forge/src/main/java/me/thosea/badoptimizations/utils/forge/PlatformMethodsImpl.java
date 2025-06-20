@@ -5,10 +5,10 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public final class PlatformMethodsImpl {
 	private PlatformMethodsImpl() {}
@@ -19,8 +19,8 @@ public final class PlatformMethodsImpl {
 				.orElse("[unknown version]");
 	}
 
-	public static File getConfigFolder() {
-		return FMLPaths.CONFIGDIR.get().toFile();
+	public static Path getConfigFolder() {
+		return FMLPaths.CONFIGDIR.get();
 	}
 
 	public static boolean isModLoaded(String id) {
