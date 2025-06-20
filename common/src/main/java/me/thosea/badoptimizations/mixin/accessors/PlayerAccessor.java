@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.accessor;
+package me.thosea.badoptimizations.mixin.accessors;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

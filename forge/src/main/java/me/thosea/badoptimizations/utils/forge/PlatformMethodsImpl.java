@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.other.forge;
+package me.thosea.badoptimizations.utils.forge;
 
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;

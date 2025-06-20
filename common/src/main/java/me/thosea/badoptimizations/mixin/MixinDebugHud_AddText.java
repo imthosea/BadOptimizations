@@ -1,7 +1,7 @@
 package me.thosea.badoptimizations.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import me.thosea.badoptimizations.other.PlatformMethods;
+import me.thosea.badoptimizations.utils.PlatformMethods;
 import net.minecraft.client.gui.hud.DebugHud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

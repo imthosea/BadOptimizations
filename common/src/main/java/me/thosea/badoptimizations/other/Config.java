@@ -1,5 +1,6 @@
 package me.thosea.badoptimizations.other;
 
+import me.thosea.badoptimizations.utils.PlatformMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Properties;
 
-import static me.thosea.badoptimizations.other.PlatformMethods.isModLoaded;
+import static me.thosea.badoptimizations.utils.PlatformMethods.isModLoaded;
 
 @SuppressWarnings("unused")
 public final class Config {

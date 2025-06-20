@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.other.fabric;
+package me.thosea.badoptimizations.utils.fabric;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.security.cert.CertificateExpiredException;
 
 public final class PlatformMethodsImpl {
 	private PlatformMethodsImpl() {}
