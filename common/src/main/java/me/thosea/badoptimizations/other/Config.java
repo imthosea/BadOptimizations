@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
@@ -32,6 +34,7 @@ public final class Config {
 	public static boolean enable_sky_angle_caching_in_worldrenderer = true;
 	public static boolean enable_entity_renderer_caching = true;
 	public static boolean enable_block_entity_renderer_caching = true;
+	public static boolean enable_entity_flag_caching = true;
 	public static boolean enable_remove_redundant_fov_calculations = true;
 	public static boolean enable_remove_tutorial_if_not_demo = true;
 
@@ -102,6 +105,7 @@ public final class Config {
 		enable_sky_angle_caching_in_worldrenderer = bool(prop, "enable_sky_angle_caching_in_worldrenderer");
 		enable_entity_renderer_caching = bool(prop, "enable_entity_renderer_caching");
 		enable_block_entity_renderer_caching = bool(prop, "enable_block_entity_renderer_caching");
+		enable_entity_flag_caching = bool(prop, "enable_entity_flag_caching");
 		enable_remove_redundant_fov_calculations = bool(prop, "enable_remove_redundant_fov_calculations");
 		enable_remove_tutorial_if_not_demo = bool(prop, "enable_remove_tutorial_if_not_demo");
 
@@ -113,10 +117,6 @@ public final class Config {
 		if(ver < CONFIG_VER) {
 			writeConfig();
 			loadConfig();
-		}
-
-		if(Boolean.parseBoolean(prop.getProperty("enable_entity_flag_caching"))) {
-			LOGGER.info("Note: Entity flag caching has no effect in Minecraft 1.20.5+ as the optimization is obsoleted by vanilla changes.");
 		}
 	}
 
@@ -195,100 +195,30 @@ public final class Config {
 			}
 		}
 
-		String data =
-				"""
-						# BadOptimizations configuration
-						# Toggle and configure optimizations here.
-						# *All* of these require restarts.
-						
-						# Whether we should cancel updating the lightmap if not needed.
-						enable_lightmap_caching: %s
-						# How much the in-game time must change in ticks (default tick rate = 1/20th of a second)
-						# for the lightmap to update.
-						# Higher values will result in less frequent updates
-						# to block lighting, but slightly better performance.
-						# Values below 2 will disable the optimization.
-						lightmap_time_change_needed_for_update: %s
-						
-						# Whether the sky's color should be cached unless you're on a biome border.
-						enable_sky_color_caching: %s
-						# How much the in-game time must change in ticks for the sky color to
-						# be recalculated when not between biome borders. Higher values will result in
-						# the sky updating less frequently, but slightly better performance.
-						# Values below 2 will all have the same effect.
-						skycolor_time_change_needed_for_update: %s
-						
-						# Whether we should avoid calling debug renderers
-						# if there are no debug entries to render or process.
-						enable_debug_renderer_disable_if_not_needed: %s
-						
-						#
-						# Micro optimizations
-						#
-						
-						# Whether we should avoid calling the particle manager
-						# and its calculations if there are no particles.
-						enable_particle_manager_optimization: %s
-						# Whether we should avoid calling the toast manager if there are no toasts.
-						enable_toast_optimizations: %s
-						# Whether the result of getSkyAngle should be cached
-						# for the entire frame during rendering.
-						enable_sky_angle_caching_in_worldrenderer: %s
-						# Whether entity renderers should be stored directly in EntityType instead of a HashMap.
-						# If your entity-adding mod crashes with this mod, it's probably this option's fault.
-						enable_entity_renderer_caching: %s
-						# Whether block entity renderers should be stored in BlockEntityType instead of a HashMap.
-						enable_block_entity_renderer_caching: %s
-						# Whether entity flags should be cached instead of calling DataTracker.
-						# Also removes the unnecessary thread lock in DataTracker.
-						# Unneeded with Lithium. Has no effect in Minecraft 1.20.5+.
-						enable_entity_flag_caching: %s
-						# Whether we should avoid calling FOV calculations
-						# if the FOV effect scale is zero.
-						enable_remove_redundant_fov_calculations: %s
-						# Don't tick the tutorial if the game is not in demo mode.
-						enable_remove_tutorial_if_not_demo: %s
-						
-						#
-						# Other
-						#
-						
-						# Whether BadOptimizations <version> should be added onto
-						# the left text of the F3 menu.
-						show_f3_text: %s
-						
-						# Some config options will be force-disabled if certain mods are present
-						# due to incompatibilities (e.g. entity rendering caching
-						# is disabled w/ Twilight Forest / BedrockSkinUtility / SkinShuffle).
-						# However, if you still want to use the optimizations, you can override it
-						# by setting this to true. Beware of crashes. And Herobrine.
-						ignore_mod_incompatibilities: %s
-						
-						# Whether to log the entire config into console when booting up.
-						# If you plan on reporting an issue, please keep this on.
-						log_config: %s
-						
-						# Do not change this
-						config_version: %s
-						""".formatted(
-						enable_lightmap_caching,
-						lightmap_time_change_needed_for_update,
-						enable_sky_color_caching,
-						skycolor_time_change_needed_for_update,
-						enable_debug_renderer_disable_if_not_needed,
-						enable_particle_manager_optimization,
-						enable_toast_optimizations,
-						enable_sky_angle_caching_in_worldrenderer,
-						enable_entity_renderer_caching,
-						enable_block_entity_renderer_caching,
-						/*enable_entity_flag_caching=*/true,
-						enable_remove_redundant_fov_calculations,
-						enable_remove_tutorial_if_not_demo,
-						show_f3_text,
-						/*ignore_mod_incompatibilities=*/false,
-						/*log_config=*/true,
-						CONFIG_VER
-				);
+		String template;
+		try(InputStream stream = PlatformMethods.streamConfigTemplate()) {
+			template = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+		}
+
+		String data = template.formatted(
+				enable_lightmap_caching,
+				lightmap_time_change_needed_for_update,
+				enable_sky_color_caching,
+				skycolor_time_change_needed_for_update,
+				enable_debug_renderer_disable_if_not_needed,
+				enable_particle_manager_optimization,
+				enable_toast_optimizations,
+				enable_sky_angle_caching_in_worldrenderer,
+				enable_entity_renderer_caching,
+				enable_block_entity_renderer_caching,
+				enable_entity_flag_caching,
+				enable_remove_redundant_fov_calculations,
+				enable_remove_tutorial_if_not_demo,
+				show_f3_text,
+				/*ignore_mod_incompatibilities=*/false,
+				/*log_config=*/true,
+				CONFIG_VER
+		);
 
 		if(FILE.exists()) FILE.delete();
 		Files.writeString(FILE.toPath(), data, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
