@@ -1,7 +1,7 @@
 package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.other.Config;
-import me.thosea.badoptimizations.other.PlatformMethods;
+import me.thosea.badoptimizations.utils.PlatformMethods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -25,7 +25,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 	public boolean shouldApplyMixin(String targetClassName, String mixin) {
 		mixin = mixin.substring("me.thosea.badoptimizations.mixin.".length());
 
-		if(mixin.equals("tick.MixinLightmapManager") || mixin.equals("accessor.GameRendererAccessor") || mixin.equals("accessor.PlayerAccessor")) {
+		if(mixin.equals("tick.MixinLightmapManager") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
 			return Config.enable_lightmap_caching;
 		} else if(mixin.equals("tick.MixinClientWorld")) {
 			return Config.enable_sky_color_caching;

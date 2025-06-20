@@ -2,7 +2,7 @@ package me.thosea.badoptimizations.forge;
 
 import me.thosea.badoptimizations.other.BOConfigScreen;
 import me.thosea.badoptimizations.other.Config;
-import me.thosea.badoptimizations.other.PlatformMethods;
+import me.thosea.badoptimizations.utils.PlatformMethods;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.ConfigScreenHandler;
