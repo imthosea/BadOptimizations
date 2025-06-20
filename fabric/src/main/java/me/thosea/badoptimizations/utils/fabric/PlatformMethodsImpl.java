@@ -3,10 +3,10 @@ package me.thosea.badoptimizations.utils.fabric;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public final class PlatformMethodsImpl {
 	private PlatformMethodsImpl() {}
@@ -15,8 +15,8 @@ public final class PlatformMethodsImpl {
 		return getModContainer().getMetadata().getVersion().getFriendlyString();
 	}
 
-	public static File getConfigFolder() {
-		return FabricLoader.getInstance().getConfigDir().toFile();
+	public static Path getConfigFolder() {
+		return FabricLoader.getInstance().getConfigDir();
 	}
 
 	public static boolean isModLoaded(String id) {
