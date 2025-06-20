@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.other;
+package me.thosea.badoptimizations.utils;
 
 import me.thosea.badoptimizations.mixin.tick.MixinClientWorld;
 import me.thosea.badoptimizations.mixin.tick.MixinLightmapManager;
