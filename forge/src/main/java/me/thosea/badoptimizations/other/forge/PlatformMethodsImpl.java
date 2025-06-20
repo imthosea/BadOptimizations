@@ -6,6 +6,9 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.LoadingModList;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 public final class PlatformMethodsImpl {
 	private PlatformMethodsImpl() {}
@@ -26,5 +29,12 @@ public final class PlatformMethodsImpl {
 
 	public static boolean isOnServer() {
 		return FMLEnvironment.dist.isDedicatedServer();
+	}
+
+	public static InputStream streamConfigTemplate() throws IOException {
+		return Files.newInputStream(LoadingModList.get()
+				.getModFileById("badoptimizations")
+				.getFile()
+				.findResource("bo-config-template.txt"));
 	}
 }
