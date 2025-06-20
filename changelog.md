@@ -1,8 +1,9 @@
-- Fix lightmap optimizations breaking the darkness effect
-- Change Github link to my new username `imthosea` (old link will redirect for the foreseeable future i hope)
-- Fix mods that add custom player mods being incompatible with entity renderer optimizaations
-- Make `enable_remove_redundant_fov_calculations` incompatible with `camera_lock_on`
-- (1.20.5-) Make `enable_entity_flag_caching` incompatible with `biomeswevegone` and `performant`
-- Make both `enable_entity_renderer_caching` and `enable_block_entity_renderer_caching` incompatible with `lazyyyyy` (I fell asleep writing that)
+Version 2.2.3:
+- Update copyright year
+- Fix an issue where generated configs sometimes have inconsistent indentation
+- Fix an issue where automatic mod incompatibilities wouldn't apply if you didn't have an existing config file
+- Fix an issue where log_config and ignore_mod_incompatibilies wouldn't stay when updating your config
+- Releases are now posted to Github
+- Mark supported for 1.21.6
 
-By the way I hate the number "2.2.2". Somebody report bugs so I can bump to 2.2.3 asap.
+The bugs have been [squashed](https://github.com/imthosea/BadOptimizations/issues/87#issuecomment-2989668649).
