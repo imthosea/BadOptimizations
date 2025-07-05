@@ -43,7 +43,7 @@ public final class Config {
 	public static boolean ignore_mod_compatibilities = false;
 	public static boolean log_config = true;
 
-	public static void load() {
+	public static void init() {
 		if(Files.exists(FILE)) {
 			LOGGER.info("Loading config file");
 			doOrCrash(Config::loadConfig, e -> {
