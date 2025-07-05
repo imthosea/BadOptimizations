@@ -18,7 +18,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return;
 		}
 
-		Config.load();
+		Config.init();
 	}
 
 	@Override
