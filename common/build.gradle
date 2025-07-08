@@ -9,3 +9,9 @@ architectury {
         it.platformPackage "neoforge", "forge"
     }
 }
+
+loom {
+    // since its only used from mixin, we dont actually need to mark this
+    // in fabric.mod.json or for neoforge
+    accessWidenerPath = file("src/main/resources/badoptimizations.accesswidener")
+}

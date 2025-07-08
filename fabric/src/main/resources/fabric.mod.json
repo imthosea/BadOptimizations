@@ -21,7 +21,7 @@
     "modmenu": [ "me.thosea.badoptimizations.fabric.modmenu.BadOptimizationsModMenu" ]
   },
   "depends": {
-    "minecraft": ">=1.21.2",
+    "minecraft": ">=1.21.6",
     "fabricloader": ">=0.15.0"
   },
   "custom": {

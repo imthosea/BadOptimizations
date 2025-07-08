@@ -37,7 +37,7 @@ public final class CommonColorFactors {
 		lastUpdateTick = tick;
 
 		ClientWorld world = CLIENT.world;
-		float tickDelta = CLIENT.getRenderTickCounter().getTickDelta(false);
+		float tickDelta = CLIENT.getRenderTickCounter().getTickProgress(false);
 		boolean result = false;
 
 		float rainGradient = world.getRainGradient(tickDelta);
