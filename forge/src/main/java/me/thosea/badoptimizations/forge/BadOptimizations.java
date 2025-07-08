@@ -1,17 +1,18 @@
 package me.thosea.badoptimizations.forge;
 
-import me.thosea.badoptimizations.other.BOConfigScreen;
-import me.thosea.badoptimizations.other.Config;
-import me.thosea.badoptimizations.utils.PlatformMethods;
+import me.thosea.badoptimizations.config.BOConfigScreen;
+import me.thosea.badoptimizations.config.Config;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 @Mod("badoptimizations")
 public class BadOptimizations {
 	public BadOptimizations(IEventBus bus, ModContainer container) {
-		if(PlatformMethods.isOnServer()) {
+		if(FMLEnvironment.dist.isDedicatedServer()) {
 			Config.LOGGER.error("BadOptimizations is a client-only mod, this will have no effect on a server.");
 			return;
 		}
