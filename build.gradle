@@ -9,7 +9,7 @@ plugins {
     id "me.modmuss50.mod-publish-plugin" version "0.5.0"
 }
 
-var jarName = "BadOptimizations-${rootProject.mod_version}-1.21.2-21.6.jar"
+var jarName = "BadOptimizations-${rootProject.mod_version}-1.21.2-21.5.jar"
 
 architectury {
     minecraft = rootProject.minecraft_version
@@ -56,7 +56,7 @@ forgix {
 
 publishMods {
     file = file("build/libs/merged/${jarName}")
-    displayName = "$rootProject.mod_version (1.21.2-1.21.6)"
+    displayName = "$rootProject.mod_version (1.21.2-1.21.5)"
 
     version = rootProject.mod_version
     type = STABLE
@@ -72,7 +72,6 @@ publishMods {
         minecraftVersions.add("1.21.3")
         minecraftVersions.add("1.21.4")
         minecraftVersions.add("1.21.5")
-        minecraftVersions.add("1.21.6")
     }
 
     curseforge {
@@ -82,7 +81,6 @@ publishMods {
         minecraftVersions.add("1.21.3")
         minecraftVersions.add("1.21.4")
         minecraftVersions.add("1.21.5")
-        minecraftVersions.add("1.21.6")
         clientRequired = true
     }
 
