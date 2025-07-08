@@ -1,8 +1,8 @@
 package me.thosea.badoptimizations.mixin.tick;
 
+import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.mixin.accessors.GameRendererAccessor;
 import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
-import me.thosea.badoptimizations.other.Config;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DimensionEffects;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinLightmapManager {
 	@Shadow @Final private MinecraftClient client;
 
-	private CommonColorFactors bo$commonFactors;
+	private final CommonColorFactors bo$commonFactors = CommonColorFactors.LIGHTMAP;
 	private boolean bo$allowUpdate = false;
 
 	private double bo$lastGamma;
@@ -30,16 +30,15 @@ public abstract class MixinLightmapManager {
 	private boolean bo$lastConduitPower;
 
 	private float bo$previousSkyDarkness;
-	private GameRendererAccessor bo$gameRendererAccessor;
+	@Final private GameRendererAccessor bo$gameRendererAccessor;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void onInit(GameRenderer renderer, MinecraftClient client, CallbackInfo ci) {
 		this.bo$gameRendererAccessor = (GameRendererAccessor) renderer;
-		this.bo$commonFactors = CommonColorFactors.LIGHTMAP;
 	}
 
 	private boolean bo$isDirty() {
-		if(bo$commonFactors.getTimeDelta() >= Config.lightmap_time_change_needed_for_update)
+		if(bo$commonFactors.getTimeDelta() >= Config.lightmapTimeForUpdate)
 			return true;
 		if(client.player.isSubmergedInWater() && ((PlayerAccessor) client.player).bo$underwaterVisibilityTicks() < 600)
 			return true; // water light fading

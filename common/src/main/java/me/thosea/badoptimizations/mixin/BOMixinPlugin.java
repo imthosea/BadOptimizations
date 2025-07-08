@@ -1,7 +1,6 @@
 package me.thosea.badoptimizations.mixin;
 
-import me.thosea.badoptimizations.other.Config;
-import me.thosea.badoptimizations.utils.PlatformMethods;
+import me.thosea.badoptimizations.config.Config;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -12,12 +11,6 @@ import java.util.Set;
 public class BOMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public void onLoad(String mixinPackage) {
-		if(PlatformMethods.isOnServer()) {
-			// error printed on forge startup
-			// mixins are marked client-only so we're done here
-			return;
-		}
-
 		Config.init();
 	}
 
@@ -26,27 +19,27 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 		mixin = mixin.substring("me.thosea.badoptimizations.mixin.".length());
 
 		if(mixin.equals("tick.MixinLightmapManager") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
-			return Config.enable_lightmap_caching;
+			return Config.lightmapCaching.effectiveValue;
 		} else if(mixin.equals("tick.MixinClientWorld")) {
-			return Config.enable_sky_color_caching;
+			return Config.skyColorCaching.effectiveValue;
 		} else if(mixin.startsWith("debug.")) {
-			return Config.enable_debug_renderer_disable_if_not_needed;
+			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
 		} else if(mixin.equals("MixinParticleManager")) {
-			return Config.enable_particle_manager_optimization;
+			return Config.particleManagerOptimization.effectiveValue;
 		} else if(mixin.equals("MixinToastManager")) {
-			return Config.enable_toast_optimizations;
+			return Config.toastOptimizations.effectiveValue;
 		} else if(mixin.equals("MixinWorldRenderer")) {
-			return Config.enable_sky_angle_caching_in_worldrenderer;
+			return Config.skyAngleCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.entity.")) {
-			return Config.enable_entity_renderer_caching;
+			return Config.entityRendererCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.blockentity.")) {
-			return Config.enable_block_entity_renderer_caching;
+			return Config.blockEntityRendererCaching.effectiveValue;
 		} else if(mixin.equals("tick.MixinGameRenderer")) {
-			return Config.enable_remove_redundant_fov_calculations;
+			return Config.removeRedundantFovCalcs.effectiveValue;
 		} else if(mixin.equals("tick.MixinTutorial")) {
-			return Config.enable_remove_tutorial_if_not_demo;
+			return Config.removeTutorialIfNotDemo.effectiveValue;
 		} else if(mixin.equals("MixinDebugHud_AddText")) {
-			return Config.show_f3_text;
+			return Config.showF3Text;
 		}
 
 		throw new RuntimeException("No config option for mixin " + mixin);

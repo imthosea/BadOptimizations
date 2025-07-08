@@ -1,7 +1,7 @@
 package me.thosea.badoptimizations.mixin.tick;
 
+import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
-import me.thosea.badoptimizations.other.Config;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
@@ -19,7 +19,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static me.thosea.badoptimizations.utils.CommonColorFactors.lastLightningTicks;
@@ -30,13 +29,13 @@ import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradien
 public abstract class MixinClientWorld extends World {
 	@Shadow @Final private MinecraftClient client;
 
-	private BiomeSkyColorGetter bo$biomeColors;
-	private CommonColorFactors bo$commonFactors;
+	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(getBiomeAccess());
+	private final CommonColorFactors bo$commonFactors = CommonColorFactors.SKY_COLOR;
 
 	private int bo$skyColorCache;
 
-	private int bo$lastBiomeColor;
-	private Vec3d bo$biomeColorVector;
+	private int bo$lastBiomeColor = Integer.MIN_VALUE;
+	private Vec3d bo$biomeColorVector = Vec3d.ZERO;
 
 	@Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
 	private void onGetSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
@@ -49,7 +48,7 @@ public abstract class MixinClientWorld extends World {
 				bo$commonFactors.updateLastTime();
 				// Do vanilla behavior, so surrounding biomes are factored in
 				return;
-			} else if(bo$commonFactors.isDirty() || bo$commonFactors.getTimeDelta() >= Config.skycolor_time_change_needed_for_update) {
+			} else if(bo$commonFactors.isDirty() || bo$commonFactors.getTimeDelta() >= Config.skyColorTimeForUpdate) {
 				bo$skyColorCache = bo$calcSkyColor(tickDelta);
 				bo$commonFactors.updateLastTime();
 			}
@@ -117,16 +116,7 @@ public abstract class MixinClientWorld extends World {
 		bo$skyColorCache = cir.getReturnValue();
 	}
 
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void afterInit(CallbackInfo ci) {
-		bo$commonFactors = CommonColorFactors.SKY_COLOR;
-		bo$lastBiomeColor = Integer.MIN_VALUE;
-		bo$biomeColorVector = Vec3d.ZERO;
-		bo$biomeColors = BiomeSkyColorGetter.of(getBiomeAccess());
-	}
-
 	protected MixinClientWorld(MutableWorldProperties properties, RegistryKey<World> registryRef, DynamicRegistryManager registryManager, RegistryEntry<DimensionType> dimensionEntry, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates) {
 		super(properties, registryRef, registryManager, dimensionEntry, isClient, debugWorld, seed, maxChainedNeighborUpdates);
-		throw new AssertionError("nuh uh");
 	}
 }
