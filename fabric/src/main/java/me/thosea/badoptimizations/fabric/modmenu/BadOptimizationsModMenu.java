@@ -2,7 +2,7 @@ package me.thosea.badoptimizations.fabric.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.thosea.badoptimizations.other.BOConfigScreen;
+import me.thosea.badoptimizations.config.BOConfigScreen;
 
 public class BadOptimizationsModMenu implements ModMenuApi {
 	@Override
