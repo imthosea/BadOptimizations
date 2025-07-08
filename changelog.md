@@ -1,9 +1,4 @@
-Version 2.2.3:
-- Update copyright year
-- Fix an issue where generated configs sometimes have inconsistent indentation
-- Fix an issue where automatic mod incompatibilities wouldn't apply if you didn't have an existing config file
-- Fix an issue where log_config and ignore_mod_incompatibilies wouldn't stay when updating your config
-- Releases are now posted to Github
-- Mark supported for 1.21.6
-
-The bugs have been [squashed](https://github.com/imthosea/BadOptimizations/issues/87#issuecomment-2989668649).
+Version 2.3.0:
+- Other mods can now mark themselves as incompatible with specific BadOptimizations options. See https://github.com/imthosea/BadOptimizations/wiki/Marking-your-mod-as-incompatible-with-a-BadOptimizations-option
+- Fix an issue where some options would be incorrectly turned off in your config if the config was regenerated after the game booted with one or more incompatible mods
+- Fix Music Toasts not appearing on 1.21.6 and 1.21.7
