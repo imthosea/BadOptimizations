@@ -29,6 +29,11 @@ public final class PlatformMethods {
 	}
 
 	@ExpectPlatform
+	public static boolean isOnServer() {
+		return false;
+	}
+
+	@ExpectPlatform
 	public static InputStream streamConfigTemplate() {return new ByteArrayInputStream(new byte[0]);}
 
 	@ExpectPlatform
