@@ -1,6 +1,7 @@
 package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.config.Config;
+import me.thosea.badoptimizations.utils.PlatformMethods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -9,13 +10,18 @@ import java.util.List;
 import java.util.Set;
 
 public class BOMixinPlugin implements IMixinConfigPlugin {
+	private static final boolean isOnServer = PlatformMethods.isOnServer();
+
 	@Override
 	public void onLoad(String mixinPackage) {
+		if(isOnServer) return;
 		Config.init();
 	}
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixin) {
+		if(isOnServer) return false;
+
 		mixin = mixin.substring("me.thosea.badoptimizations.mixin.".length());
 
 		if(mixin.equals("tick.MixinLightmapManager") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
