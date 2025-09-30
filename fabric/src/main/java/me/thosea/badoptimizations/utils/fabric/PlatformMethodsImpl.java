@@ -1,6 +1,7 @@
 package me.thosea.badoptimizations.utils.fabric;
 
 import me.thosea.badoptimizations.config.ModIncompatibilities;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.CustomValue;
@@ -31,6 +32,10 @@ public final class PlatformMethodsImpl {
 
 	public static boolean isModLoaded(String id) {
 		return FabricLoader.getInstance().isModLoaded(id);
+	}
+
+	public static boolean isOnServer() {
+		return FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER;
 	}
 
 	public static InputStream streamConfigTemplate() throws IOException {

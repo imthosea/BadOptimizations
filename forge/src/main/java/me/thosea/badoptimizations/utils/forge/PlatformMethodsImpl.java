@@ -1,7 +1,9 @@
 package me.thosea.badoptimizations.utils.forge;
 
 import me.thosea.badoptimizations.config.ModIncompatibilities;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
@@ -35,7 +37,10 @@ public final class PlatformMethodsImpl {
 		return LoadingModList.get().getModFileById(id) != null;
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
+	public static boolean isOnServer() {
+		return FMLLoader.getDist() == Dist.DEDICATED_SERVER;
+	}
+
 	public static InputStream streamConfigTemplate() throws IOException {
 		return Files.newInputStream(LoadingModList.get()
 				.getModFileById("badoptimizations")
