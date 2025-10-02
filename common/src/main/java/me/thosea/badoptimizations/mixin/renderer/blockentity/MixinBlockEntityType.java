@@ -7,16 +7,16 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(BlockEntityType.class)
 public class MixinBlockEntityType implements BlockEntityTypeMethods {
-	private BlockEntityRenderer<?> bo$renderer;
+	private BlockEntityRenderer<?, ?> bo$renderer;
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public BlockEntityRenderer<?> bo$getRenderer() {
+	public BlockEntityRenderer<?, ?> bo$getRenderer() {
 		return bo$renderer;
 	}
 
 	@Override
-	public void bo$setRenderer(BlockEntityRenderer<?> renderer) {
+	public void bo$setRenderer(BlockEntityRenderer<?, ?> renderer) {
 		this.bo$renderer = renderer;
 	}
 }

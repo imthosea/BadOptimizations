@@ -4,12 +4,12 @@ import me.thosea.badoptimizations.interfaces.EntityMethods;
 import me.thosea.badoptimizations.interfaces.EntityTypeMethods;
 import me.thosea.badoptimizations.other.PlayerModelRendererHolder;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.util.SkinTextures.Model;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerSkinType;
 import net.minecraft.resource.ResourceManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.Map.Entry;
 
-@Mixin(value = EntityRenderDispatcher.class, priority = 700)
+@Mixin(value = EntityRenderManager.class, priority = 700)
 public abstract class MixinEntityRendererDispatcher {
 	@Shadow private Map<EntityType<?>, EntityRenderer<?, ?>> renderers;
-	@Shadow private Map<Model, EntityRenderer<? extends PlayerEntity, ?>> modelRenderers;
+	@Shadow private Map<PlayerSkinType, EntityRenderer<? extends PlayerEntity, ?>> mannequinRenderers;
 
 	@Overwrite
 	public <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> getRenderer(T entity) {
@@ -36,14 +36,14 @@ public abstract class MixinEntityRendererDispatcher {
 		}
 	}
 
-	private  <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> bo$getOtherRenderer(T entity) {
+	private <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> bo$getOtherRenderer(T entity) {
 		// some mods inject renderers late, or add custom unsupported player models
 		if(entity instanceof AbstractClientPlayerEntity player) {
-			var renderer = this.modelRenderers.get(player.getSkinTextures().model());
+			var renderer = mannequinRenderers.get(player.getSkin().model());
 			if(renderer != null) {
 				return (EntityRenderer<? super T, ?>) renderer;
 			} else {
-				return (EntityRenderer<? super T, ?>) this.modelRenderers.get(Model.WIDE);
+				return (EntityRenderer<? super T, ?>) this.mannequinRenderers.get(PlayerSkinType.WIDE);
 			}
 		} else {
 			return (EntityRenderer<? super T, ?>) this.renderers.get(entity.getType());
@@ -57,7 +57,7 @@ public abstract class MixinEntityRendererDispatcher {
 		}
 
 		// Used by MixinClientPlayer
-		PlayerModelRendererHolder.WIDE_RENDERER = modelRenderers.get(Model.WIDE);
-		PlayerModelRendererHolder.SLIM_RENDERER = modelRenderers.get(Model.SLIM);
+		PlayerModelRendererHolder.WIDE_RENDERER = mannequinRenderers.get(PlayerSkinType.WIDE);
+		PlayerModelRendererHolder.SLIM_RENDERER = mannequinRenderers.get(PlayerSkinType.SLIM);
 	}
 }

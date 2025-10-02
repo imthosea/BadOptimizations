@@ -27,7 +27,6 @@ subprojects {
 	apply(plugin = "java")
 	apply(plugin = "dev.architectury.loom")
 	apply(plugin = "architectury-plugin")
-	apply(plugin = "com.gradleup.shadow")
 
 	base {
 		archivesName = "BadOptimizations-${project.name}"
@@ -63,6 +62,7 @@ subprojects {
 
 subprojects {
 	if(name == "common") return@subprojects
+	apply(plugin = "com.gradleup.shadow")
 
 	tasks.processResources {
 		val properties = mapOf("version" to project.version)
@@ -111,7 +111,7 @@ rootProject.tasks.jar {
 	enabled = false
 }
 
-val jarName = "BadOptimizations-${mod_version}-1.21.6-21.8.jar"
+val jarName = "BadOptimizations-${mod_version}-${minecraft_version}.jar"
 
 forgix {
 	group = "me.thosea"
@@ -124,7 +124,7 @@ forgix {
 
 publishMods {
 	file = file("build/libs/${jarName}")
-	displayName = "$mod_version (1.21.6-1.21.8)"
+	displayName = "$mod_version (1.21.9)"
 
 	version = "$mod_version"
 	type = STABLE
@@ -139,17 +139,13 @@ publishMods {
 	modrinth {
 		accessToken = "$mr_token"
 		projectId = "g96Z4WVZ"
-		minecraftVersions.add("1.21.6")
-		minecraftVersions.add("1.21.7")
-		minecraftVersions.add("1.21.8")
+		minecraftVersions.add("1.21.9")
 	}
 
 	curseforge {
 		accessToken = "$cf_token"
 		projectId = "949555"
-		minecraftVersions.add("1.21.6")
-		minecraftVersions.add("1.21.7")
-		minecraftVersions.add("1.21.8")
+		minecraftVersions.add("1.21.9")
 		clientRequired = true
 	}
 

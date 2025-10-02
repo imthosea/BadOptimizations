@@ -10,7 +10,6 @@ import net.neoforged.fml.loading.moddiscovery.ModInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,24 +33,26 @@ public final class PlatformMethodsImpl {
 	}
 
 	public static boolean isModLoaded(String id) {
-		return LoadingModList.get().getModFileById(id) != null;
+		return modList().getModFileById(id) != null;
 	}
 
 	public static boolean isOnServer() {
-		return FMLLoader.getDist() == Dist.DEDICATED_SERVER;
+		return FMLLoader.getCurrent().getDist() == Dist.DEDICATED_SERVER;
 	}
 
 	public static InputStream streamConfigTemplate() throws IOException {
-		return Files.newInputStream(LoadingModList.get()
+		return modList()
 				.getModFileById("badoptimizations")
 				.getFile()
-				.findResource("bo-config-template.txt"));
+				.getContents()
+				.get("bo-config-template.txt")
+				.open();
 	}
 
 	public static Map<String, List<String>> getModIncompatibilities() {
 		Map<String, List<String>> result = new HashMap<>(1);
 
-		for(ModInfo mod : LoadingModList.get().getMods()) {
+		for(ModInfo mod : modList().getMods()) {
 			String id = mod.getModId();
 			Optional<Object> object = mod.getOwningFile().getConfigElement(ModIncompatibilities.KEY);
 			if(object.isEmpty()) continue;
@@ -80,5 +81,9 @@ public final class PlatformMethodsImpl {
 
 	private static <T extends Map<?, ?>> T castMap(Map<?, ?> map) {
 		return (T) map;
+	}
+
+	private static LoadingModList modList() {
+		return FMLLoader.getCurrent().getLoadingModList();
 	}
 }
