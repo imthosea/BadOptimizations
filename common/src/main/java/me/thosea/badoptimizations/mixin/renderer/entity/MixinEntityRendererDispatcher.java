@@ -3,7 +3,7 @@ package me.thosea.badoptimizations.mixin.renderer.entity;
 import me.thosea.badoptimizations.interfaces.EntityMethods;
 import me.thosea.badoptimizations.interfaces.EntityTypeMethods;
 import me.thosea.badoptimizations.other.PlayerModelRendererHolder;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerLikeEntity;
 import net.minecraft.client.render.entity.EntityRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
@@ -38,7 +38,7 @@ public abstract class MixinEntityRendererDispatcher {
 
 	private <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> bo$getOtherRenderer(T entity) {
 		// some mods inject renderers late, or add custom unsupported player models
-		if(entity instanceof AbstractClientPlayerEntity player) {
+		if(entity instanceof ClientPlayerLikeEntity player) {
 			var renderer = mannequinRenderers.get(player.getSkin().model());
 			if(renderer != null) {
 				return (EntityRenderer<? super T, ?>) renderer;

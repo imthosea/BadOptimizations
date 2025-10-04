@@ -18,6 +18,7 @@
     "renderer.entity.MixinEntity",
     "renderer.entity.MixinEntityRendererDispatcher",
     "renderer.entity.MixinEntityType",
+    "renderer.entity.MixinMannequinPlayer",
     "tick.MixinClientWorld",
     "tick.MixinGameRenderer",
     "tick.MixinLightmapManager",
