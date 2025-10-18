@@ -6,6 +6,7 @@ import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DimensionEffects;
+import net.minecraft.client.render.EndLightFlashManager;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -24,6 +25,7 @@ public abstract class MixinLightmapManager {
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.LIGHTMAP;
 	private boolean bo$allowUpdate = false;
 
+	private float bo$lastEndFactor = 0f;
 	private double bo$lastGamma;
 	private DimensionEffects bo$lastDimension;
 	private boolean bo$lastNightVision;
@@ -42,6 +44,17 @@ public abstract class MixinLightmapManager {
 			return true;
 		if(client.player.isSubmergedInWater() && ((PlayerAccessor) client.player).bo$underwaterVisibilityTicks() < 600)
 			return true; // water light fading
+
+		if(!client.options.getHideLightningFlashes().getValue()) {
+			EndLightFlashManager flash = client.world.getEndLightFlashManager();
+			if(flash != null) {
+				float factor = flash.getSkyFactor(client.getRenderTickCounter().getTickProgress(false));
+				if(this.bo$lastEndFactor != factor) {
+					this.bo$lastEndFactor = factor;
+					return true;
+				}
+			}
+		}
 
 		StatusEffectInstance nightVision = client.player.getStatusEffect(StatusEffects.NIGHT_VISION);
 		boolean hasNightVision = nightVision != null;
