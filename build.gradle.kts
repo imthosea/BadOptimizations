@@ -124,7 +124,7 @@ forgix {
 
 publishMods {
 	file = file("build/libs/${jarName}")
-	displayName = "$mod_version (1.21.9/1.21.10)"
+	displayName = "$mod_version (1.21.9/1.21.10-only)"
 
 	version = "$mod_version"
 	type = STABLE
