@@ -111,7 +111,7 @@ rootProject.tasks.jar {
 	enabled = false
 }
 
-val jarName = "BadOptimizations-${mod_version}-${minecraft_version}.jar"
+val jarName = "BadOptimizations-${mod_version}-1.21.9-21.10.jar"
 
 forgix {
 	group = "me.thosea"
@@ -124,7 +124,7 @@ forgix {
 
 publishMods {
 	file = file("build/libs/${jarName}")
-	displayName = "$mod_version (1.21.9)"
+	displayName = "$mod_version (1.21.9/1.21.10)"
 
 	version = "$mod_version"
 	type = STABLE
@@ -140,12 +140,14 @@ publishMods {
 		accessToken = "$mr_token"
 		projectId = "g96Z4WVZ"
 		minecraftVersions.add("1.21.9")
+		minecraftVersions.add("1.21.10")
 	}
 
 	curseforge {
 		accessToken = "$cf_token"
 		projectId = "949555"
 		minecraftVersions.add("1.21.9")
+		minecraftVersions.add("1.21.10")
 		clientRequired = true
 	}
 
