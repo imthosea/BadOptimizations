@@ -45,8 +45,7 @@ public final class PlatformMethodsImpl {
 				.getModFileById("badoptimizations")
 				.getFile()
 				.getContents()
-				.get("bo-config-template.txt")
-				.open();
+				.openFile("bo-config-template.txt");
 	}
 
 	public static Map<String, List<String>> getModIncompatibilities() {
