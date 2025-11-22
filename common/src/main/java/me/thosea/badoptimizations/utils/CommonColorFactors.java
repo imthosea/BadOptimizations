@@ -1,5 +1,6 @@
 package me.thosea.badoptimizations.utils;
 
+import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.mixin.tick.MixinClientWorld;
 import me.thosea.badoptimizations.mixin.tick.MixinLightmapManager;
 import net.minecraft.client.MinecraftClient;
@@ -65,6 +66,9 @@ public final class CommonColorFactors {
 		if(lastLightningTicks != lightningTicks) {
 			result = true;
 			lastLightningTicks = lightningTicks;
+		}
+		if(CacheHooks.invokeCommon()) {
+			result = true;
 		}
 
 		SKY_COLOR.didTickChange = true;
