@@ -85,4 +85,22 @@ public final class PlatformMethodsImpl {
 	private static LoadingModList modList() {
 		return FMLLoader.getCurrent().getLoadingModList();
 	}
+
+	/*
+	public static List<CacheHookEntry> getModHooks() {
+		Map<String, List<String>> result = new HashMap<>(1);
+
+		for(ModInfo mod : LoadingModList.get().getMods()) {
+			String id = mod.getModId();
+			Optional<Object> object = mod.getOwningFile().getConfigElement(CacheHooks.ROOT_KEY);
+			if(object.isEmpty()) continue;
+			if(!(object.get() instanceof Map<?, ?> map) ||
+					!(castMap(map).get("options") instanceof List<?> list)) {
+				LOGGER.warn("Mod {} specifies invalid BadOptimizations caching hooks, ignoring", id);
+				LOGGER.warn("TOML is not a map containing an object");
+				continue;
+			}
+		}
+	}
+	 */
 }

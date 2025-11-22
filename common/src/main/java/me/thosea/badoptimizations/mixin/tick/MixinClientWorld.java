@@ -1,6 +1,7 @@
 package me.thosea.badoptimizations.mixin.tick;
 
 import me.thosea.badoptimizations.config.Config;
+import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.MinecraftClient;
@@ -48,7 +49,7 @@ public abstract class MixinClientWorld extends World {
 				bo$commonFactors.updateLastTime();
 				// Do vanilla behavior, so surrounding biomes are factored in
 				return;
-			} else if(bo$commonFactors.isDirty() || bo$commonFactors.getTimeDelta() >= Config.skyColorTimeForUpdate) {
+			} else if(bo$commonFactors.isDirty() || bo$commonFactors.getTimeDelta() >= Config.skyColorTimeForUpdate || CacheHooks.invokeSkyColor()) {
 				bo$skyColorCache = bo$calcSkyColor(tickDelta);
 				bo$commonFactors.updateLastTime();
 			}

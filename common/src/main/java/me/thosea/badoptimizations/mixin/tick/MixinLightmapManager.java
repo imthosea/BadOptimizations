@@ -1,6 +1,7 @@
 package me.thosea.badoptimizations.mixin.tick;
 
 import me.thosea.badoptimizations.config.Config;
+import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.mixin.accessors.GameRendererAccessor;
 import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
@@ -86,6 +87,9 @@ public abstract class MixinLightmapManager {
 		double gamma = client.options.getGamma().getValue();
 		if(bo$lastGamma != gamma) { // jamma celestial??
 			bo$lastGamma = gamma;
+			return true;
+		}
+		if(CacheHooks.invokeLightmap()) {
 			return true;
 		}
 		return false;
