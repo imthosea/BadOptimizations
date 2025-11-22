@@ -1,6 +1,7 @@
 package me.thosea.badoptimizations.utils;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import me.thosea.badoptimizations.hook.CacheHooks.CacheHookEntry;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -38,4 +39,7 @@ public final class PlatformMethods {
 
 	@ExpectPlatform
 	public static Map<String, List<String>> getModIncompatibilities() {return Map.of();}
+
+	@ExpectPlatform
+	public static List<CacheHookEntry> getModCacheHooks() {return List.of();}
 }
