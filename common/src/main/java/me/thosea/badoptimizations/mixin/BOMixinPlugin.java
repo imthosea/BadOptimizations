@@ -1,6 +1,7 @@
 package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.config.Config;
+import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.utils.PlatformMethods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -16,6 +17,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 	public void onLoad(String mixinPackage) {
 		if(isOnServer) return;
 		Config.init();
+		CacheHooks.init();
 	}
 
 	@Override
