@@ -36,6 +36,7 @@ public final class CacheHooks {
 	/** hooks for sky color updates */
 	private static final BooleanSupplier[] SKYCOLOR_HOOKS;
 
+	public static void init() {}
 	static {
 		List<BooleanSupplier> commonHooks = new ArrayList<>();
 		List<BooleanSupplier> lightmapHooks = new ArrayList<>();
