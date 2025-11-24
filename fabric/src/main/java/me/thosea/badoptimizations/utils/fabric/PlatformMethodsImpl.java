@@ -85,7 +85,7 @@ public final class PlatformMethodsImpl {
 		return result;
 	}
 
-	public static List<CacheHookEntry> getModHooks() {
+	public static List<CacheHookEntry> getModCacheHooks() {
 		List<CacheHookEntry> result = new ArrayList<>();
 		for(ModContainer mod : FabricLoader.getInstance().getAllMods()) {
 			ModMetadata meta = mod.getMetadata();
