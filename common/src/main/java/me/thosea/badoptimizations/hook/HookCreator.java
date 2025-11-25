@@ -24,7 +24,7 @@ public final class HookCreator {
 			return null;
 		}
 
-		if(!clazz.isAssignableFrom(BooleanSupplier.class)) {
+		if(!BooleanSupplier.class.isAssignableFrom(clazz)) {
 			LOGGER.warn(INVALID_HOOK_MESSAGE, modId);
 			LOGGER.warn("Class {} does not implement java.util.function.BooleanSupplier", clazzName);
 			return null;
