@@ -1,6 +1,9 @@
 package me.thosea.badoptimizations.utils.forge;
 
 import me.thosea.badoptimizations.config.ModIncompatibilities;
+import me.thosea.badoptimizations.hook.CacheHooks;
+import me.thosea.badoptimizations.hook.CacheHooks.CacheHookEntry;
+import me.thosea.badoptimizations.hook.HookCreator;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 import static me.thosea.badoptimizations.config.Config.LOGGER;
 
@@ -82,25 +86,47 @@ public final class PlatformMethodsImpl {
 		return (T) map;
 	}
 
-	private static LoadingModList modList() {
-		return FMLLoader.getCurrent().getLoadingModList();
-	}
-
-	/*
-	public static List<CacheHookEntry> getModHooks() {
-		Map<String, List<String>> result = new HashMap<>(1);
-
-		for(ModInfo mod : LoadingModList.get().getMods()) {
+	public static List<CacheHookEntry> getModCacheHooks() {
+		List<CacheHookEntry> result = new ArrayList<>();
+		for(ModInfo mod : modList().getMods()) {
 			String id = mod.getModId();
 			Optional<Object> object = mod.getOwningFile().getConfigElement(CacheHooks.ROOT_KEY);
 			if(object.isEmpty()) continue;
-			if(!(object.get() instanceof Map<?, ?> map) ||
-					!(castMap(map).get("options") instanceof List<?> list)) {
+			if(!(object.get() instanceof Map<?, ?> map)) {
 				LOGGER.warn("Mod {} specifies invalid BadOptimizations caching hooks, ignoring", id);
-				LOGGER.warn("TOML is not a map containing an object");
+				LOGGER.warn("TOML is not a map");
 				continue;
 			}
+
+			BooleanSupplier common = getEntry(id, map, CacheHooks.COMMON_KEY);
+			BooleanSupplier lightmap = getEntry(id, map, CacheHooks.LIGHTMAP_KEY);
+			BooleanSupplier skyColor = getEntry(id, map, CacheHooks.SKYCOLOR_KEY);
+			if(common == null && lightmap == null && skyColor == null) continue;
+
+			CacheHookEntry entry = new CacheHookEntry(common, lightmap, skyColor);
+			result.add(entry);
+		}
+		return result;
+	}
+
+	private static BooleanSupplier getEntry(String modId, Map<?, ?> map, String key) {
+		Object value = map.get(key);
+		if(value == null) {
+			return null;
+		} else if(!(value instanceof String string)) {
+			LOGGER.warn(HookCreator.INVALID_HOOK_MESSAGE, modId);
+			LOGGER.warn("TOML key {} is not a string", key);
+			return null;
+		} else {
+			BooleanSupplier hook = HookCreator.tryCreateHook(modId, string);
+			if(hook != null) {
+				LOGGER.info("Mod {} added a {} caching hook: {}", modId, key, string);
+			}
+			return hook;
 		}
 	}
-	 */
+
+	private static LoadingModList modList() {
+		return FMLLoader.getCurrent().getLoadingModList();
+	}
 }
