@@ -23,7 +23,6 @@ public abstract class MixinLightmapManager {
 	@Shadow @Final private MinecraftClient client;
 
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.LIGHTMAP;
-	private boolean bo$allowUpdate = false;
 
 	private double bo$lastGamma;
 	private DimensionEffects bo$lastDimension;
@@ -82,26 +81,15 @@ public abstract class MixinLightmapManager {
 		return false;
 	}
 
-	@Inject(method = "enable", at = @At("TAIL"))
-	private void onEnable(CallbackInfo ci) {
+	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+	private void onTick(CallbackInfo ci) {
 		if(client.player == null) return;
 
 		CommonColorFactors.tick(client.getTickDelta());
 
 		if(bo$commonFactors.didTickChange() && (bo$commonFactors.isDirty()) | this.bo$isDirty()) {
 			bo$commonFactors.updateLastTime();
-
-			bo$allowUpdate = true;
-			tick();
-			bo$allowUpdate = false;
-		}
-	}
-
-	@Shadow public abstract void tick();
-
-	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-	private void onTick(CallbackInfo ci) {
-		if(!bo$allowUpdate) {
+		} else {
 			ci.cancel();
 		}
 	}
