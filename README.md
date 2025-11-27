@@ -33,7 +33,8 @@ To *1414-1458 FPS*:<p>
 <img src="https://raw.githubusercontent.com/imthosea/images/refs/heads/master/badoptimizations/v1/image4.png" width="400"><p>
 
 ## My mod is incompatible!
-You can [mark your mod as incompatible](https://github.com/imthosea/BadOptimizations/wiki/Marking-your-mod-as-incompatible-with-a-BadOptimizations-option) with specific BadOptimizations options. If your mod is present, BadOptimizations will automatically disable the specific options you specify.
+You can [mark your mod as incompatible](https://github.com/imthosea/BadOptimizations/wiki/Marking-your-mod-as-incompatible-with-a-BadOptimizations-option) with specific BadOptimizations options. If your mod is present, BadOptimizations will automatically disable the specific options you specify.  
+You can also add [hooks that tell BadOptimizations when the lightmap or sky color](https://github.com/imthosea/BadOptimizations/wiki/Adding-lightmap-skycolor-caching-hooks) needs to be updated instead of adding a hard incompatibility to the caching optimizations.
 
 ## Dependencies?
 None.
