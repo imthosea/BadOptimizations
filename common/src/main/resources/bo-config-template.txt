@@ -56,6 +56,7 @@ enable_remove_tutorial_if_not_demo: %s
 
 # Whether BadOptimizations <version> should be added onto
 # the left text of the F3 menu.
+# In 1.21.9+, enabling this puts it into the F3 customizer screen.
 show_f3_text: %s
 
 # Some config options will be force-disabled if certain mods are present
@@ -64,6 +65,11 @@ show_f3_text: %s
 # However, if you still want to use the optimizations, you can override it
 # by setting this to true. Beware of crashes. And Herobrine.
 ignore_mod_incompatibilities: %s
+
+# Some mods add hooks that add extra conditions to lightmap/skycolor caching.
+# Set this to true to ignore loading them. Enabling may cause issues with
+# lighting mods and is not recommended.
+ignore_mod_cache_hooks: %s
 
 # Whether to log the entire config into console when booting up.
 # If you plan on reporting an issue, please keep this on.
