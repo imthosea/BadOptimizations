@@ -124,7 +124,7 @@ forgix {
 
 publishMods {
 	file = file("build/libs/${jarName}")
-	displayName = "$mod_version (1.21.10-only)" // TODO: can stuff stop breaking?
+	displayName = "$mod_version (1.21.10)"
 
 	version = "$mod_version"
 	type = STABLE
