@@ -13,7 +13,7 @@ import java.nio.file.StandardOpenOption;
 public final class Config {
 	public static final Logger LOGGER = LoggerFactory.getLogger("BadOptimizations");
 	public static final Path FILE = PlatformMethods.getConfigFolder().resolve("badoptimizations.txt");
-	public static final int CURRENT_CONFIG_VER = 4;
+	public static final int CURRENT_CONFIG_VER = 5;
 
 	public static final ConfigOptimization lightmapCaching;
 	public static final int lightmapTimeForUpdate;
@@ -33,6 +33,7 @@ public final class Config {
 
 	public static final boolean showF3Text;
 	public static final boolean ignoreIncompatibilities;
+	public static final boolean ignoreCacheHooks;
 	public static final boolean logConfig;
 
 	private Config() {}
@@ -53,6 +54,7 @@ public final class Config {
 		// config version 2 (v2.1.1)
 		ignoreIncompatibilities = ctx.option("ignore_mod_incompatibilities", ver >= 2, false);
 		if(ignoreIncompatibilities) ctx.incompats.ignoreIncompatibilities();
+		ignoreCacheHooks = ctx.option("ignore_mod_cache_hooks", ver >= 5, false);
 		logConfig = ctx.option("log_config", ver >= 2, true);
 		if(logConfig) ctx.dumpConfig();
 
@@ -77,6 +79,7 @@ public final class Config {
 
 		// config v3 removed the fps string optimization, nothing to do
 		// config v4 only rephrases comments
+		// config v5 adds caching hooks and changes debug hud comment
 
 		if(!ctx.fromExistingFile() || ver < CURRENT_CONFIG_VER) {
 			try {
@@ -117,6 +120,7 @@ public final class Config {
 				removeTutorialIfNotDemo,
 				showF3Text,
 				ignoreIncompatibilities,
+				ignoreCacheHooks,
 				logConfig,
 				CURRENT_CONFIG_VER
 		);
