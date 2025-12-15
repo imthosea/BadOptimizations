@@ -13,7 +13,7 @@ import java.nio.file.StandardOpenOption;
 public final class Config {
 	public static final Logger LOGGER = LoggerFactory.getLogger("BadOptimizations");
 	public static final Path FILE = PlatformMethods.getConfigFolder().resolve("badoptimizations.txt");
-	public static final int CURRENT_CONFIG_VER = 5;
+	public static final int CURRENT_CONFIG_VER = 6;
 
 	public static final ConfigOptimization lightmapCaching;
 	public static final int lightmapTimeForUpdate;
@@ -78,8 +78,9 @@ public final class Config {
 		showF3Text = ctx.option("show_f3_text", true);
 
 		// config v3 removed the fps string optimization, nothing to do
-		// config v4 only rephrases comments
+		// config v4 only changes comments
 		// config v5 adds caching hooks and changes debug hud comment
+		// config v6 only changes comments
 
 		if(!ctx.fromExistingFile() || ver < CURRENT_CONFIG_VER) {
 			try {
