@@ -26,7 +26,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 
 		mixin = mixin.substring("me.thosea.badoptimizations.mixin.".length());
 
-		if(mixin.equals("tick.MixinLightmapManager") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
+		if(mixin.equals("tick.MixinLightTexture") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
 			return Config.lightmapCaching.effectiveValue;
 		} else if(mixin.equals("tick.MixinClientWorld")) {
 			return Config.skyColorCaching.effectiveValue;
@@ -34,7 +34,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
 		} else if(mixin.equals("MixinParticleManager")) {
 			return Config.particleManagerOptimization.effectiveValue;
-		} else if(mixin.equals("MixinToastManager")) {
+		} else if(mixin.equals("MixinToastComponent")) {
 			return Config.toastOptimizations.effectiveValue;
 		} else if(mixin.equals("MixinWorldRenderer")) {
 			return Config.skyAngleCaching.effectiveValue;

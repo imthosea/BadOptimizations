@@ -7,7 +7,7 @@
   "client": [
     "MixinDebugHud_AddText",
     "MixinParticleManager",
-    "MixinToastManager",
+    "MixinToastComponent",
     "MixinWorldRenderer",
     "accessors.GameRendererAccessor",
     "accessors.PlayerAccessor",
@@ -15,10 +15,10 @@
     "debug.MixinGameEventDebugRenderer",
     "debug.MixinGameTestDebugRenderer",
     "debug.MixinVillageDebugRenderer",
-    "entitydata.MixinDataTracker",
     "entitydata.MixinEntity",
     "entitydata.MixinLivingEntity",
     "entitydata.MixinPlayer",
+    "entitydata.MixinSynchedData",
     "renderer.blockentity.MixinBlockEntityRenderDispatcher",
     "renderer.blockentity.MixinBlockEntityType",
     "renderer.entity.MixinClientPlayer",
@@ -27,7 +27,7 @@
     "renderer.entity.MixinEntityType",
     "tick.MixinClientWorld",
     "tick.MixinGameRenderer",
-    "tick.MixinLightmapManager",
+    "tick.MixinLightTexture",
     "tick.MixinTutorial"
   ],
   "injectors": {
