@@ -1,39 +1,39 @@
 package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.utils.PlatformMethods;
-import net.minecraft.client.gui.hud.debug.DebugHudEntries;
-import net.minecraft.client.gui.hud.debug.DebugHudEntry;
-import net.minecraft.client.gui.hud.debug.DebugHudLines;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.WorldChunk;
+import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
+import net.minecraft.client.gui.components.debug.DebugScreenEntries;
+import net.minecraft.client.gui.components.debug.DebugScreenEntry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(DebugHudEntries.class)
+@Mixin(DebugScreenEntries.class)
 public class MixinDebugHud_AddText {
 	private static final String BO$F3_TEXT = "BadOptimizations " + PlatformMethods.getVersion();
 
 	@Inject(method = "<clinit>", at = @At("RETURN"))
 	private static void onInit(CallbackInfo ci) {
 		register(
-				Identifier.of("badoptimizations", "version_badoptimizations"),
-				new DebugHudEntry() {
+				ResourceLocation.fromNamespaceAndPath("badoptimizations", "version_badoptimizations"),
+				new DebugScreenEntry() {
 					@Override
-					public void render(
-							DebugHudLines lines,
-							World world,
-							WorldChunk clientChunk,
-							WorldChunk chunk
+					public void display(
+							DebugScreenDisplayer lines,
+							Level world,
+							LevelChunk clientChunk,
+							LevelChunk chunk
 					) {
 						lines.addLine(BO$F3_TEXT);
 					}
 
 					@Override
-					public boolean canShow(boolean reducedDebugInfo) {
+					public boolean isAllowed(boolean reducedDebugInfo) {
 						return true;
 					}
 				}
@@ -41,7 +41,7 @@ public class MixinDebugHud_AddText {
 	}
 
 	@Shadow
-	private static Identifier register(Identifier id, DebugHudEntry entry) {
+	private static ResourceLocation register(ResourceLocation id, DebugScreenEntry entry) {
 		return null;
 	}
 }

@@ -1,8 +1,8 @@
 package me.thosea.badoptimizations.mixin.renderer.blockentity;
 
 import me.thosea.badoptimizations.interfaces.BlockEntityTypeMethods;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(BlockEntityType.class)

@@ -1,7 +1,7 @@
 package me.thosea.badoptimizations.interfaces;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public interface BlockEntityTypeMethods {
 	<T extends BlockEntity> BlockEntityRenderer<T, ?> bo$getRenderer();
