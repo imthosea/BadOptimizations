@@ -4,17 +4,17 @@ import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.MutableWorldProperties;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.storage.WritableLevelData;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,26 +26,26 @@ import static me.thosea.badoptimizations.utils.CommonColorFactors.lastLightningT
 import static me.thosea.badoptimizations.utils.CommonColorFactors.rainGradientMultiplier;
 import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradientMultiplier;
 
-@Mixin(ClientWorld.class)
-public abstract class MixinClientWorld extends World {
-	@Shadow @Final private MinecraftClient client;
+@Mixin(ClientLevel.class)
+public abstract class MixinClientWorld extends Level {
+	@Shadow @Final private Minecraft minecraft;
 
-	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(getBiomeAccess());
+	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(getBiomeManager());
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.SKY_COLOR;
 
 	private int bo$skyColorCache;
 
 	private int bo$lastBiomeColor = Integer.MIN_VALUE;
-	private Vec3d bo$biomeColorVector = Vec3d.ZERO;
+	private Vec3 bo$biomeColorVector = Vec3.ZERO;
 
 	@Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
-	private void onGetSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
-		if(bo$skyColorCache == Integer.MIN_VALUE || client.player == null) return;
+	private void onGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
+		if(bo$skyColorCache == Integer.MIN_VALUE || minecraft.player == null) return;
 
 		CommonColorFactors.tick();
 
 		if(this.bo$commonFactors.didTickChange()) {
-			if(bo$isBiomeDirty(cameraPos.subtract(2.0, 2.0, 2.0).multiply(0.25))) {
+			if(bo$isBiomeDirty(cameraPos.subtract(2.0, 2.0, 2.0).scale(0.25))) {
 				bo$commonFactors.updateLastTime();
 				// Do vanilla behavior, so surrounding biomes are factored in
 				return;
@@ -58,15 +58,15 @@ public abstract class MixinClientWorld extends World {
 		cir.setReturnValue(bo$skyColorCache);
 	}
 
-	private boolean bo$isBiomeDirty(Vec3d pos) {
-		int x = MathHelper.floor(pos.x);
-		int y = MathHelper.floor(pos.y);
-		int z = MathHelper.floor(pos.z);
+	private boolean bo$isBiomeDirty(Vec3 pos) {
+		int x = Mth.floor(pos.x);
+		int y = Mth.floor(pos.y);
+		int z = Mth.floor(pos.z);
 
 		int color = bo$biomeColors.get(x - 2, y - 2, z - 2);
 		if(bo$lastBiomeColor != color) {
 			bo$lastBiomeColor = color;
-			bo$biomeColorVector = Vec3d.unpackRgb(color);
+			bo$biomeColorVector = Vec3.fromRGB24(color);
 			return true;
 		} else if(bo$biomeColors.get(x + 3, y + 3, z + 3) != color) {
 			return true;
@@ -76,8 +76,8 @@ public abstract class MixinClientWorld extends World {
 	}
 
 	private int bo$calcSkyColor(float delta) {
-		float angle = MathHelper.cos(getSkyAngle(1.0f) * 6.2831855F) * 2.0F + 0.5F;
-		angle = MathHelper.clamp(angle, 0.0F, 1.0F);
+		float angle = Mth.cos(getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
+		angle = Mth.clamp(angle, 0.0F, 1.0F);
 
 		double x = bo$biomeColorVector.x * angle;
 		double y = bo$biomeColorVector.y * angle;
@@ -109,15 +109,15 @@ public abstract class MixinClientWorld extends World {
 			z = z * (1.0F - lightningMultiplier) + lightningMultiplier;
 		}
 
-		return ColorHelper.getArgb(new Vec3d(x, y, z));
+		return ARGB.color(new Vec3(x, y, z));
 	}
 
 	@Inject(method = "getSkyColor", at = @At("RETURN"))
-	private void afterGetSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
+	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
 		bo$skyColorCache = cir.getReturnValue();
 	}
 
-	protected MixinClientWorld(MutableWorldProperties properties, RegistryKey<World> registryRef, DynamicRegistryManager registryManager, RegistryEntry<DimensionType> dimensionEntry, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates) {
+	protected MixinClientWorld(WritableLevelData properties, ResourceKey<Level> registryRef, RegistryAccess registryManager, Holder<DimensionType> dimensionEntry, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates) {
 		super(properties, registryRef, registryManager, dimensionEntry, isClient, debugWorld, seed, maxChainedNeighborUpdates);
 	}
 }

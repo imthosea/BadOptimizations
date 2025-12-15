@@ -5,12 +5,12 @@ import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.mixin.accessors.GameRendererAccessor;
 import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.DimensionEffects;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.DimensionSpecialEffects;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,49 +18,49 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LightmapTextureManager.class)
-public abstract class MixinLightmapManager {
-	@Shadow @Final private MinecraftClient client;
+@Mixin(LightTexture.class)
+public abstract class MixinLightTexture {
+	@Shadow @Final private Minecraft minecraft;
 
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.LIGHTMAP;
 
 	private double bo$lastGamma;
-	private DimensionEffects bo$lastDimension;
+	private DimensionSpecialEffects bo$lastDimension;
 	private boolean bo$lastNightVision;
 	private boolean bo$lastConduitPower;
 
 	private float bo$previousSkyDarkness;
-	@Final private GameRendererAccessor bo$gameRendererAccessor;
+	private GameRendererAccessor bo$gameRendererAccessor;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void onInit(GameRenderer renderer, MinecraftClient client, CallbackInfo ci) {
+	private void onInit(GameRenderer renderer, Minecraft client, CallbackInfo ci) {
 		this.bo$gameRendererAccessor = (GameRendererAccessor) renderer;
 	}
 
 	private boolean bo$isDirty() {
 		if(bo$commonFactors.getTimeDelta() >= Config.lightmapTimeForUpdate)
 			return true;
-		if(client.player.isSubmergedInWater() && ((PlayerAccessor) client.player).bo$underwaterVisibilityTicks() < 600)
+		if(minecraft.player.isUnderWater() && ((PlayerAccessor) minecraft.player).bo$underwaterVisibilityTicks() < 600)
 			return true; // water light fading
 
-		StatusEffectInstance nightVision = client.player.getStatusEffect(StatusEffects.NIGHT_VISION);
+		MobEffectInstance nightVision = minecraft.player.getEffect(MobEffects.NIGHT_VISION);
 		boolean hasNightVision = nightVision != null;
 		if(bo$lastNightVision != hasNightVision) {
 			bo$lastNightVision = hasNightVision;
 			return true;
-		} else if(nightVision != null && nightVision.isDurationBelow(200))
+		} else if(nightVision != null && nightVision.endsWithin(200))
 			return true; // flicker effect
-		else if(client.player.hasStatusEffect(StatusEffects.DARKNESS))
+		else if(minecraft.player.hasEffect(MobEffects.DARKNESS))
 			return true; // flicker effect
 
 		// Stuff that doesn't change as often
 
-		boolean conduitPower = client.player.hasStatusEffect(StatusEffects.CONDUIT_POWER);
+		boolean conduitPower = minecraft.player.hasEffect(MobEffects.CONDUIT_POWER);
 		if(bo$lastConduitPower != conduitPower) {
 			bo$lastConduitPower = conduitPower;
 			return true;
 		}
-		DimensionEffects dimension = client.world.getDimensionEffects();
+		DimensionSpecialEffects dimension = minecraft.level.effects();
 		if(bo$lastDimension != dimension) {
 			bo$lastDimension = dimension;
 			return true;
@@ -70,7 +70,7 @@ public abstract class MixinLightmapManager {
 			bo$previousSkyDarkness = skyDarkness;
 			return true;
 		}
-		double gamma = client.options.getGamma().getValue();
+		double gamma = minecraft.options.gamma().get();
 		if(bo$lastGamma != gamma) { // jamma celestial??
 			bo$lastGamma = gamma;
 			return true;
@@ -83,7 +83,7 @@ public abstract class MixinLightmapManager {
 
 	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
 	private void onTick(CallbackInfo ci) {
-		if(client.player == null) return;
+		if(minecraft.player == null) return;
 
 		CommonColorFactors.tick();
 

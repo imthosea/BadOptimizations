@@ -1,6 +1,6 @@
 package me.thosea.badoptimizations.interfaces;
 
-import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 
 public interface EntityTypeMethods {
 	EntityRenderer<?, ?> bo$getRenderer();

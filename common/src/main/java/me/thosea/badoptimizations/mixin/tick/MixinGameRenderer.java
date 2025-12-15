@@ -2,10 +2,10 @@ package me.thosea.badoptimizations.mixin.tick;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.option.Perspective;
-import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,15 +13,15 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(GameRenderer.class)
 public final class MixinGameRenderer {
-	@Shadow @Final private MinecraftClient client;
+	@Shadow @Final private Minecraft minecraft;
 
 	// don't do unneeded FOV calculations
-	@WrapOperation(method = "updateFovMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getFovMultiplier(ZF)F"))
-	private float getPlayerFov(AbstractClientPlayerEntity player,
+	@WrapOperation(method = "tickFov", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;getFieldOfViewModifier(ZF)F"))
+	private float getPlayerFov(AbstractClientPlayer player,
 	                           boolean firstPerson, float fovEffectScale,
 	                           Operation<Float> original) {
 		if(fovEffectScale == 0f) {
-			if(client.options.getPerspective() == Perspective.FIRST_PERSON && player.isUsingSpyglass()) {
+			if(minecraft.options.getCameraType() == CameraType.FIRST_PERSON && player.isScoping()) {
 				return 0.1f;
 			} else {
 				return 1.0f;
