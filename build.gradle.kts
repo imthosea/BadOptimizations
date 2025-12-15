@@ -5,7 +5,7 @@ import net.fabricmc.loom.api.LoomGradleExtensionAPI
 
 plugins {
 	id("java")
-	id("dev.architectury.loom") version "1.11-SNAPSHOT" apply false
+	id("dev.architectury.loom") version "1.13-SNAPSHOT" apply false
 	id("architectury-plugin") version "3.4-SNAPSHOT"
 
 	id("com.gradleup.shadow") version "9.0.0" apply false
@@ -40,12 +40,10 @@ subprojects {
 	dependencies {
 		val minecraft by configurations
 		val mappings by configurations
+		val loom = project.extensions["loom"] as LoomGradleExtensionAPI
 
 		minecraft("com.mojang:minecraft:${minecraft_version}")
-		mappings(project.the<LoomGradleExtensionAPI>().layered {
-			mappings("net.fabricmc:yarn:${yarn_mappings}:v2")
-			mappings(rootProject.rootDir.toPath().resolve("1.21.tiny").toFile())
-		})
+		mappings(loom.officialMojangMappings())
 		implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.2")!!)
 	}
 

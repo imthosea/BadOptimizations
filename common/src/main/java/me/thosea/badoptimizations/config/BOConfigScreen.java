@@ -1,17 +1,16 @@
 package me.thosea.badoptimizations.config;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
-import net.minecraft.util.Util;
-
 import java.nio.file.Files;
+import net.minecraft.Util;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 // Opens the config file and exits, generates one if not there
 public final class BOConfigScreen extends Screen {
 	private final Screen parent;
 
 	public BOConfigScreen(Screen parent) {
-		super(Text.empty());
+		super(Component.empty());
 		this.parent = parent;
 	}
 
@@ -24,7 +23,7 @@ public final class BOConfigScreen extends Screen {
 				throw new RuntimeException("Failed to generate BadOptimizations config", e);
 			}
 		}
-		Util.getOperatingSystem().open(Config.FILE.toUri());
-		client.setScreen(parent);
+		Util.getPlatform().openUri(Config.FILE.toUri());
+		minecraft.setScreen(parent);
 	}
 }
