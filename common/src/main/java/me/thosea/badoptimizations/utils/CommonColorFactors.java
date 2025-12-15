@@ -2,19 +2,19 @@ package me.thosea.badoptimizations.utils;
 
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.mixin.tick.MixinClientWorld;
-import me.thosea.badoptimizations.mixin.tick.MixinLightmapManager;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
+import me.thosea.badoptimizations.mixin.tick.MixinLightTexture;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 
 import java.util.Objects;
 
 /**
- * Holds common factors for {@link MixinClientWorld} & {@link MixinLightmapManager}
+ * Holds common factors for {@link MixinClientWorld} & {@link MixinLightTexture}
  */
 public final class CommonColorFactors {
 	private CommonColorFactors() {}
 
-	private static final MinecraftClient CLIENT = Objects.requireNonNull(MinecraftClient.getInstance(), "loaded too early");
+	private static final Minecraft CLIENT = Objects.requireNonNull(Minecraft.getInstance(), "loaded too early");
 
 	public static final CommonColorFactors SKY_COLOR = new CommonColorFactors();
 	public static final CommonColorFactors LIGHTMAP = new CommonColorFactors();
@@ -33,16 +33,16 @@ public final class CommonColorFactors {
 	private long lastTime;
 
 	public static void tick(float tickDelta) {
-		int tick = CLIENT.player.age;
+		int tick = CLIENT.player.tickCount;
 		if(lastUpdateTick == tick) return;
 		lastUpdateTick = tick;
 
-		ClientWorld world = CLIENT.world;
+		ClientLevel world = CLIENT.level;
 		boolean result = false;
 
-		float rainGradient = world.getRainGradient(tickDelta);
-		float thunderGradient = world.getThunderGradient(tickDelta);
-		int lightningTicks = world.getLightningTicksLeft();
+		float rainGradient = world.getRainLevel(tickDelta);
+		float thunderGradient = world.getThunderLevel(tickDelta);
+		int lightningTicks = world.getSkyFlashTime();
 
 		if(rainGradient != lastRainGradient) {
 			result = true;
@@ -102,10 +102,10 @@ public final class CommonColorFactors {
 	 * @return in-game time passed since the last call of {@link #updateLastTime()}
 	 */
 	public long getTimeDelta() {
-		return Math.abs(CLIENT.world.getLunarTime() - lastTime);
+		return Math.abs(CLIENT.level.dayTime() - lastTime);
 	}
 
 	public void updateLastTime() {
-		lastTime = CLIENT.world.getLunarTime();
+		lastTime = CLIENT.level.dayTime();
 	}
 }

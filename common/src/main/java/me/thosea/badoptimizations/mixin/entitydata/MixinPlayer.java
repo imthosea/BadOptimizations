@@ -1,23 +1,23 @@
 package me.thosea.badoptimizations.mixin.entitydata;
 
-import net.minecraft.client.render.entity.PlayerModelPart;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Arm;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(value = PlayerEntity.class, priority = 700)
+@Mixin(value = Player.class, priority = 700)
 public abstract class MixinPlayer extends MixinEntity {
-	@Shadow @Final private static TrackedData<Float> ABSORPTION_AMOUNT;
-	@Shadow @Final protected static TrackedData<NbtCompound> LEFT_SHOULDER_ENTITY;
-	@Shadow @Final protected static TrackedData<NbtCompound> RIGHT_SHOULDER_ENTITY;
-	@Shadow @Final protected static TrackedData<Byte> PLAYER_MODEL_PARTS;
-	@Shadow @Final private static TrackedData<Integer> SCORE;
-	@Shadow @Final protected static TrackedData<Byte> MAIN_ARM;
+	@Shadow @Final private static EntityDataAccessor<Float> DATA_PLAYER_ABSORPTION_ID;
+	@Shadow @Final protected static EntityDataAccessor<CompoundTag> DATA_SHOULDER_LEFT;
+	@Shadow @Final protected static EntityDataAccessor<CompoundTag> DATA_SHOULDER_RIGHT;
+	@Shadow @Final protected static EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION;
+	@Shadow @Final private static EntityDataAccessor<Integer> DATA_SCORE_ID;
+	@Shadow @Final protected static EntityDataAccessor<Byte> DATA_PLAYER_MAIN_HAND;
 
 	private boolean bo$isCapeEnabled = false;
 	private boolean bo$isJacketEnabled = false;
@@ -26,15 +26,15 @@ public abstract class MixinPlayer extends MixinEntity {
 	private boolean bo$isLeftPantsLegEnabled = false;
 	private boolean bo$isRightPantsLegEnabled = false;
 	private boolean bo$isHatEnabled = false;
-	private Arm bo$mainArm = Arm.RIGHT;
+	private HumanoidArm bo$mainArm = HumanoidArm.RIGHT;
 	private float bo$absorptionAmount = 0f;
 	private int bo$score = 0;
 
-	private NbtCompound bo$shoulderEntityLeft = new NbtCompound();
-	private NbtCompound bo$shoulderEntityRight = new NbtCompound();
+	private CompoundTag bo$shoulderEntityLeft = new CompoundTag();
+	private CompoundTag bo$shoulderEntityRight = new CompoundTag();
 
 	@Overwrite
-	public boolean isPartVisible(PlayerModelPart modelPart) {
+	public boolean isModelPartShown(PlayerModelPart modelPart) {
 		return switch(modelPart) {
 			case CAPE -> bo$isCapeEnabled;
 			case JACKET -> bo$isJacketEnabled;
@@ -48,20 +48,20 @@ public abstract class MixinPlayer extends MixinEntity {
 
 	@Overwrite public float getAbsorptionAmount() {return bo$absorptionAmount;}
 	@Overwrite public int getScore() {return bo$score;}
-	@Overwrite public Arm getMainArm() {return bo$mainArm;}
-	@Overwrite public NbtCompound getShoulderEntityLeft() {return bo$shoulderEntityLeft;}
-	@Overwrite public NbtCompound getShoulderEntityRight() {return bo$shoulderEntityRight;}
+	@Overwrite public HumanoidArm getMainArm() {return bo$mainArm;}
+	@Overwrite public CompoundTag getShoulderEntityLeft() {return bo$shoulderEntityLeft;}
+	@Overwrite public CompoundTag getShoulderEntityRight() {return bo$shoulderEntityRight;}
 
 	@Override
 	public void bo$refreshEntityData(int data) {
 		super.bo$refreshEntityData(data);
 
-		if(data == ABSORPTION_AMOUNT.getId()) {
-			bo$absorptionAmount = dataTracker.get(ABSORPTION_AMOUNT);
-		} else if(data == SCORE.getId()) {
-			bo$score = dataTracker.get(SCORE);
-		} else if(data == PLAYER_MODEL_PARTS.getId()) {
-			byte parts = dataTracker.get(PLAYER_MODEL_PARTS);
+		if(data == DATA_PLAYER_ABSORPTION_ID.getId()) {
+			bo$absorptionAmount = entityData.get(DATA_PLAYER_ABSORPTION_ID);
+		} else if(data == DATA_SCORE_ID.getId()) {
+			bo$score = entityData.get(DATA_SCORE_ID);
+		} else if(data == DATA_PLAYER_MODE_CUSTOMISATION.getId()) {
+			byte parts = entityData.get(DATA_PLAYER_MODE_CUSTOMISATION);
 
 			bo$isCapeEnabled = (parts & 1) == 1;
 			bo$isJacketEnabled = (parts & 2) == 2;
@@ -70,12 +70,12 @@ public abstract class MixinPlayer extends MixinEntity {
 			bo$isLeftPantsLegEnabled = (parts & 16) == 16;
 			bo$isRightPantsLegEnabled = (parts & 32) == 32;
 			bo$isHatEnabled = (parts & 64) == 64;
-		} else if(data == MAIN_ARM.getId()) {
-			bo$mainArm = dataTracker.get(MAIN_ARM) == 0 ? Arm.LEFT : Arm.RIGHT;
-		} else if(data == LEFT_SHOULDER_ENTITY.getId()) {
-			bo$shoulderEntityLeft = dataTracker.get(LEFT_SHOULDER_ENTITY);
-		} else if(data == RIGHT_SHOULDER_ENTITY.getId()) {
-			bo$shoulderEntityRight = dataTracker.get(RIGHT_SHOULDER_ENTITY);
+		} else if(data == DATA_PLAYER_MAIN_HAND.getId()) {
+			bo$mainArm = entityData.get(DATA_PLAYER_MAIN_HAND) == 0 ? HumanoidArm.LEFT : HumanoidArm.RIGHT;
+		} else if(data == DATA_SHOULDER_LEFT.getId()) {
+			bo$shoulderEntityLeft = entityData.get(DATA_SHOULDER_LEFT);
+		} else if(data == DATA_SHOULDER_RIGHT.getId()) {
+			bo$shoulderEntityRight = entityData.get(DATA_SHOULDER_RIGHT);
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package me.thosea.badoptimizations.mixin.renderer.entity;
 
 import me.thosea.badoptimizations.interfaces.EntityTypeMethods;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.entity.EntityType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.world.entity.EntityType;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(EntityType.class)
