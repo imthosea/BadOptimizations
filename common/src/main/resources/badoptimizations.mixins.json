@@ -7,7 +7,7 @@
   "client": [
     "MixinDebugHud_AddText",
     "MixinParticleManager",
-    "MixinToastManager",
+    "MixinToastComponent",
     "MixinWorldRenderer",
     "accessors.GameRendererAccessor",
     "accessors.PlayerAccessor",
@@ -23,7 +23,7 @@
     "renderer.entity.MixinEntityType",
     "tick.MixinClientWorld",
     "tick.MixinGameRenderer",
-    "tick.MixinLightmapManager",
+    "tick.MixinLightTexture",
     "tick.MixinTutorial"
   ],
   "injectors": {

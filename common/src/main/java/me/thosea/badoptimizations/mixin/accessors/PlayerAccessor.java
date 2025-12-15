@@ -1,11 +1,11 @@
 package me.thosea.badoptimizations.mixin.accessors;
 
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(ClientPlayerEntity.class)
+@Mixin(LocalPlayer.class)
 public interface PlayerAccessor {
-	@Accessor("underwaterVisibilityTicks")
+	@Accessor("waterVisionTime")
 	int bo$underwaterVisibilityTicks();
 }
