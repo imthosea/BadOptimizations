@@ -17,7 +17,6 @@ plugins {
 val minecraft_version by properties
 val java_version by properties
 val mod_version by properties
-val yarn_mappings by properties
 
 architectury {
 	minecraft = "$minecraft_version"
