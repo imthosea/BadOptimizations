@@ -4,7 +4,7 @@ import me.thosea.badoptimizations.utils.PlatformMethods;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.gui.components.debug.DebugScreenEntry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ public class MixinDebugHud_AddText {
 	@Inject(method = "<clinit>", at = @At("RETURN"))
 	private static void onInit(CallbackInfo ci) {
 		register(
-				ResourceLocation.fromNamespaceAndPath("badoptimizations", "version_badoptimizations"),
+				Identifier.fromNamespaceAndPath("badoptimizations", "version_badoptimizations"),
 				new DebugScreenEntry() {
 					@Override
 					public void display(
@@ -41,7 +41,7 @@ public class MixinDebugHud_AddText {
 	}
 
 	@Shadow
-	private static ResourceLocation register(ResourceLocation id, DebugScreenEntry entry) {
+	private static Identifier register(Identifier id, DebugScreenEntry entry) {
 		return null;
 	}
 }

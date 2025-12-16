@@ -15,7 +15,7 @@ dependencies {
 	val fabric_loader_version by rootProject.properties
 	val fabric_modmenu_version by rootProject.properties
 	modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
-	modImplementation("com.terraformersmc:modmenu:${fabric_modmenu_version}")
+	modCompileOnly("com.terraformersmc:modmenu:${fabric_modmenu_version}")
 
 	shadowBundle(project(":common", configuration = "transformProductionFabric"))
 

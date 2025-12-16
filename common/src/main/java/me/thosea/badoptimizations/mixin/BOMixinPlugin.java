@@ -28,8 +28,6 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 
 		if(mixin.equals("tick.MixinLightTexture") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
 			return Config.lightmapCaching.effectiveValue;
-		} else if(mixin.equals("tick.MixinClientWorld")) {
-			return Config.skyColorCaching.effectiveValue;
 		} else if(mixin.startsWith("debug.")) {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
 		} else if(mixin.equals("MixinParticleManager")) {

@@ -1,9 +1,10 @@
 package me.thosea.badoptimizations.config;
 
-import java.nio.file.Files;
-import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Util;
+
+import java.nio.file.Files;
 
 // Opens the config file and exits, generates one if not there
 public final class BOConfigScreen extends Screen {
