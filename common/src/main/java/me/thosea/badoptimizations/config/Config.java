@@ -82,7 +82,7 @@ public final class Config {
 		// config v5 adds caching hooks and changes debug hud comment
 		// config v6 only changes comments
 
-		if(!ctx.fromExistingFile() || ver < CURRENT_CONFIG_VER) {
+		if(!ctx.fromExistingFile() || ver < CURRENT_CONFIG_VER || ctx.hasMissingOptions) {
 			try {
 				writeConfig();
 			} catch(Exception e) {
@@ -126,6 +126,6 @@ public final class Config {
 				CURRENT_CONFIG_VER
 		);
 
-		Files.writeString(FILE, data, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+		Files.writeString(FILE, data, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 }
