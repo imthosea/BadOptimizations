@@ -13,6 +13,7 @@ public final class ConfigLoadContext {
 	public final ModIncompatibilities incompats = new ModIncompatibilities();
 	public final int version;
 	@Nullable public final Properties properties;
+	public boolean hasMissingOptions = false;
 
 	public ConfigLoadContext() {
 		if(Files.exists(FILE)) {
@@ -32,10 +33,7 @@ public final class ConfigLoadContext {
 				return prop;
 			}
 		} catch(Exception e) {
-			// TODO: does passing Exception as object still log the stack trace?
-			LOGGER.error("Failed to load config from " + FILE + ". " +
-					"If you need to, you can delete the file to generate a new one.", e);
-			System.exit(1);
+			LOGGER.error("Failed to load config from " + FILE + ". Config will be regenerated with default values.", e);
 			return null;
 		}
 	}
@@ -74,7 +72,8 @@ public final class ConfigLoadContext {
 
 		String str = properties.getProperty(name);
 		if(str == null) {
-			throw new IllegalStateException("Config option " + name + " not found");
+			LOGGER.warn("Config option {} not found - using default value. Config will be regenerated.", name);
+			hasMissingOptions = true;
 		}
 		return str;
 	}
