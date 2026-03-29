@@ -1,3 +1,8 @@
+3/25/2026:
+- Port to 26.1
+- Fabric and NeoForge variants are no longer combined into one jar
+  - This may revert in the future
+
 Version 2.4.1:
  - Migrate to Mojang Mappings
  - Change some comments in the config file

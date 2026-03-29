@@ -26,7 +26,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 
 		mixin = mixin.substring("me.thosea.badoptimizations.mixin.".length());
 
-		if(mixin.equals("tick.MixinLightTexture") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
+		if(mixin.equals("tick.MixinLightmapExtractor") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
 			return Config.lightmapCaching.effectiveValue;
 		} else if(mixin.startsWith("debug.")) {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
@@ -40,7 +40,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return Config.entityRendererCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.blockentity.")) {
 			return Config.blockEntityRendererCaching.effectiveValue;
-		} else if(mixin.equals("tick.MixinGameRenderer")) {
+		} else if(mixin.equals("tick.MixinCamera")) {
 			return Config.removeRedundantFovCalcs.effectiveValue;
 		} else if(mixin.equals("tick.MixinTutorial")) {
 			return Config.removeTutorialIfNotDemo.effectiveValue;

@@ -2,17 +2,17 @@ package me.thosea.badoptimizations.mixin.tick;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(GameRenderer.class)
-public final class MixinGameRenderer {
+@Mixin(Camera.class)
+public final class MixinCamera {
 	@Shadow @Final private Minecraft minecraft;
 
 	// don't do unneeded FOV calculations

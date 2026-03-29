@@ -1,17 +1,14 @@
 @file:Suppress("PropertyName", "LocalVariableName")
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar.Companion.shadowJar
-import net.fabricmc.loom.api.LoomGradleExtensionAPI
+import me.modmuss50.mpp.ModPublishExtension
 
 plugins {
 	id("java")
-	id("dev.architectury.loom") version "1.13-SNAPSHOT" apply false
-	id("architectury-plugin") version "3.4-SNAPSHOT"
-
+	id("dev.architectury.loom-no-remap") version "1.14-SNAPSHOT" apply false
+	id("architectury-plugin") version "3.5-SNAPSHOT"
 	id("com.gradleup.shadow") version "9.0.0" apply false
-	id("io.github.pacifistmc.forgix") version "1.2.7"
-
-	id("me.modmuss50.mod-publish-plugin") version "0.5.0"
+	id("me.modmuss50.mod-publish-plugin") version "0.5.0" apply false
 }
 
 val minecraft_version by properties
@@ -24,8 +21,9 @@ architectury {
 
 subprojects {
 	apply(plugin = "java")
-	apply(plugin = "dev.architectury.loom")
+	apply(plugin = "dev.architectury.loom-no-remap")
 	apply(plugin = "architectury-plugin")
+	apply(plugin = "me.modmuss50.mod-publish-plugin")
 
 	base {
 		archivesName = "BadOptimizations-${project.name}"
@@ -37,11 +35,7 @@ subprojects {
 
 	dependencies {
 		val minecraft by configurations
-		val mappings by configurations
-		val loom = project.extensions["loom"] as LoomGradleExtensionAPI
-
 		minecraft("com.mojang:minecraft:${minecraft_version}")
-		mappings(loom.officialMojangMappings())
 		implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.2")!!)
 	}
 
@@ -51,11 +45,9 @@ subprojects {
 
 	version = "$mod_version"
 	group = "me.thosea"
-
-	rootProject.tasks.build {
-		dependsOn(tasks.build)
-	}
 }
+
+val changelogText = file("changelog.md").readText()
 
 subprojects {
 	if(name == "common") return@subprojects
@@ -77,17 +69,23 @@ subprojects {
 	val shadowBundle by configurations.creating
 
 	dependencies {
-		common(project(":common", configuration = "namedElements")) {
-			isTransitive = false
-		}
+		common(project(":common"))
 	}
 
+	val jarName = "BadOptimizations-${mod_version}-${minecraft_version}-${name}.jar"
+
+	tasks.jar {
+		archiveClassifier = "no-shadow"
+	}
 	tasks.shadowJar {
 		configurations = setOf(shadowBundle)
-		archiveClassifier = "dev-shadow"
+		archiveFileName = jarName
+	}
+	tasks.assemble {
+		finalizedBy(tasks.shadowJar)
 	}
 
-	with(configurations) {
+	configurations {
 		with(common) {
 			isCanBeResolved = true
 			isCanBeConsumed = false
@@ -102,55 +100,42 @@ subprojects {
 			isCanBeConsumed = false
 		}
 	}
+
+	extensions.configure<ModPublishExtension> {
+		val platform = "${project.property("loom.platform")}"
+
+		file = file("build/libs/${jarName}")
+		displayName = "$mod_version (26.1/$platform)"
+
+		version = "$mod_version"
+		type = STABLE
+		modLoaders.add(platform)
+
+		// tokens from HOME/.gradle/gradle.properties
+
+		val mr_token by properties
+		val cf_token by properties
+
+		modrinth {
+			accessToken = "$mr_token"
+			projectId = "g96Z4WVZ"
+			minecraftVersions.add("26.1")
+		}
+
+		curseforge {
+			accessToken = "$cf_token"
+			projectId = "949555"
+			minecraftVersions.add("26.1")
+			clientRequired = true
+		}
+
+		changelog = changelogText
+
+		tasks.getByName("publishCurseforge") { dependsOn(tasks.shadowJar) }
+		tasks.getByName("publishModrinth") { dependsOn(tasks.shadowJar) }
+	}
 }
 
 rootProject.tasks.jar {
 	enabled = false
-}
-
-val jarName = "BadOptimizations-${mod_version}-${minecraft_version}.jar"
-
-forgix {
-	group = "me.thosea"
-	mergedJarName = jarName
-	outputDir = "build/libs"
-
-	tasks.mergeJars { dependsOn(tasks.build) }
-	tasks.build { finalizedBy(tasks.mergeJars) }
-}
-
-publishMods {
-	file = file("build/libs/${jarName}")
-	displayName = "$mod_version (1.21.11)"
-
-	version = "$mod_version"
-	type = STABLE
-	modLoaders.add("fabric")
-	modLoaders.add("neoforge")
-
-	// tokens from HOME/.gradle/gradle.properties
-
-	val mr_token by properties
-	val cf_token by properties
-
-	modrinth {
-		accessToken = "$mr_token"
-		projectId = "g96Z4WVZ"
-		minecraftVersions.add("1.21.11")
-	}
-
-	curseforge {
-		accessToken = "$cf_token"
-		projectId = "949555"
-		minecraftVersions.add("1.21.11")
-		clientRequired = true
-	}
-
-	with(file("changelog.md")) {
-		publishMods.changelog = readText().trim()
-	}
-
-	tasks.publishMods {
-		dependsOn(tasks.mergeJars)
-	}
 }

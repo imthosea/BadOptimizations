@@ -19,8 +19,8 @@
     "renderer.entity.MixinEntityRendererDispatcher",
     "renderer.entity.MixinEntityType",
     "renderer.entity.MixinMannequinPlayer",
-    "tick.MixinGameRenderer",
-    "tick.MixinLightTexture",
+    "tick.MixinCamera",
+    "tick.MixinLightmapExtractor",
     "tick.MixinTutorial"
   ],
   "injectors": {

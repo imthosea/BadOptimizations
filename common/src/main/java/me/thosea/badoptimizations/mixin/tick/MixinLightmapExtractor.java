@@ -6,7 +6,7 @@ import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EndFlashState;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.LightmapRenderStateExtractor;
 import net.minecraft.world.attribute.EnvironmentAttributeProbe;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LightTexture.class)
-public abstract class MixinLightTexture {
+@Mixin(LightmapRenderStateExtractor.class)
+public abstract class MixinLightmapExtractor {
 	@Shadow @Final private Minecraft minecraft;
 
 	private EnvironmentAttributeProbe bo$probe;
