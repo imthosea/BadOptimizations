@@ -25,6 +25,6 @@ public final class BOConfigScreen extends Screen {
 			}
 		}
 		Util.getPlatform().openUri(Config.FILE.toUri());
-		minecraft.setScreen(parent);
+		minecraft.setScreenAndShow(parent);
 	}
 }

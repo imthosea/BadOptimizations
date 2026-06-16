@@ -36,6 +36,7 @@ enable_particle_manager_optimization: %s
 enable_toast_optimizations: %s
 # Whether the result of getSkyAngle should be cached
 # for the entire frame during rendering.
+# Has no effect in later Minecraft versions as the sky angle was made data-driven.
 enable_sky_angle_caching_in_worldrenderer: %s
 # Whether entity renderers should be stored directly in EntityType instead of a HashMap.
 # If your entity-adding mod crashes with BadOptimizations, try disabling this first.

@@ -34,8 +34,6 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return Config.particleManagerOptimization.effectiveValue;
 		} else if(mixin.equals("MixinToastComponent")) {
 			return Config.toastOptimizations.effectiveValue;
-		} else if(mixin.equals("MixinWorldRenderer")) {
-			return Config.skyAngleCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.entity.")) {
 			return Config.entityRendererCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.blockentity.")) {

@@ -40,7 +40,7 @@ public abstract class MixinLightmapExtractor {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void onInit(GameRenderer renderer, Minecraft client, CallbackInfo ci) {
 		this.bo$gameRendererAccessor = (GameRendererAccessor) renderer;
-		this.bo$probe = renderer.getMainCamera().attributeProbe();
+		this.bo$probe = renderer.mainCamera().attributeProbe();
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)

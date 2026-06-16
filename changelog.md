@@ -1,3 +1,6 @@
+6/16/26:
+- Port to 26.2
+
 3/25/2026:
 - Port to 26.1
 - Fabric and NeoForge variants are no longer combined into one jar
