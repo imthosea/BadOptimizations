@@ -1,0 +1,21 @@
+# (renamed by gradle)
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/imthosea/BadOptimizations/issues"
+# forge 1.20.4- requires mod icon to be in root folder
+bannerFile = "badoptimizations-icon.png"
+logoBlur = false
+
+[[mods]]
+modId = "badoptimizations"
+version = "${version}"
+displayName = "BadOptimizations"
+authors = "Thosea"
+description = "Optimization mod that focuses on things other than rendering"
+[[dependencies.badoptimizations]]
+modId = "minecraft"
+versionRange = "${forge_minecraft_range}"
+
+[[mixins]]
+config = "${forge_mixin_file}"

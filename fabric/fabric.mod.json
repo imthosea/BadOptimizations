@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "badoptimizations",
+  "version": "${version}",
+  "name": "BadOptimizations",
+  "description": "Optimization mod that focuses on things other than rendering",
+  "icon": "badoptimizations-icon.png",
+  "authors": [
+    "Thosea"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/badoptimizations/",
+    "sources": "https://github.com/imthosea/BadOptimizations/",
+    "issues": "https://github.com/imthosea/BadOptimizations/issues/"
+  },
+  "environment": "client",
+  "mixins": [
+    "${fabric_mixin_file}"
+  ],
+  "entrypoints": {
+    "modmenu": [
+      "me.thosea.badoptimizations.fabric.platform.BadOptimizationsModMenu"
+    ]
+  },
+  "depends": {
+    "minecraft": "${fabric_minecraft_range}",
+    "fabricloader": ">=${fabric_loader_ver}"
+  },
+  "accessWidener": "badoptimizations.accesswidener",
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.modrinth": "https://modrinth.com/mod/badoptimizations/",
+        "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/badoptimizations"
+      },
+      "update_checker": true
+    }
+  }
+}

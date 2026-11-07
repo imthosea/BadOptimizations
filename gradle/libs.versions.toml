@@ -1,0 +1,36 @@
+[versions]
+moddevgradle = "2.0.148"
+loom = "1.18-SNAPSHOT"
+
+build-asm = "9.10.1"
+
+slf4j = "2.0.16"
+annotations = "26.0.2"
+
+# arbitrary lower boundry
+mixin = "0.12.0+mixin.0.8.5"
+mixinextras = "0.2.1"
+
+[libraries]
+build-asm = { module = "org.ow2.asm:asm-commons", version.ref = "build-asm" }
+
+# for versionCommon, w/o minecraft dependencies
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+
+# ...
+mixin = { module = "net.fabricmc:sponge-mixin", version.ref = "mixin" }
+mixinextras-common = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixinextras" }
+mixinextras-fabric = { module = "io.github.llamalad7:mixinextras-fabric", version.ref = "mixinextras" }
+mixinextras-forge = { module = "io.github.llamalad7:mixinextras-forge", version.ref = "mixinextras" }
+
+[plugins]
+# 1.20.2+
+moddevgradle = { id = "net.neoforged.moddev", version.ref = "moddevgradle" }
+# 1.20.1
+moddevgradle-legacy = { id = "net.neoforged.moddev.legacyforge", version.ref = "moddevgradle" }
+
+# 26.1+
+loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }
+# 1.21.11-
+loom-legacy = { id = "net.fabricmc.fabric-loom-remap", version.ref = "loom" }
