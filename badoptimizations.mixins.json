@@ -1,0 +1,29 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "me.thosea.badoptimizations.mixin",
+  "plugin": "me.thosea.badoptimizations.mixin.BOMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "MixinDebugHud_AddText",
+    "MixinParticleManager",
+    "MixinToastComponent",
+    "accessors.GameRendererAccessor",
+    "accessors.PlayerAccessor",
+    "debug.MixinDebugRenderer",
+    "renderer.blockentity.MixinBlockEntityRenderDispatcher",
+    "renderer.blockentity.MixinBlockEntityType",
+    "renderer.entity.MixinClientPlayer",
+    "renderer.entity.MixinEntity",
+    "renderer.entity.MixinEntityRendererDispatcher",
+    "renderer.entity.MixinEntityType",
+    "renderer.entity.MixinMannequinPlayer",
+    "tick.MixinCamera",
+    "tick.MixinLightmapExtractor",
+    "tick.MixinTutorial"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinPriority": 1200
+}
