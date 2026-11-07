@@ -1,0 +1,18 @@
+[versions]
+minecraft = "1.20.4"
+java = "17"
+isObfuscated = "true"
+
+neoform = "1.20.4-20240627.114801"
+neoforge = "20.4.253"
+
+fabricMinecraftRange = ">=1.20.2 <=1.20.4"
+forgeMinecraftRange = "[1.20.2,1.20.4]"
+
+fabricLoader = "0.15.0"
+modmenu = "9.2.0"
+
+[libraries]
+fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabricLoader" }
+fabric-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
