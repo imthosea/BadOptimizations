@@ -1,0 +1,19 @@
+[versions]
+minecraft = "1.20.1"
+java = "17"
+isObfuscated = "true"
+
+neoform = "blah" #mcp
+# techinically a forge version but whatever
+neoforge = "1.20.1-47.3.0"
+
+fabricMinecraftRange = "1.20.1"
+forgeMinecraftRange = "[1.20.1]"
+
+fabricLoader = "0.14.20"
+modmenu = "7.2.2"
+
+[libraries]
+fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabricLoader" }
+fabric-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
