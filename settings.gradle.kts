@@ -7,7 +7,14 @@ pluginManagement {
 dependencyResolutionManagement {
 	versionCatalogs {
 		create("branch") {
-			from(files("branch/branch.versions.toml"))
+			val file = file("branch/branch.versions.toml")
+			check(file.exists()) {
+				"""
+				make sure to symlink the version you want to versions/current
+				(type ln -sfn <version> versions/current>)
+				""".trimIndent()
+			}
+			from(files(file))
 		}
 	}
 }
