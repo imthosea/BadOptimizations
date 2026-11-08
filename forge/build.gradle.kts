@@ -133,6 +133,8 @@ tasks.processResources {
 			}
 		}
 	}
+
+	inputs.file("../branch/branch.versions.toml")
 }
 
 java.toolchain {
