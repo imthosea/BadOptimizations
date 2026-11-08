@@ -22,5 +22,8 @@
     "tick.MixinLightmapExtractor",
     "tick.MixinTutorial"
   ],
+  "injectors": {
+    "defaultRequire": 1
+  },
   "mixinPriority": 1200
 }
