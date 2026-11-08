@@ -19,7 +19,6 @@ dependencyResolutionManagement {
 	}
 }
 
-//@Suppress("UnstableApiUsage") // it's like jetpack compose, everything is @Incubating
 rootProject.name = "badoptimizations"
 
 include(":versionCommon")
