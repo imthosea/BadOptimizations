@@ -1,7 +1,7 @@
-package me.thosea.badoptimizations.forge;
+package me.thosea.badoptimizations.forge.platform;
 
-import me.thosea.badoptimizations.screen.BOConfigScreen;
 import me.thosea.badoptimizations.platform.PlatformMethods;
+import me.thosea.badoptimizations.screen.BOConfigScreen;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.ConfigScreenHandler.ConfigScreenFactory;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod("badoptimizations")
 public class BadOptimizations {
 	public BadOptimizations() {
-		if(isOnServer()) return;
+		if(PlatformMethods.INSTANCE.isOnServer()) return;
 
 		// avoid loading client classes on server
 		ClientInit.init();
