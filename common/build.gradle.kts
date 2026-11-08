@@ -37,7 +37,6 @@ if(branch.versions.minecraft.get() != "1.20.1") {
 		accessTransformers.from(access)
 	}
 } else {
-	tasks.named("reobfJar") { enabled = false }
 	extensions.configure<LegacyForgeExtension> {
 		mcpVersion = branch.versions.minecraft.get()
 		validateAccessTransformers = true
