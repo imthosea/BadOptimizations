@@ -26,10 +26,10 @@ extensions.configure<ModDevExtension> {
 	}
 	mods {
 		register("badoptimizations") {
-			sourceSet(sourceSets.main.get())
+			modSourceSets.add(sourceSets.main)
 			if(!obfuscated) {
-				// cursed, but needed so runClient picks up the mixin file
-				sourceSet(project(":common").sourceSets.main.get())
+				// needed so runClient picks up the mixin file
+				modSourceSets.add(project(":common").sourceSets.main)
 			}
 		}
 	}
@@ -124,11 +124,11 @@ tasks.processResources {
 	if(obfuscated) {
 		from("../branch/badoptimizations.mixins.json") {
 			rename { "badoptimizations-forge.mixins.json" }
-			if(legacy) filter {
-				if("\"refmap\"" in it) {
+			if(legacy) filter { line ->
+				if("\"refmap\"" in line) {
 					"\"refmap\": \"badoptimizations-forge.mixins.refmap.json\","
 				} else {
-					it
+					line
 				}
 			}
 		}
