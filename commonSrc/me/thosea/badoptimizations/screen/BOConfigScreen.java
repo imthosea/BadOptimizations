@@ -1,9 +1,9 @@
 package me.thosea.badoptimizations.screen;
 
 import me.thosea.badoptimizations.config.Config;
+import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Util;
 
 import java.nio.file.Files;
 
