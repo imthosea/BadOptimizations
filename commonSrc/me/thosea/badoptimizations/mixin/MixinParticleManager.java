@@ -17,9 +17,7 @@ import java.util.Queue;
 public class MixinParticleManager {
 	@Shadow @Final private Map<ParticleRenderType, Queue<Particle>> particles;
 
-	// implicit, 1.21.4 adds another method with a similar signature
-	// we can target both with this while maintaining 1.21.3 compatibility
-	@Inject(method = "renderParticles*", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "extract", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
 		if(particles.isEmpty()) {
 			ci.cancel();
