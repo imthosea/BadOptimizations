@@ -110,7 +110,7 @@ tasks.processResources {
 		)
 		rename {
 			val split = neoVersion.split(".")
-			if(split[0].toInt() <= 20 && split[1].toInt() <= 4) { // 1.20.4-
+			if(legacy || (split[0].toInt() <= 20 && split[1].toInt() <= 4)) { // 1.20.4-
 				"mods.toml"
 			} else {
 				"neoforge.mods.toml"
