@@ -19,7 +19,7 @@ public class MixinParticleManager {
 
 	// implicit, 1.21.4 adds another method with a similar signature
 	// we can target both with this while maintaining 1.21.3 compatibility
-	@Inject(method = "renderParticles*", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
 		if(particles.isEmpty()) {
 			ci.cancel();

@@ -11,10 +11,10 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 import net.neoforged.fml.loading.moddiscovery.ModInfo;
-import org.lwjgl.system.Platform;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,16 +47,15 @@ public final class ForgePlatformMethods implements PlatformMethods {
 
 	@Override
 	public boolean isOnServer() {
-		return FMLLoader.getCurrent().getDist() == Dist.DEDICATED_SERVER;
+		return FMLLoader.getDist() == Dist.DEDICATED_SERVER;
 	}
 
 	@Override
 	public InputStream streamConfigTemplate() throws IOException {
-		return modList()
+		return Files.newInputStream(LoadingModList.get()
 				.getModFileById("badoptimizations")
 				.getFile()
-				.getContents()
-				.openFile("bo-config-template.txt");
+				.findResource("bo-config-template.txt"));
 	}
 
 	@Override
@@ -136,6 +135,6 @@ public final class ForgePlatformMethods implements PlatformMethods {
 	}
 
 	private static LoadingModList modList() {
-		return FMLLoader.getCurrent().getLoadingModList();
+		return LoadingModList.get();
 	}
 }
