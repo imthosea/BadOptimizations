@@ -77,6 +77,7 @@ val setupMonoJar = tasks.register<Sync>("setupMonoJar") {
 			"me/thosea/badoptimizations/config/",
 			"me/thosea/badoptimizations/hook/",
 			"me/thosea/badoptimizations/platform/",
+			"me/thosea/badoptimizations/reflect/",
 			"me/thosea/badoptimizations/${project}/"
 		)
 		return if(noRemap.any { name.startsWith(it) }) {
