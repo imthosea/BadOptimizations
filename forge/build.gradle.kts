@@ -107,6 +107,11 @@ tasks.processResources {
 			} else {
 				"badoptimizations.mixins.json"
 			},
+			"maybe_legacy_mandatory_line" to if(legacy) {
+				"mandatory = true"
+			} else {
+				""
+			},
 		)
 		rename {
 			val split = neoVersion.split(".")

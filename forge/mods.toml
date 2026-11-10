@@ -15,8 +15,8 @@ authors = "Thosea"
 description = "Optimization mod that focuses on things other than rendering"
 [[dependencies.badoptimizations]]
 modId = "minecraft"
-mandatory = true
 versionRange = "${forge_minecraft_range}"
+${maybe_legacy_mandatory_line}
 
 [[mixins]]
 config = "${forge_mixin_file}"
