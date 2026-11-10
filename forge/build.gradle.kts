@@ -49,7 +49,7 @@ if(legacy) {
 dependencies {
 	val split = branch.versions.neoforge.get().split(".")
 	@Suppress("AvoidDuplicateDependencies")
-	if(split[0].toInt() >= 21 && split[0].toInt() >= 9) {
+	if(split[0].toInt() >= 21 && split[1].toInt() >= 9) {
 		implementation(project(":versionCommon"))
 	} else {
 		"additionalRuntimeClasspath"(implementation(project(":versionCommon"))!!)
