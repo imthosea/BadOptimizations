@@ -7,7 +7,8 @@
   "client": [
     "MixinDebugHud_AddText",
     "MixinParticleManager",
-    "MixinToastComponent",
+    "MixinToastComponentNew",
+    "MixinToastComponentOld",
     "MixinWorldRenderer",
     "accessors.GameRendererAccessor",
     "accessors.PlayerAccessor",
