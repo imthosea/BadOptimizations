@@ -36,6 +36,11 @@ public final class ForgePlatformMethods implements PlatformMethods {
 	}
 
 	@Override
+	public String getMinecraftVersion() {
+		return modList().getModFileById("minecraft").versionString();
+	}
+
+	@Override
 	public Path getConfigFolder() {
 		return FMLPaths.CONFIGDIR.get();
 	}

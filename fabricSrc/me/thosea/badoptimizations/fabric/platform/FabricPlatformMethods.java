@@ -33,6 +33,14 @@ public final class FabricPlatformMethods implements PlatformMethods {
 	}
 
 	@Override
+	public String getMinecraftVersion() {
+		return FabricLoader.getInstance()
+				.getModContainer("minecraft")
+				.orElseThrow()
+				.getMetadata().getVersion().getFriendlyString();
+	}
+
+	@Override
 	public Path getConfigFolder() {
 		return FabricLoader.getInstance().getConfigDir();
 	}
