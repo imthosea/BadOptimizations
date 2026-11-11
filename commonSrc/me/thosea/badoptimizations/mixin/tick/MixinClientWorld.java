@@ -6,14 +6,8 @@ import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,17 +16,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.function.Supplier;
-
 import static me.thosea.badoptimizations.utils.CommonColorFactors.lastLightningTicks;
 import static me.thosea.badoptimizations.utils.CommonColorFactors.rainGradientMultiplier;
 import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradientMultiplier;
 
 @Mixin(ClientLevel.class)
-public abstract class MixinClientWorld extends Level {
+public abstract class MixinClientWorld {
 	@Shadow @Final private Minecraft minecraft;
 
-	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(getBiomeManager());
+	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(((Level) (Object) this).getBiomeManager());
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.SKY_COLOR;
 
 	private Vec3 bo$skyColorCache;
@@ -81,7 +73,7 @@ public abstract class MixinClientWorld extends Level {
 	@Shadow public abstract Vec3 getSkyColor(Vec3 cameraPos, float tickDelta);
 
 	private Vec3 bo$calcSkyColor(float delta) {
-		float angle = Mth.cos(getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
+		float angle = Mth.cos(((Level) (Object) this).getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
 		angle = Mth.clamp(angle, 0.0F, 1.0F);
 
 		double x = bo$biomeColorVector.x * angle;
@@ -120,9 +112,5 @@ public abstract class MixinClientWorld extends Level {
 	@Inject(method = "getSkyColor", at = @At("RETURN"))
 	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Vec3> cir) {
 		bo$skyColorCache = cir.getReturnValue();
-	}
-
-	protected MixinClientWorld(WritableLevelData properties, ResourceKey<Level> registryRef, RegistryAccess registryManager, Holder<DimensionType> dimensionEntry, Supplier<ProfilerFiller> profiler, boolean isClient, boolean debugWorld, long biomeAccess, int maxChainedNeighborUpdates) {
-		super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
 	}
 }
