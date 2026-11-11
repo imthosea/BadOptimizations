@@ -3,9 +3,12 @@ package me.thosea.badoptimizations.utils;
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.mixin.tick.MixinClientWorld;
 import me.thosea.badoptimizations.mixin.tick.MixinLightTexture;
+import me.thosea.badoptimizations.reflect.BadReflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
 import java.util.Objects;
 
 /**
@@ -15,6 +18,43 @@ public final class CommonColorFactors {
 	private CommonColorFactors() {}
 
 	private static final Minecraft CLIENT = Objects.requireNonNull(Minecraft.getInstance(), "loaded too early");
+
+	/* make sure all of this is static final so the JIT inlines it into a normal call!! */
+	private static final Object deltaTracker; // 1.21.1 -> DeltaTracker, 1.20.5/6 -> null
+	private static final MethodHandle getPartialTick;
+
+	static {
+		Class<?> timerClass = BadReflection.getClass(
+				"net.minecraft.client.DeltaTracker",
+				"net.minecraft.class_9779"
+		);
+		if(timerClass != null) { // 1.21.1
+			// minecraft.getTimer().getGameTimeDeltaPartialTick(false);
+			var getTimer = BadReflection.getVirtual(
+					Minecraft.class,
+					MethodType.methodType(timerClass),
+					"getTimer", "method_60646"
+			);
+			try {
+				deltaTracker = getTimer.invoke(CLIENT);
+			} catch(Throwable e) {
+				throw new RuntimeException(e);
+			}
+			getPartialTick = BadReflection.getVirtual(
+					timerClass,
+					MethodType.methodType(float.class, boolean.class),
+					"getGameTimeDeltaPartialTick", "method_60637"
+			);
+		} else { // 1.20.5/1.20.6
+			deltaTracker = null;
+			// minecraft.getFrameTime();
+			getPartialTick = BadReflection.getVirtual(
+					Minecraft.class,
+					MethodType.methodType(float.class),
+					"getFrameTime", "method_1488"
+			);
+		}
+	}
 
 	public static final CommonColorFactors SKY_COLOR = new CommonColorFactors();
 	public static final CommonColorFactors LIGHTMAP = new CommonColorFactors();
@@ -38,7 +78,15 @@ public final class CommonColorFactors {
 		lastUpdateTick = tick;
 
 		ClientLevel world = CLIENT.level;
-		float tickDelta = CLIENT.getTimer().getGameTimeDeltaPartialTick(false);
+		// jit do your thing
+		float tickDelta;
+		try {
+			tickDelta = deltaTracker != null
+					? (float) getPartialTick.invoke(deltaTracker, /*ignoreFrozenGame*/ false)
+					: (float) getPartialTick.invokeExact(CLIENT);
+		} catch(Throwable e) {
+			throw new RuntimeException(e);
+		}
 		boolean result = false;
 
 		float rainGradient = world.getRainLevel(tickDelta);
