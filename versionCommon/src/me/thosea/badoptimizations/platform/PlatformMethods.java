@@ -11,6 +11,7 @@ import java.util.Map;
 
 public interface PlatformMethods {
 	String getVersion();
+	String getMinecraftVersion();
 	Path getConfigFolder();
 	boolean isModLoaded(String id);
 	boolean isOnServer();
