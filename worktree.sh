@@ -1,8 +1,7 @@
 #!/bin/sh
 git worktree add --lock versions/1.20.1 src/1.20.1
 git worktree add --lock versions/1.20.2-4 src/1.20.2-4
-git worktree add --lock versions/1.20.5-6 src/1.20.5-6
-git worktree add --lock versions/1.21.1 src/1.21.1
+git worktree add --lock versions/1.20.5-1.21.1 src/1.20.5-1.21.1
 git worktree add --lock versions/1.21.2-5 src/1.21.2-5
 git worktree add --lock versions/1.21.6-8 src/1.21.6-8
 git worktree add --lock versions/1.21.10 src/1.21.10
