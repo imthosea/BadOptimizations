@@ -1,7 +1,7 @@
 package me.thosea.badoptimizations.platform;
 
-public final class McVersion {
-	private McVersion() {}
+public final class BadMcVersion {
+	private BadMcVersion() {}
 
 	public static final int MAJOR; // excluding the 1.
 	public static final int MINOR;
@@ -16,5 +16,12 @@ public final class McVersion {
 			MAJOR = Integer.parseInt(split[0]);
 			MINOR = Integer.parseInt(split[1]);
 		}
+	}
+
+	public static boolean isAtMost(int major, int minor) { // <=
+		return MAJOR <= major && MINOR <= minor;
+	}
+	public static boolean isAtLeast(int major, int minor) { // >=
+		return MAJOR >= major && MINOR >= minor;
 	}
 }
