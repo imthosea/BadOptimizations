@@ -14,7 +14,7 @@ import java.util.Objects;
 public final class CommonColorFactors {
 	private CommonColorFactors() {}
 
-	private static final Minecraft CLIENT = Objects.requireNonNull(Minecraft.getInstance(), "loaded too early");
+	private static final Minecraft client = Objects.requireNonNull(Minecraft.getInstance());
 
 	public static final CommonColorFactors SKY_COLOR = new CommonColorFactors();
 	public static final CommonColorFactors LIGHTMAP = new CommonColorFactors();
@@ -33,16 +33,18 @@ public final class CommonColorFactors {
 	private long lastTime;
 
 	public static void tick() {
-		int tick = CLIENT.player.tickCount;
+		assert client.player != null;
+		int tick = client.player.tickCount;
 		if(lastUpdateTick == tick) return;
 		lastUpdateTick = tick;
 
-		ClientLevel world = CLIENT.level;
-		float tickDelta = CLIENT.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+		ClientLevel world = client.level;
+		float partialTick = BadVersionHacks.getPartialTick();
 		boolean result = false;
 
-		float rainGradient = world.getRainLevel(tickDelta);
-		float thunderGradient = world.getThunderLevel(tickDelta);
+		assert world != null;
+		float rainGradient = world.getRainLevel(partialTick);
+		float thunderGradient = world.getThunderLevel(partialTick);
 		int lightningTicks = world.getSkyFlashTime();
 
 		if(rainGradient != lastRainGradient) {
@@ -103,10 +105,12 @@ public final class CommonColorFactors {
 	 * @return in-game time passed since the last call of {@link #updateLastTime()}
 	 */
 	public long getTimeDelta() {
-		return Math.abs(CLIENT.level.dayTime() - lastTime);
+		assert client.level != null;
+		return Math.abs(client.level.getLevelData().getDayTime() - lastTime);
 	}
 
 	public void updateLastTime() {
-		lastTime = CLIENT.level.dayTime();
+		assert client.level != null;
+		lastTime = client.level.getLevelData().getDayTime();
 	}
 }

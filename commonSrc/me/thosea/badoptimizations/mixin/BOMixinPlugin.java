@@ -2,6 +2,7 @@ package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
+import me.thosea.badoptimizations.platform.BadMcVersion;
 import me.thosea.badoptimizations.platform.PlatformMethods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -36,20 +37,17 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
 		} else if(mixin.equals("MixinParticleManager")) {
 			return Config.particleManagerOptimization.effectiveValue;
-		} else if(mixin.equals("MixinToastComponentOld") || mixin.equals("MixinToastComponentNew")) {
-			if(!Config.toastOptimizations.effectiveValue) return false;
-			String[] split = PlatformMethods.INSTANCE.getMinecraftVersion().split("\\.");
-			int patch = Integer.parseInt(split[2]);
-			return patch >= 6
-					? mixin.equals("MixinToastComponentNew") // 1.21.6-1.21.8
-					: mixin.equals("MixinToastComponentOld"); // 1.21.2-1.21.5
-		} else if(mixin.equals("MixinWorldRenderer")) {
+		} else if(mixin.equals("MixinToastComponentOld")) {
+			return Config.toastOptimizations.effectiveValue && BadMcVersion.isAtMost(21, 5);
+		} else if(mixin.equals("MixinToastComponentNew")) {
+			return Config.toastOptimizations.effectiveValue && BadMcVersion.isAtLeast(21, 6);
+		} else if(mixin.startsWith("skycache.")) {
 			return Config.skyAngleCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.entity.")) {
 			return Config.entityRendererCaching.effectiveValue;
 		} else if(mixin.startsWith("renderer.blockentity.")) {
 			return Config.blockEntityRendererCaching.effectiveValue;
-		} else if(mixin.equals("tick.MixinGameRenderer")) {
+		} else if(mixin.equals("tick.MixinAbstractClientPlayer")) {
 			return Config.removeRedundantFovCalcs.effectiveValue;
 		} else if(mixin.equals("tick.MixinTutorial")) {
 			return Config.removeTutorialIfNotDemo.effectiveValue;

@@ -3,10 +3,11 @@ package me.thosea.badoptimizations.mixin.tick;
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
+import me.thosea.badoptimizations.platform.BadMcVersion;
+import me.thosea.badoptimizations.utils.BadVersionHacks;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -34,8 +35,8 @@ public abstract class MixinClientWorld {
 	private Vec3 bo$biomeColorVector = Vec3.ZERO;
 
 	@Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
-	private void onGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
-		if(bo$skyColorCache == Integer.MIN_VALUE || minecraft.player == null) return;
+	private void onGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Object> cir) {
+		if(minecraft.player == null) return;
 
 		CommonColorFactors.tick();
 
@@ -50,7 +51,13 @@ public abstract class MixinClientWorld {
 			}
 		}
 
-		cir.setReturnValue(bo$skyColorCache);
+		if(BadMcVersion.MAJOR >= 21 && BadMcVersion.MINOR >= 2) {
+			// CallbackInfoReturnable<Integer>
+			cir.setReturnValue(bo$skyColorCache);
+		} else {
+			// CallbackInfoReturnable<Vec3>
+			cir.setReturnValue(BadVersionHacks.toColorVec(bo$skyColorCache));
+		}
 	}
 
 	private boolean bo$isBiomeDirty(Vec3 pos) {
@@ -71,7 +78,8 @@ public abstract class MixinClientWorld {
 	}
 
 	private int bo$calcSkyColor(float delta) {
-		float angle = Mth.cos(((Level) (Object) this).getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
+		Level level = BadVersionHacks.cast(this);
+		float angle = Mth.cos(level.getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
 		angle = Mth.clamp(angle, 0.0F, 1.0F);
 
 		double x = bo$biomeColorVector.x * angle;
@@ -104,11 +112,18 @@ public abstract class MixinClientWorld {
 			z = z * (1.0F - lightningMultiplier) + lightningMultiplier;
 		}
 
-		return ARGB.color(new Vec3(x, y, z));
+		return BadVersionHacks.toColorInt(x, y, z);
 	}
 
 	@Inject(method = "getSkyColor", at = @At("RETURN"))
-	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
-		bo$skyColorCache = cir.getReturnValue();
+	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Object> cir) {
+		if(BadMcVersion.MAJOR >= 21 && BadMcVersion.MINOR >= 2) {
+			// CallbackInfoReturnable<Integer>
+			bo$skyColorCache = (int) cir.getReturnValue();
+		} else {
+			// CallbackInfoReturnable<Vec3>
+			Vec3 vec = (Vec3) cir.getReturnValue();
+			bo$skyColorCache = BadVersionHacks.toColorInt(vec.x, vec.y, vec.z);
+		}
 	}
 }

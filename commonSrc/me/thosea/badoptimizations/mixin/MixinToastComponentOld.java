@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.Deque;
 import java.util.List;
 
+// 1.21.5-
 @Mixin(ToastManager.class)
 public abstract class MixinToastComponentOld {
 	@Shadow @Final private List<?> visibleToasts;

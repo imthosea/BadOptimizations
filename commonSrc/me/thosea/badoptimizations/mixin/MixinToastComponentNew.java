@@ -12,6 +12,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Set;
 
+// 1.21.6+
 @Mixin(ToastManager.class)
 public abstract class MixinToastComponentNew {
 	@Shadow @Final private List<?> visibleToasts;
