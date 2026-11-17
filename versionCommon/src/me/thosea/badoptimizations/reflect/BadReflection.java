@@ -14,7 +14,8 @@ public final class BadReflection {
 	public static Class<?> getClass(String... clazzes) {
 		for(String clazz : clazzes) {
 			try {
-				return Class.forName(clazz);
+				// can't use Class.forName cause neoforge
+				return Thread.currentThread().getContextClassLoader().loadClass(clazz);
 			} catch(ClassNotFoundException ignored) {}
 		}
 		return null;
