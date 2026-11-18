@@ -56,7 +56,7 @@ public abstract class MixinClientWorld {
 			cir.setReturnValue(bo$skyColorCache);
 		} else {
 			// CallbackInfoReturnable<Vec3>
-			cir.setReturnValue(BadVersionHacks.toColorVec(bo$skyColorCache));
+			cir.setReturnValue(Vec3.fromRGB24(bo$skyColorCache));
 		}
 	}
 

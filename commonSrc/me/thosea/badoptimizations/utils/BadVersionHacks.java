@@ -3,7 +3,6 @@ package me.thosea.badoptimizations.utils;
 import me.thosea.badoptimizations.reflect.BadReflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
@@ -77,12 +76,5 @@ public final class BadVersionHacks {
 		int y = Mth.floor(g * 255.0F);
 		int z = Mth.floor(b * 255.0F);
 		return 255 << 24 | x << 16 | y << 8 | z;
-	}
-	public static Vec3 toColorVec(int color) {
-		// from 1.21.2+ ARGB.vector3fFromRGB24
-		float x = (float) (color >> 16 & 255) / 255.0F;
-		float y = (float) (color >> 8 & 255) / 255.0F;
-		float z = (float) (color & 255) / 255.0F;
-		return new Vec3(x, y, z);
 	}
 }
