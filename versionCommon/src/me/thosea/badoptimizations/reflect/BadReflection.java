@@ -22,6 +22,7 @@ public final class BadReflection {
 		}
 		return null;
 	}
+
 	@NotNull
 	public static Class<?> requireClass(String... clazzes) {
 		Class<?> clazz = getClass(clazzes);
