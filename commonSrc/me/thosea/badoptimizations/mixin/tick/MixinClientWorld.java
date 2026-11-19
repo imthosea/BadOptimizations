@@ -3,6 +3,7 @@ package me.thosea.badoptimizations.mixin.tick;
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
+import me.thosea.badoptimizations.utils.BadVersionHacks;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -21,6 +22,7 @@ import static me.thosea.badoptimizations.utils.CommonColorFactors.lastLightningT
 import static me.thosea.badoptimizations.utils.CommonColorFactors.rainGradientMultiplier;
 import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradientMultiplier;
 
+// 1.20.10
 @Mixin(ClientLevel.class)
 public abstract class MixinClientWorld {
 	@Shadow @Final private Minecraft minecraft;
@@ -33,7 +35,8 @@ public abstract class MixinClientWorld {
 	private int bo$lastBiomeColor = Integer.MIN_VALUE;
 	private Vec3 bo$biomeColorVector = Vec3.ZERO;
 
-	@Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
+	@SuppressWarnings({"UnresolvedMixinReference", "MixinAnnotationTarget"})
+	@Inject(remap = false, method = {"getSkyColor", "method_23777"}, at = @At("HEAD"), cancellable = true)
 	private void onGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
 		if(bo$skyColorCache == Integer.MIN_VALUE || minecraft.player == null) return;
 
@@ -61,7 +64,7 @@ public abstract class MixinClientWorld {
 		int color = bo$biomeColors.get(x - 2, y - 2, z - 2);
 		if(bo$lastBiomeColor != color) {
 			bo$lastBiomeColor = color;
-			bo$biomeColorVector = Vec3.fromRGB24(color);
+			bo$biomeColorVector = BadVersionHacks.fromRGB24(color);
 			return true;
 		} else if(bo$biomeColors.get(x + 3, y + 3, z + 3) != color) {
 			return true;
@@ -71,7 +74,8 @@ public abstract class MixinClientWorld {
 	}
 
 	private int bo$calcSkyColor(float delta) {
-		float angle = Mth.cos(((Level) (Object) this).getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
+		Level level = BadVersionHacks.cast(this);
+		float angle = BadVersionHacks.cos(BadVersionHacks.getTimeOfDay(level, 1.0f) * 6.2831855F) * 2.0F + 0.5F;
 		angle = Mth.clamp(angle, 0.0F, 1.0F);
 
 		double x = bo$biomeColorVector.x * angle;
@@ -107,7 +111,8 @@ public abstract class MixinClientWorld {
 		return ARGB.color(new Vec3(x, y, z));
 	}
 
-	@Inject(method = "getSkyColor", at = @At("RETURN"))
+	@SuppressWarnings({"UnresolvedMixinReference", "MixinAnnotationTarget"})
+	@Inject(remap = false, method = {"getSkyColor", "method_23777"}, at = @At("RETURN"))
 	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
 		bo$skyColorCache = cir.getReturnValue();
 	}

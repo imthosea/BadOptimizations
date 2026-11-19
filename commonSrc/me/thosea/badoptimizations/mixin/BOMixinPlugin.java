@@ -2,6 +2,7 @@ package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
+import me.thosea.badoptimizations.platform.BadMcVersion;
 import me.thosea.badoptimizations.platform.PlatformMethods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -28,12 +29,18 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 
 		mixin = mixin.substring(mixinPackageLength);
 
-		if(mixin.equals("tick.MixinLightTexture") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
+		if(mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
 			return Config.lightmapCaching.effectiveValue;
+		} else if(mixin.equals("tick.MixinLightTextureOld")) {
+			return Config.lightmapCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
+		} else if(mixin.equals("tick.MixinLightTextureNew")) {
+			return Config.lightmapCaching.effectiveValue && BadMcVersion.isAtLeast(21, 11);
 		} else if(mixin.equals("tick.MixinClientWorld")) {
-			return Config.skyColorCaching.effectiveValue;
-		} else if(mixin.startsWith("debug.")) {
-			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
+			return Config.skyColorCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
+		} else if(mixin.equals("debug.MixinDebugRendererOld")) {
+			return Config.debugRendererDisableIfNotNeeded.effectiveValue && BadMcVersion.isAtMost(21, 10);
+		} else if(mixin.equals("debug.MixinDebugRendererNew")) {
+			return Config.debugRendererDisableIfNotNeeded.effectiveValue && BadMcVersion.isAtLeast(21, 11);
 		} else if(mixin.equals("MixinParticleManager")) {
 			return Config.particleManagerOptimization.effectiveValue;
 		} else if(mixin.equals("MixinToastComponent")) {

@@ -1,5 +1,7 @@
 package me.thosea.badoptimizations.interfaces;
 
+import me.thosea.badoptimizations.utils.BadVersionHacks;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 
 @FunctionalInterface
@@ -8,7 +10,8 @@ public interface BiomeSkyColorGetter {
 
 	static BiomeSkyColorGetter of(BiomeManager access) {
 		return (x, y, z) -> {
-			return access.getNoiseBiomeAtQuart(x, y, z).value().getSkyColor();
+			Biome biome = access.getNoiseBiomeAtQuart(x, y, z).value();
+			return BadVersionHacks.getSkyColor(biome);
 		};
 	}
 }

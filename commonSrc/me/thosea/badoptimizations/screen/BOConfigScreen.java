@@ -1,7 +1,7 @@
 package me.thosea.badoptimizations.screen;
 
 import me.thosea.badoptimizations.config.Config;
-import net.minecraft.Util;
+import me.thosea.badoptimizations.utils.BadVersionHacks;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -25,7 +25,7 @@ public final class BOConfigScreen extends Screen {
 				throw new RuntimeException("Failed to generate BadOptimizations config", e);
 			}
 		}
-		Util.getPlatform().openUri(Config.FILE.toUri());
+		BadVersionHacks.openUri(Config.FILE.toUri());
 		minecraft.setScreenAndShow(parent);
 	}
 }

@@ -10,7 +10,8 @@
     "MixinToastComponent",
     "accessors.GameRendererAccessor",
     "accessors.PlayerAccessor",
-    "debug.MixinDebugRenderer",
+    "debug.MixinDebugRendererNew",
+    "debug.MixinDebugRendererOld",
     "renderer.blockentity.MixinBlockEntityRenderDispatcher",
     "renderer.blockentity.MixinBlockEntityType",
     "renderer.entity.MixinClientPlayer",
@@ -20,7 +21,8 @@
     "renderer.entity.MixinMannequinPlayer",
     "tick.MixinClientWorld",
     "tick.MixinGameRenderer",
-    "tick.MixinLightTexture",
+    "tick.MixinLightTextureNew",
+    "tick.MixinLightTextureOld",
     "tick.MixinTutorial"
   ],
   "injectors": {
