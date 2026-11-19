@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Mixin(ToastManager.class)
 public abstract class MixinToastComponent {
-	@Shadow @Final private List<Object> visibleToasts;
+	@Shadow @Final private List<?> visibleToasts;
 	@Shadow @Final private Deque<Toast> queued;
 	@Shadow @Final private Set<SoundEvent> playedToastSounds;
 	@Shadow private ToastInstance<NowPlayingToast> nowPlayingToast;

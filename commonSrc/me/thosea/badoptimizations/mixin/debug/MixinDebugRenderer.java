@@ -1,7 +1,6 @@
 package me.thosea.badoptimizations.mixin.debug;
 
 import net.minecraft.client.renderer.debug.DebugRenderer;
-import net.minecraft.client.renderer.debug.DebugRenderer.SimpleDebugRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Mixin(DebugRenderer.class)
 public class MixinDebugRenderer {
-	@Shadow @Final private List<SimpleDebugRenderer> renderers;
+	@Shadow @Final private List<?> renderers;
 
 	@Inject(method = "emitGizmos", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
