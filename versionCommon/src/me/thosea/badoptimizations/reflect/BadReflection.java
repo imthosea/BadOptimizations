@@ -1,5 +1,8 @@
 package me.thosea.badoptimizations.reflect;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -9,6 +12,7 @@ import java.util.Arrays;
 public final class BadReflection {
 	private BadReflection() {}
 
+	@Nullable
 	public static Class<?> getClass(String... clazzes) {
 		for(String clazz : clazzes) {
 			try {
@@ -17,6 +21,14 @@ public final class BadReflection {
 			} catch(ClassNotFoundException ignored) {}
 		}
 		return null;
+	}
+	@NotNull
+	public static Class<?> requireClass(String... clazzes) {
+		Class<?> clazz = getClass(clazzes);
+		if(clazz == null) {
+			throw new IllegalStateException("Couldn't find class with names " + Arrays.toString(clazzes));
+		}
+		return clazz;
 	}
 
 	public static MethodHandle getVirtual(Class<?> clazz, MethodType signature, String... names) {
