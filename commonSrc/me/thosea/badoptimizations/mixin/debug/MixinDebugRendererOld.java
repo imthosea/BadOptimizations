@@ -12,8 +12,10 @@ import java.util.List;
 
 @Mixin(DebugRenderer.class)
 public class MixinDebugRendererOld {
-	@Shadow(aliases = "field_63070", remap = false) @Final private List<?> opaqueRenderers;
-	@Shadow(aliases = "field_63071", remap = false) @Final private List<?> translucentRenderers;
+	@Shadow(aliases = "field_63070", remap = false) @Final
+	private List<?> opaqueRenderers; // <SimpleDebugRenderer>
+	@Shadow(aliases = "field_63071", remap = false) @Final
+	private List<?> translucentRenderers; // <SimpleDebugRenderer>
 	@Inject(remap = false, method = {"render", "method_23099"}, at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
 		if(this.opaqueRenderers.isEmpty() && this.translucentRenderers.isEmpty())
