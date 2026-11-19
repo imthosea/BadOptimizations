@@ -7,7 +7,8 @@ public final class BadMcVersion {
 	public static final int MINOR;
 
 	static {
-		String[] split = PlatformMethods.INSTANCE.getMinecraftVersion().split("\\.");
+		@SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
+		String[] split = PlatformMethods.INSTANCE.getMinecraftVersion().split("[.-]");
 		assert split.length >= 2;
 		if(split[0].equals("1")) {
 			MAJOR = Integer.parseInt(split[1]);
