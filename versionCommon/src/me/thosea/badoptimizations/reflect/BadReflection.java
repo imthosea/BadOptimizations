@@ -9,8 +9,6 @@ import java.util.Arrays;
 public final class BadReflection {
 	private BadReflection() {}
 
-	private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
-
 	public static Class<?> getClass(String... clazzes) {
 		for(String clazz : clazzes) {
 			try {
@@ -21,15 +19,28 @@ public final class BadReflection {
 		return null;
 	}
 
-	public static MethodHandle getVirtual(
-			Class<?> clazz, MethodType signature,
-			String... names
-	) {
+	public static MethodHandle getVirtual(Class<?> clazz, MethodType signature, String... names) {
 		for(String name : names) {
 			try {
-				return LOOKUP.findVirtual(clazz, name, signature);
+				return MethodHandles.publicLookup().findVirtual(clazz, name, signature);
 			} catch(NoSuchMethodException | IllegalAccessException ignored) {}
 		}
 		throw new AssertionError("Couldn't find virtual method with names " + Arrays.toString(names));
+	}
+
+	public static MethodHandle getStatic(
+			MethodHandles.Lookup lookup,
+			Class<?> clazz, MethodType signature, String... names
+	) {
+		for(String name : names) {
+			try {
+				return lookup.findStatic(clazz, name, signature);
+			} catch(NoSuchMethodException | IllegalAccessException ignored) {}
+		}
+		throw new AssertionError("Couldn't find static method with names " + Arrays.toString(names));
+	}
+
+	public static MethodHandle getStatic(Class<?> clazz, MethodType signature, String... names) {
+		return getStatic(MethodHandles.publicLookup(), clazz, signature, names);
 	}
 }
