@@ -166,6 +166,10 @@ val assembleMonoJar = tasks.register<Jar>("assembleMonoJar") {
 	}
 }
 
+tasks.register<Delete>("clean") {
+	delete(layout.buildDirectory)
+}
+
 fun prismTestTask(platform: String) {
 	tasks.register<Exec>("testPrism${platform.uppercaseFirstChar()}") {
 		doNotTrackState("no")
