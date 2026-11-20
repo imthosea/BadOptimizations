@@ -36,7 +36,7 @@ public abstract class MixinEntityRendererDispatcher {
 		}
 	}
 
-	private  <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> bo$getOtherRenderer(T entity) {
+	private <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> bo$getOtherRenderer(T entity) {
 		// some mods inject renderers late, or add custom unsupported player models
 		if(entity instanceof AbstractClientPlayer player) {
 			var renderer = this.playerRenderers.get(player.getSkin().model());
