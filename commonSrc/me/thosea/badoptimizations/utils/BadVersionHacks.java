@@ -65,16 +65,16 @@ public final class BadVersionHacks {
 		}
 	}
 
-	@SuppressWarnings("UNCHECKED_CAST")
-	public static <T> T cast(Object object) {
-		return (T) object;
-	}
-
 	public static int toColorInt(double r, double g, double b) {
 		// from 1.21.2+ ARGB.color
 		int x = Mth.floor(r * 255.0F);
 		int y = Mth.floor(g * 255.0F);
 		int z = Mth.floor(b * 255.0F);
 		return 255 << 24 | x << 16 | y << 8 | z;
+	}
+
+	@SuppressWarnings("UNCHECKED_CAST")
+	public static <T> T cast(Object object) {
+		return (T) object;
 	}
 }
