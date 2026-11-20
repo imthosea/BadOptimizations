@@ -15,10 +15,10 @@ import java.util.Set;
 // 1.21.6+
 @Mixin(ToastManager.class)
 public abstract class MixinToastComponentNew {
-	@Shadow @Final private List<?> visibleToasts;
-	@Shadow @Final private Deque<?> queued;
-	@Shadow @Final private Set<?> playedToastSounds;
-	@Shadow private ToastInstance<?> nowPlayingToast;
+	@Shadow @Final private List<?> visibleToasts; // <ToastInstance<?>>
+	@Shadow @Final private Deque<?> queued; // <Toast>
+	@Shadow @Final private Set<?> playedToastSounds; // <SoundEvent>
+	@Shadow private ToastInstance<?> nowPlayingToast; // <NowPlayingToast>
 
 	// Don't do anything if we don't need to
 	@ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;hideGui:Z"))

@@ -13,8 +13,8 @@ import java.util.List;
 // 1.21.5-
 @Mixin(ToastManager.class)
 public abstract class MixinToastComponentOld {
-	@Shadow @Final private List<?> visibleToasts;
-	@Shadow @Final private Deque<?> queued;
+	@Shadow @Final private List<?> visibleToasts; // <ToastInstance<?>>
+	@Shadow @Final private Deque<?> queued; // <Toast>
 
 	// Don't do anything if we don't need to
 	@ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;hideGui:Z"))
