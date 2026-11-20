@@ -3,6 +3,7 @@ package me.thosea.badoptimizations.mixin.tick;
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.interfaces.BiomeSkyColorGetter;
+import me.thosea.badoptimizations.utils.BadVersionHacks;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -73,7 +74,8 @@ public abstract class MixinClientWorld {
 	@Shadow public abstract Vec3 getSkyColor(Vec3 cameraPos, float tickDelta);
 
 	private Vec3 bo$calcSkyColor(float delta) {
-		float angle = Mth.cos(((Level) (Object) this).getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
+		Level level = BadVersionHacks.cast(this);
+		float angle = Mth.cos(level.getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
 		angle = Mth.clamp(angle, 0.0F, 1.0F);
 
 		double x = bo$biomeColorVector.x * angle;
