@@ -1,5 +1,10 @@
 package me.thosea.badoptimizations.mixin.entitydata;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -8,11 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Optional;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(value = LivingEntity.class, priority = 700)
 public abstract class MixinLivingEntity extends MixinEntity {
@@ -44,13 +44,20 @@ public abstract class MixinLivingEntity extends MixinEntity {
 		return bo$potionSwirlsAmbient;
 	}
 
-	@Overwrite public boolean isUsingItem() {return bo$isUsingItem;}
-	@Overwrite public InteractionHand getUsedItemHand() {return bo$activeHand;}
-	@Overwrite public boolean isAutoSpinAttack() {return bo$isUsingRiptide;}
-	@Overwrite public float getHealth() {return bo$health;}
-	@Overwrite public final int getArrowCount() {return bo$stuckArrowCount;}
-	@Overwrite public final int getStingerCount() {return bo$stingerCount;}
-	@Overwrite public Optional<BlockPos> getSleepingPos() {return bo$sleepingPosition;}
+	@Overwrite
+	public boolean isUsingItem() {return bo$isUsingItem;}
+	@Overwrite
+	public InteractionHand getUsedItemHand() {return bo$activeHand;}
+	@Overwrite
+	public boolean isAutoSpinAttack() {return bo$isUsingRiptide;}
+	@Overwrite
+	public float getHealth() {return bo$health;}
+	@Overwrite
+	public final int getArrowCount() {return bo$stuckArrowCount;}
+	@Overwrite
+	public final int getStingerCount() {return bo$stingerCount;}
+	@Overwrite
+	public Optional<BlockPos> getSleepingPos() {return bo$sleepingPosition;}
 
 	@Override
 	public void bo$refreshEntityData(int data) {
