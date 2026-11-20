@@ -46,7 +46,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return Config.blockEntityRendererCaching.effectiveValue;
 		} else if(mixin.startsWith("entitydata.")) {
 			return Config.entityFlagCaching.effectiveValue;
-		} else if(mixin.equals("tick.MixinGameRenderer")) {
+		} else if(mixin.equals("tick.MixinAbstractClientPlayer")) {
 			return Config.removeRedundantFovCalcs.effectiveValue;
 		} else if(mixin.equals("tick.MixinTutorial")) {
 			return Config.removeTutorialIfNotDemo.effectiveValue;
