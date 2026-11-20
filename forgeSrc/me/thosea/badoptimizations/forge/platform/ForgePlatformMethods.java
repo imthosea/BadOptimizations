@@ -11,7 +11,6 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 import net.neoforged.fml.loading.moddiscovery.ModInfo;
-import org.lwjgl.system.Platform;
 
 import java.io.IOException;
 import java.io.InputStream;

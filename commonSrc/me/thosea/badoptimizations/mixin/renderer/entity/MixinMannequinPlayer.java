@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ClientMannequin.class)
 public abstract class MixinMannequinPlayer extends MixinEntity {  // renderer.MixinEntity
-	@Shadow public abstract PlayerSkin getSkin();
+	@Shadow
+	public abstract PlayerSkin getSkin();
 
 	@Override
 	public EntityRenderer<?, ?> bo$getRenderer() {
