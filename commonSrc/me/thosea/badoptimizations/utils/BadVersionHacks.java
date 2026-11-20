@@ -70,4 +70,9 @@ public final class BadVersionHacks {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@SuppressWarnings("UNCHECKED_CAST")
+	public static <T> T cast(Object object) {
+		return (T) object;
+	}
 }
