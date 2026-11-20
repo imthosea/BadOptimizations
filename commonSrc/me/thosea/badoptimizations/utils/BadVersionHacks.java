@@ -45,6 +45,7 @@ public final class BadVersionHacks {
 	// use normal reflection here cause this isn't gonna get JIT'd anyway
 	private static final Object objOpenUri;
 	private static final Method openUri;
+
 	static {
 		Method method;
 		Object obj;
@@ -63,6 +64,7 @@ public final class BadVersionHacks {
 		objOpenUri = obj;
 		openUri = method;
 	}
+
 	public static void openUri(URI uri) {
 		try {
 			openUri.invoke(objOpenUri, uri);
