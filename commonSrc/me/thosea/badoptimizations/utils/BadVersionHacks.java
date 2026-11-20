@@ -1,7 +1,6 @@
 package me.thosea.badoptimizations.utils;
 
 import com.mojang.blaze3d.Blaze3D;
-import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.reflect.BadReflection;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
@@ -66,7 +65,7 @@ public final class BadVersionHacks {
 	}
 	public static void openUri(URI uri) {
 		try {
-			openUri.invoke(objOpenUri, Config.FILE.toUri());
+			openUri.invoke(objOpenUri, uri);
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
