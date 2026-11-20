@@ -12,8 +12,7 @@ import java.util.List;
 
 @Mixin(DebugRenderer.class)
 public class MixinDebugRenderer {
-	@Shadow @Final private List<?> renderers;
-
+	@Shadow @Final private List<?> renderers; // <SimpleDebugRenderer>
 	@Inject(method = "emitGizmos", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
 		if(this.renderers.isEmpty())
