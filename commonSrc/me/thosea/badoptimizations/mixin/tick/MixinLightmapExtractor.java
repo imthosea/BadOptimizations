@@ -3,8 +3,7 @@ package me.thosea.badoptimizations.mixin.tick;
 import me.thosea.badoptimizations.hook.CacheHooks;
 import me.thosea.badoptimizations.mixin.accessors.GameRendererAccessor;
 import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
-import me.thosea.badoptimizations.reflect.BadReflection;
-import net.minecraft.client.Camera;
+import me.thosea.badoptimizations.utils.BadVersionHacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EndFlashState;
 import net.minecraft.client.renderer.GameRenderer;
@@ -23,24 +22,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodType;
-
 @Mixin(LightmapRenderStateExtractor.class)
 public abstract class MixinLightmapExtractor {
-	// for 26.1 - 26.3 compat
-	private static final MethodHandle bo$getCamera = BadReflection.getVirtual(
-			GameRenderer.class,
-			MethodType.methodType(Camera.class),
-			"mainCamera", // 26.1
-			"getMainCamera" // 26.2+
-	);
-	// 26.1/2-EnvironmentAttribute<Integer>
-	// 26.3-EnvironmentAttribute<Vector3fc>
-	private static final boolean bo$IS_SKY_COLOR_VEC =
-			((EnvironmentAttribute<?>) EnvironmentAttributes.SKY_LIGHT_COLOR)
-					.defaultValue() instanceof Vector3fc;
-
 	@SuppressWarnings("UNCHECKED_CAST")
 	private static <T> T bo$cast(Object obj) {
 		return (T) obj;
@@ -72,11 +55,7 @@ public abstract class MixinLightmapExtractor {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void onInit(GameRenderer renderer, Minecraft client, CallbackInfo ci) {
 		this.bo$gameRendererAccessor = (GameRendererAccessor) renderer;
-		try {
-			this.bo$probe = ((Camera) bo$getCamera.invokeExact(renderer)).attributeProbe();
-		} catch(Throwable e) {
-			throw new RuntimeException(e);
-		}
+		this.bo$probe = BadVersionHacks.getCamera(renderer).attributeProbe();
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
@@ -90,7 +69,7 @@ public abstract class MixinLightmapExtractor {
 
 	private boolean bo$isDirty() {
 		float skyFactor = bo$probe.getValue(EnvironmentAttributes.SKY_LIGHT_FACTOR, 1.0f);
-		if(bo$IS_SKY_COLOR_VEC) {
+		if(BadVersionHacks.IS_SKY_COLOR_VEC) {
 			Vector3fc skyColor = bo$probe.getValue(EnvironmentAttributes.SKY_LIGHT_COLOR, 1.0f);
 			if(
 				// stupid formatter
