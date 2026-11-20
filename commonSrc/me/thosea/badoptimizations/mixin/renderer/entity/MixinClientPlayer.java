@@ -8,7 +8,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinClientPlayer extends MixinEntity { // renderer.MixinEntity
-	@Shadow public abstract String getModelName();
+	@Shadow
+	public abstract String getModelName();
 
 	@Override
 	public EntityRenderer<?> bo$getRenderer() {

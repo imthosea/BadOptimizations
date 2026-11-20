@@ -70,9 +70,6 @@ public abstract class MixinClientWorld {
 		return false;
 	}
 
-	@Shadow public abstract int getSkyFlashTime();
-	@Shadow public abstract Vec3 getSkyColor(Vec3 cameraPos, float tickDelta);
-
 	private Vec3 bo$calcSkyColor(float delta) {
 		Level level = BadVersionHacks.cast(this);
 		float angle = Mth.cos(level.getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;

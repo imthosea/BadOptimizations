@@ -57,9 +57,11 @@ public abstract class MixinSynchedData {
 		};
 
 		this.lock = new ReadWriteLock() {
-			@NotNull @Override
+			@NotNull
+			@Override
 			public Lock readLock() {return lock;}
-			@NotNull @Override
+			@NotNull
+			@Override
 			public Lock writeLock() {return lock;}
 		};
 

@@ -44,13 +44,20 @@ public abstract class MixinLivingEntity extends MixinEntity {
 		return bo$potionSwirlsAmbient;
 	}
 
-	@Overwrite public boolean isUsingItem() {return bo$isUsingItem;}
-	@Overwrite public InteractionHand getUsedItemHand() {return bo$activeHand;}
-	@Overwrite public boolean isAutoSpinAttack() {return bo$isUsingRiptide;}
-	@Overwrite public float getHealth() {return bo$health;}
-	@Overwrite public final int getArrowCount() {return bo$stuckArrowCount;}
-	@Overwrite public final int getStingerCount() {return bo$stingerCount;}
-	@Overwrite public Optional<BlockPos> getSleepingPos() {return bo$sleepingPosition;}
+	@Overwrite
+	public boolean isUsingItem() {return bo$isUsingItem;}
+	@Overwrite
+	public InteractionHand getUsedItemHand() {return bo$activeHand;}
+	@Overwrite
+	public boolean isAutoSpinAttack() {return bo$isUsingRiptide;}
+	@Overwrite
+	public float getHealth() {return bo$health;}
+	@Overwrite
+	public final int getArrowCount() {return bo$stuckArrowCount;}
+	@Overwrite
+	public final int getStingerCount() {return bo$stingerCount;}
+	@Overwrite
+	public Optional<BlockPos> getSleepingPos() {return bo$sleepingPosition;}
 
 	@Override
 	public void bo$refreshEntityData(int data) {

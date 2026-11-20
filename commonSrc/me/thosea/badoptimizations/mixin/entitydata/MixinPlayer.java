@@ -46,11 +46,16 @@ public abstract class MixinPlayer extends MixinEntity {
 		};
 	}
 
-	@Overwrite public float getAbsorptionAmount() {return bo$absorptionAmount;}
-	@Overwrite public int getScore() {return bo$score;}
-	@Overwrite public HumanoidArm getMainArm() {return bo$mainArm;}
-	@Overwrite public CompoundTag getShoulderEntityLeft() {return bo$shoulderEntityLeft;}
-	@Overwrite public CompoundTag getShoulderEntityRight() {return bo$shoulderEntityRight;}
+	@Overwrite
+	public float getAbsorptionAmount() {return bo$absorptionAmount;}
+	@Overwrite
+	public int getScore() {return bo$score;}
+	@Overwrite
+	public HumanoidArm getMainArm() {return bo$mainArm;}
+	@Overwrite
+	public CompoundTag getShoulderEntityLeft() {return bo$shoulderEntityLeft;}
+	@Overwrite
+	public CompoundTag getShoulderEntityRight() {return bo$shoulderEntityRight;}
 
 	@Override
 	public void bo$refreshEntityData(int data) {

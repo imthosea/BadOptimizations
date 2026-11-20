@@ -44,7 +44,8 @@ public abstract class MixinEntity implements EntityMethods {
 	private Optional<Component> bo$customName = Optional.empty();
 	private int bo$remainingAirTicks = getMaxAirSupply();
 
-	@Shadow public abstract int getMaxAirSupply();
+	@Shadow
+	public abstract int getMaxAirSupply();
 
 	@Redirect(method = "isOnFire", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getSharedFlag(I)Z"))
 	private boolean getIsOnFire(Entity instance, int index) {
@@ -53,19 +54,33 @@ public abstract class MixinEntity implements EntityMethods {
 
 	@Shadow private boolean hasGlowingTag; // vanilla glowing on the server
 
-	@Overwrite public boolean isCurrentlyGlowing() {return level.isClientSide ? bo$glowingClient : hasGlowingTag;}
-	@Overwrite public boolean isShiftKeyDown() {return bo$sneaking;}
-	@Overwrite public boolean isSprinting() {return bo$sprinting;}
-	@Overwrite public boolean isSwimming() {return bo$swimming;}
-	@Overwrite public boolean isInvisible() {return bo$invisible;}
-	@Overwrite public int getAirSupply() {return bo$remainingAirTicks;}
-	@Overwrite @Nullable public Component getCustomName() {return bo$customName.orElse(null);}
-	@Overwrite public boolean hasCustomName() {return bo$customName.isPresent();}
-	@Overwrite public boolean isCustomNameVisible() {return bo$nameVisible;}
-	@Overwrite public boolean isSilent() {return bo$silent;}
-	@Overwrite public boolean isNoGravity() {return bo$noGravity;}
-	@Overwrite public Pose getPose() {return bo$pose;}
-	@Overwrite public int getTicksFrozen() {return bo$frozenTicks;}
+	@Overwrite
+	public boolean isCurrentlyGlowing() {return level.isClientSide ? bo$glowingClient : hasGlowingTag;}
+	@Overwrite
+	public boolean isShiftKeyDown() {return bo$sneaking;}
+	@Overwrite
+	public boolean isSprinting() {return bo$sprinting;}
+	@Overwrite
+	public boolean isSwimming() {return bo$swimming;}
+	@Overwrite
+	public boolean isInvisible() {return bo$invisible;}
+	@Overwrite
+	public int getAirSupply() {return bo$remainingAirTicks;}
+	@Overwrite
+	@Nullable
+	public Component getCustomName() {return bo$customName.orElse(null);}
+	@Overwrite
+	public boolean hasCustomName() {return bo$customName.isPresent();}
+	@Overwrite
+	public boolean isCustomNameVisible() {return bo$nameVisible;}
+	@Overwrite
+	public boolean isSilent() {return bo$silent;}
+	@Overwrite
+	public boolean isNoGravity() {return bo$noGravity;}
+	@Overwrite
+	public Pose getPose() {return bo$pose;}
+	@Overwrite
+	public int getTicksFrozen() {return bo$frozenTicks;}
 
 	@Shadow @Final protected SynchedEntityData entityData;
 
