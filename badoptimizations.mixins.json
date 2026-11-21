@@ -19,8 +19,8 @@
     "renderer.entity.MixinEntityRendererDispatcher",
     "renderer.entity.MixinEntityType",
     "renderer.entity.MixinMannequinPlayer",
+    "tick.MixinAbstractClientPlayer",
     "tick.MixinClientWorld",
-    "tick.MixinGameRenderer",
     "tick.MixinLightTextureNew",
     "tick.MixinLightTextureOld",
     "tick.MixinTutorial"
