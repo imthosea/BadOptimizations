@@ -41,6 +41,8 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("debug.MixinDebugRendererNew")) {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue && BadMcVersion.isAtLeast(21, 11);
+		} else if(mixin.startsWith("skycache.")) {
+			return Config.skyAngleCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("MixinParticleManager")) {
 			return Config.particleManagerOptimization.effectiveValue;
 		} else if(mixin.equals("MixinToastComponent")) {
