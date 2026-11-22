@@ -11,11 +11,19 @@ public final class BadMcVersion {
 		String[] split = PlatformMethods.INSTANCE.getMinecraftVersion().split("[.-]");
 		assert split.length >= 2;
 		if(split[0].equals("1")) {
-			MAJOR = Integer.parseInt(split[1]);
-			MINOR = split.length < 3 ? 0 : Integer.parseInt(split[2]);
+			MAJOR = tryParse(split[1], 0);
+			MINOR = split.length < 3 ? 0 : tryParse(split[2], 0);
 		} else {
-			MAJOR = Integer.parseInt(split[0]);
-			MINOR = Integer.parseInt(split[1]);
+			MAJOR = tryParse(split[0], 0);
+			MINOR = tryParse(split[1], 0);
+		}
+	}
+
+	private static int tryParse(String str, int def) {
+		try {
+			return Integer.parseInt(str);
+		} catch(NumberFormatException e) {
+			return def;
 		}
 	}
 
