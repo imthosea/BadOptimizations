@@ -41,7 +41,7 @@ dependencies {
 	common(project(":common")) { isTransitive = false }
 	versionCommon(project(":versionCommon")) { isTransitive = false }
 	fabric(project(":fabric")) { isTransitive = false }
-	forge(project(":forge")) { isTransitive = false }
+	forge(project(":forge", configuration = "forgejar")) { isTransitive = false }
 }
 
 /*

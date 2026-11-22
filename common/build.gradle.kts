@@ -42,6 +42,7 @@ if(branch.versions.minecraft.get() != "1.20.1") {
 		validateAccessTransformers = true
 		accessTransformers.from(access)
 	}
+	tasks.named("reobfJar") { enabled = false }
 }
 
 dependencies {

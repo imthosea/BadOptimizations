@@ -72,17 +72,17 @@ if(legacy) {
 		add(sourceSets.main.get(), "badoptimizations-forge.mixins.refmap.json")
 	}
 	// (manifest entries are set in :assembleMonoJar)
+}
 
-	// usually this extends from runtimeElements
-	// but, in forge 1.20.1, this results in :setupMonoJar getting the unobfuscated jar
-	// and then everything crashes
-	configurations.named("default") {
-		// where's type inference when you need it??
-		setExtendsFrom(emptyList<Configuration>())
-	}
-	artifacts {
-		add("default", tasks.named("reobfJar"))
-	}
+// we need :setupMonoJar to get the obfuscated jar on 1.20.1
+// or everything crashes!
+configurations.register("forgejar")
+artifacts {
+	add("forgejar", if(legacy) {
+		tasks.named("reobfJar")
+	} else {
+		tasks.named("jar")
+	})
 }
 
 sourceSets.main {
