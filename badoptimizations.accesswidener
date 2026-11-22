@@ -1,1 +1,3 @@
 accessWidener       v2       named
+accessible field net/minecraft/client/renderer/GameRenderer darkenWorldAmount F
+accessible field net/minecraft/client/player/LocalPlayer waterVisionTime I
