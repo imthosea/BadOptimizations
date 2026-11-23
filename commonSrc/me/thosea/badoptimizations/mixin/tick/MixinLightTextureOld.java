@@ -2,8 +2,6 @@ package me.thosea.badoptimizations.mixin.tick;
 
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
-import me.thosea.badoptimizations.mixin.accessors.GameRendererAccessor;
-import me.thosea.badoptimizations.mixin.accessors.PlayerAccessor;
 import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EndFlashState;
@@ -22,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LightTexture.class)
 public abstract class MixinLightTextureOld {
 	@Shadow @Final private Minecraft minecraft;
+	@Shadow @Final private GameRenderer renderer;
 
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.LIGHTMAP;
 
@@ -32,17 +31,11 @@ public abstract class MixinLightTextureOld {
 	private boolean bo$lastConduitPower;
 
 	private float bo$previousSkyDarkness;
-	private GameRendererAccessor bo$gameRendererAccessor;
-
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void onInit(GameRenderer renderer, Minecraft client, CallbackInfo ci) {
-		this.bo$gameRendererAccessor = (GameRendererAccessor) renderer;
-	}
 
 	private boolean bo$isDirty() {
 		if(bo$commonFactors.getTimeDelta() >= Config.lightmapTimeForUpdate)
 			return true;
-		if(minecraft.player.isUnderWater() && ((PlayerAccessor) minecraft.player).bo$underwaterVisibilityTicks() < 600)
+		if(minecraft.player.isUnderWater() && minecraft.player.waterVisionTime < 600)
 			return true; // water light fading
 
 		if(!minecraft.options.hideLightningFlash().get()) {
@@ -78,7 +71,7 @@ public abstract class MixinLightTextureOld {
 			bo$lastDimension = dimension;
 			return true;
 		}
-		float skyDarkness = bo$gameRendererAccessor.bo$getSkyDarkness();
+		float skyDarkness = renderer.darkenWorldAmount;
 		if(bo$previousSkyDarkness != skyDarkness) {
 			bo$previousSkyDarkness = skyDarkness;
 			return true;

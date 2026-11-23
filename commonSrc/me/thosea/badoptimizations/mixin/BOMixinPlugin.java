@@ -29,9 +29,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 
 		mixin = mixin.substring(mixinPackageLength);
 
-		if(mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
-			return Config.lightmapCaching.effectiveValue;
-		} else if(mixin.equals("tick.MixinLightTextureOld")) {
+		if(mixin.equals("tick.MixinLightTextureOld")) {
 			return Config.lightmapCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("tick.MixinLightTextureNew")) {
 			return Config.lightmapCaching.effectiveValue && BadMcVersion.isAtLeast(21, 11);
