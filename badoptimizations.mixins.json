@@ -8,8 +8,6 @@
     "MixinDebugHud_AddText",
     "MixinParticleManager",
     "MixinToastComponent",
-    "accessors.GameRendererAccessor",
-    "accessors.PlayerAccessor",
     "debug.MixinDebugRenderer",
     "renderer.blockentity.MixinBlockEntityRenderDispatcher",
     "renderer.blockentity.MixinBlockEntityType",

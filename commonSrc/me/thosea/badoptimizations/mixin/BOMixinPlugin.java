@@ -28,7 +28,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 
 		mixin = mixin.substring(mixinPackageLength);
 
-		if(mixin.equals("tick.MixinLightmapExtractor") || mixin.equals("accessors.GameRendererAccessor") || mixin.equals("accessors.PlayerAccessor")) {
+		if(mixin.equals("tick.MixinLightmapExtractor")) {
 			return Config.lightmapCaching.effectiveValue;
 		} else if(mixin.startsWith("debug.")) {
 			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
