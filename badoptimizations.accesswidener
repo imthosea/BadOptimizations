@@ -1,2 +1,4 @@
 accessWidener       v2       named
 accessible class net/minecraft/client/gui/components/toasts/ToastManager$ToastInstance
+accessible field net/minecraft/client/renderer/GameRenderer darkenWorldAmount F
+accessible field net/minecraft/client/player/LocalPlayer waterVisionTime I
