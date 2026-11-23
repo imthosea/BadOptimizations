@@ -98,6 +98,10 @@ tasks.processResources {
 	val legacy = legacy
 	val neoVersion = branch.versions.neoforge.get()
 	val range = branch.versions.forgeMinecraftRange.get()
+
+	val split = neoVersion.split(".")
+	val oldToml = legacy || (split[0].toInt() <= 20 && split[1].toInt() <= 4) // 1.20.4-
+
 	from("pack.mcmeta")
 	from("mods.toml") {
 		into("META-INF")
@@ -109,20 +113,13 @@ tasks.processResources {
 			} else {
 				"badoptimizations.mixins.json"
 			},
-			"maybe_legacy_mandatory_line" to if(legacy) {
+			"maybe_legacy_mandatory_line" to if(oldToml) {
 				"mandatory = true"
 			} else {
 				""
 			},
 		)
-		rename {
-			val split = neoVersion.split(".")
-			if(legacy || (split[0].toInt() <= 20 && split[1].toInt() <= 4)) { // 1.20.4-
-				"mods.toml"
-			} else {
-				"neoforge.mods.toml"
-			}
-		}
+		rename { if(oldToml) "mods.toml" else "neoforge.mods.toml" }
 	}
 	from("../branch/accesstransformer.cfg") {
 		into("META-INF")
