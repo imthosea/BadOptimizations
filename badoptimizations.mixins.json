@@ -9,8 +9,6 @@
     "MixinParticleManager",
     "MixinToastComponent",
     "MixinWorldRenderer",
-    "accessors.GameRendererAccessor",
-    "accessors.PlayerAccessor",
     "debug.MixinBeeDebugRenderer",
     "debug.MixinGameEventDebugRenderer",
     "debug.MixinGameTestDebugRenderer",
