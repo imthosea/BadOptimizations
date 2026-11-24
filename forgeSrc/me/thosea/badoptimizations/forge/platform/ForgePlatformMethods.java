@@ -55,12 +55,17 @@ public final class ForgePlatformMethods implements PlatformMethods {
 	}
 
 	@Override
-	public InputStream streamConfigTemplate() throws IOException {
+	public boolean isDevEnv() {
+		return !FMLLoader.getCurrent().isProduction();
+	}
+
+	@Override
+	public InputStream readFromJar(String name) throws IOException {
 		return modList()
 				.getModFileById("badoptimizations")
 				.getFile()
 				.getContents()
-				.openFile("bo-config-template.txt");
+				.openFile(name);
 	}
 
 	@Override

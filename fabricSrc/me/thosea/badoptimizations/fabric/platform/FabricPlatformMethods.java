@@ -54,12 +54,16 @@ public final class FabricPlatformMethods implements PlatformMethods {
 	public boolean isOnServer() {
 		return FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER;
 	}
+	@Override
+	public boolean isDevEnv() {
+		return FabricLoader.getInstance().isDevelopmentEnvironment();
+	}
 
 	@Override
-	public InputStream streamConfigTemplate() throws IOException {
+	public InputStream readFromJar(String name) throws IOException {
 		return Files.newInputStream(ownModContainer()
-				.findPath("bo-config-template.txt")
-				.orElseThrow(() -> new RuntimeException("BadOptimizations config template not found")));
+				.findPath(name)
+				.orElseThrow(() -> new RuntimeException("File " + name + " not found")));
 	}
 
 	private static ModContainer ownModContainer() {
