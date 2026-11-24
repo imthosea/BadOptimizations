@@ -53,14 +53,18 @@ public final class ForgePlatformMethods implements PlatformMethods {
 	public boolean isOnServer() {
 		return FMLLoader.getCurrent().getDist() == Dist.DEDICATED_SERVER;
 	}
+	@Override
+	public boolean isDevEnv() {
+		return !FMLLoader.getCurrent().isProduction();
+	}
 
 	@Override
-	public InputStream streamConfigTemplate() throws IOException {
+	public InputStream readFromJar(String name) throws IOException {
 		return modList()
 				.getModFileById("badoptimizations")
 				.getFile()
 				.getContents()
-				.openFile("bo-config-template.txt");
+				.openFile(name);
 	}
 
 	@Override
