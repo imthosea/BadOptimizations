@@ -15,10 +15,20 @@ public interface PlatformMethods {
 	Path getConfigFolder();
 	boolean isModLoaded(String id);
 	boolean isOnServer();
+	boolean isDevEnv();
 
-	InputStream streamConfigTemplate() throws IOException;
+	InputStream readFromJar(String name) throws IOException;
 	Map<String, List<String>> getModIncompatibilities();
 	List<CacheHookEntry> getModCacheHooks();
+
+	default InputStream read(String name) throws IOException {
+		if(isDevEnv()) {
+			// the resources are not in the mods source set, it's from versionCommon
+			return Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
+		} else {
+			return readFromJar(name);
+		}
+	}
 
 	PlatformMethods INSTANCE = find();
 

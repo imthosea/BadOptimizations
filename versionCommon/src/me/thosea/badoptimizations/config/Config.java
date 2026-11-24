@@ -101,7 +101,7 @@ public final class Config {
 		}
 
 		String template;
-		try(InputStream stream = PlatformMethods.INSTANCE.streamConfigTemplate()) {
+		try(InputStream stream = PlatformMethods.INSTANCE.read("bo-config-template.txt")) {
 			template = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
 		}
 
