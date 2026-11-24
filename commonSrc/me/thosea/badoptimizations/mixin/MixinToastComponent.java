@@ -20,7 +20,7 @@ public abstract class MixinToastComponent {
 	@Shadow private ToastInstance<?> nowPlayingToast; // <NowPlayingToast>
 
 	// Don't do anything if we don't need to
-	@ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;hideGui:Z"))
+	@ModifyExpressionValue(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;isHidden()Z"))
 	private boolean shouldSkipDraw(boolean hudHidden) {
 		if(hudHidden) return true;
 
