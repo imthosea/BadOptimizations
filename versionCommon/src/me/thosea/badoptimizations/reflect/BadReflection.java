@@ -9,6 +9,7 @@ import java.lang.invoke.MethodType;
 import java.util.Arrays;
 
 // "bad" (optimizations) reflection utils
+@SuppressWarnings("unused")
 public final class BadReflection {
 	private BadReflection() {}
 
