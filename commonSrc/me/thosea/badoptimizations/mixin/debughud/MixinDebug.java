@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.debughud;
 
 import me.thosea.badoptimizations.platform.PlatformMethods;
 import me.thosea.badoptimizations.utils.BadVersionHacks;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.lang.invoke.MethodHandles;
 
 @Mixin(DebugScreenEntries.class)
-public class MixinDebugHud_AddText {
+public class MixinDebug {
 	private static final String BO$F3_TEXT = "BadOptimizations " + PlatformMethods.INSTANCE.getVersion();
 
 	@Inject(method = "<clinit>", at = @At("RETURN"))

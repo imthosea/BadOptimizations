@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.tick;
+package me.thosea.badoptimizations.mixin.fov;
 
 import me.thosea.badoptimizations.utils.BadVersionHacks;
 import net.minecraft.client.CameraType;

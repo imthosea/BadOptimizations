@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.renderer.blockentity;
+package me.thosea.badoptimizations.mixin.renderblockentity;
 
 import me.thosea.badoptimizations.interfaces.BlockEntityTypeMethods;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;

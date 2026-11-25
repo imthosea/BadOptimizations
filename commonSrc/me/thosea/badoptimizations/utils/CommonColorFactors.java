@@ -1,15 +1,15 @@
 package me.thosea.badoptimizations.utils;
 
 import me.thosea.badoptimizations.hook.CacheHooks;
-import me.thosea.badoptimizations.mixin.tick.MixinClientWorld;
-import me.thosea.badoptimizations.mixin.tick.MixinLightTextureOld;
+import me.thosea.badoptimizations.mixin.lightmap.oldv.MixinLightTexture;
+import me.thosea.badoptimizations.mixin.skycolor.MixinClientLevel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 
 import java.util.Objects;
 
 /**
- * Holds common factors for {@link MixinClientWorld} & {@link MixinLightTextureOld}
+ * Holds common factors for {@link MixinClientLevel} & (old version) {@link MixinLightTexture}
  * in 1.21.10
  */
 public final class CommonColorFactors {

@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.particle;
 
 import net.minecraft.client.particle.ParticleEngine;
 import org.spongepowered.asm.mixin.Final;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 
 @Mixin(ParticleEngine.class)
-public class MixinParticleManager {
+public class MixinParticleEngine {
 	@Shadow @Final private Map<?, ?> particles; // <ParticleRenderType, Queue<Particle>>
 
 	@Inject(method = "extract", at = @At("HEAD"), cancellable = true)

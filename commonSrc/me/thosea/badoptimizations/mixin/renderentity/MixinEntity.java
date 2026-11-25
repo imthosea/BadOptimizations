@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.renderer.entity;
+package me.thosea.badoptimizations.mixin.renderentity;
 
 import me.thosea.badoptimizations.interfaces.EntityMethods;
 import me.thosea.badoptimizations.interfaces.EntityTypeMethods;

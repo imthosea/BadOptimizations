@@ -1,12 +1,12 @@
-package me.thosea.badoptimizations.mixin.tick;
+package me.thosea.badoptimizations.mixin.lightmap.newv;
 
-import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
-import me.thosea.badoptimizations.utils.CommonColorFactors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EndFlashState;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.world.attribute.EnvironmentAttributeProbe;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -18,11 +18,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LightTexture.class)
-public abstract class MixinLightTextureOld {
+public abstract class MixinLightTexture {
 	@Shadow @Final private Minecraft minecraft;
 	@Shadow @Final private GameRenderer renderer;
 
-	private final CommonColorFactors bo$commonFactors = CommonColorFactors.LIGHTMAP;
+	private EnvironmentAttributeProbe bo$probe;
+
+	private int bo$lastSkyColor;
+	private float bo$lastSkyFactor;
 
 	private float bo$lastEndFactor = 0f;
 	private double bo$lastGamma;
@@ -32,9 +35,29 @@ public abstract class MixinLightTextureOld {
 
 	private float bo$previousSkyDarkness;
 
+	@Inject(method = "<init>", at = @At("TAIL"))
+	private void onInit(GameRenderer renderer, Minecraft client, CallbackInfo ci) {
+		this.bo$probe = renderer.getMainCamera().attributeProbe();
+	}
+
+	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+	private void onTick(CallbackInfo ci) {
+		if(minecraft.player == null) return;
+
+		if(!this.bo$isDirty()) {
+			ci.cancel();
+		}
+	}
+
 	private boolean bo$isDirty() {
-		if(bo$commonFactors.getTimeDelta() >= Config.lightmapTimeForUpdate)
+		int skyColor = bo$probe.getValue(EnvironmentAttributes.SKY_LIGHT_COLOR, 1.0f);
+		float skyFactor = bo$probe.getValue(EnvironmentAttributes.SKY_LIGHT_FACTOR, 1.0f);
+		if(bo$lastSkyColor != skyColor || bo$lastSkyFactor != skyFactor) {
+			this.bo$lastSkyColor = skyColor;
+			this.bo$lastSkyFactor = skyFactor;
 			return true;
+		}
+
 		if(minecraft.player.isUnderWater() && minecraft.player.waterVisionTime < 600)
 			return true; // water light fading
 
@@ -81,22 +104,9 @@ public abstract class MixinLightTextureOld {
 			bo$lastGamma = gamma;
 			return true;
 		}
-		if(CacheHooks.invokeLightmap()) {
+		if(CacheHooks.invokeCommon() || CacheHooks.invokeLightmap()) {
 			return true;
 		}
 		return false;
-	}
-
-	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-	private void onTick(CallbackInfo ci) {
-		if(minecraft.player == null) return;
-
-		CommonColorFactors.tick();
-
-		if(bo$commonFactors.didTickChange() && (bo$commonFactors.isDirty()) | this.bo$isDirty()) {
-			bo$commonFactors.updateLastTime();
-		} else {
-			ci.cancel();
-		}
 	}
 }

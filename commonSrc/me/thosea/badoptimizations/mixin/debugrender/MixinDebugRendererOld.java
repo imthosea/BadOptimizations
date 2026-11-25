@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.debug;
+package me.thosea.badoptimizations.mixin.debugrender;
 
 import net.minecraft.client.renderer.debug.DebugRenderer;
 import org.spongepowered.asm.mixin.Final;

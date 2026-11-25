@@ -26,38 +26,31 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixin) {
 		if(isOnServer) return false;
-
-		mixin = mixin.substring(mixinPackageLength);
-
-		if(mixin.equals("tick.MixinLightTextureOld")) {
-			return Config.lightmapCaching && BadMcVersion.isAtMost(21, 10);
-		} else if(mixin.equals("tick.MixinLightTextureNew")) {
-			return Config.lightmapCaching && BadMcVersion.isAtLeast(21, 11);
-		} else if(mixin.equals("tick.MixinClientWorld")) {
-			return Config.skyColorCaching && BadMcVersion.isAtMost(21, 10);
-		} else if(mixin.equals("debug.MixinDebugRendererOld")) {
-			return Config.debugRendererDisableIfNotNeeded && BadMcVersion.isAtMost(21, 10);
-		} else if(mixin.equals("debug.MixinDebugRendererNew")) {
-			return Config.debugRendererDisableIfNotNeeded && BadMcVersion.isAtLeast(21, 11);
-		} else if(mixin.startsWith("skycache.")) {
-			return Config.skyAngleCaching && BadMcVersion.isAtMost(21, 10);
-		} else if(mixin.equals("MixinParticleManager")) {
-			return Config.particleManagerOptimization;
-		} else if(mixin.equals("MixinToastComponent")) {
-			return Config.toastOptimizations;
-		} else if(mixin.startsWith("renderer.entity.")) {
-			return Config.entityRendererCaching;
-		} else if(mixin.startsWith("renderer.blockentity.")) {
-			return Config.blockEntityRendererCaching;
-		} else if(mixin.equals("tick.MixinAbstractClientPlayer")) {
-			return Config.removeRedundantFovCalcs;
-		} else if(mixin.equals("tick.MixinTutorial")) {
-			return Config.removeTutorialIfNotDemo;
-		} else if(mixin.equals("MixinDebugHud_AddText")) {
-			return Config.showF3Text;
-		}
-
-		throw new RuntimeException("No config option for mixin " + mixin);
+		String[] split = mixin.substring(mixinPackageLength).split("\\.");
+		return switch(split[0]) {
+			case "debughud" -> Config.showF3Text;
+			case "fov" -> Config.removeRedundantFovCalcs;
+			case "debugrender" -> {
+				if(!Config.debugRendererDisableIfNotNeeded) yield false;
+				else if(split[1].equals("oldv")) yield BadMcVersion.isAtMost(21, 10);
+				else if(split[1].equals("newv")) yield BadMcVersion.isAtLeast(21, 11);
+				else yield true;
+			}
+			case "lightmap" -> {
+				if(!Config.lightmapCaching) yield false;
+				else if(split[1].equals("oldv")) yield BadMcVersion.isAtMost(21, 10);
+				else if(split[1].equals("newv")) yield BadMcVersion.isAtLeast(21, 11);
+				else yield true;
+			}
+			case "particle" -> Config.particleManagerOptimization;
+			case "renderblockentity" -> Config.blockEntityRendererCaching;
+			case "renderentity" -> Config.entityRendererCaching;
+			case "skyangle" -> Config.skyAngleCaching && BadMcVersion.isAtMost(21, 10);
+			case "skycolor" -> Config.skyColorCaching && BadMcVersion.isAtMost(21, 10);
+			case "toast" -> Config.toastOptimizations;
+			case "tutorial" -> Config.removeTutorialIfNotDemo;
+			default -> throw new RuntimeException("No config option for mixin " + mixin);
+		};
 	}
 
 	// blah

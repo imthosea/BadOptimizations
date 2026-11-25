@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.tick;
+package me.thosea.badoptimizations.mixin.skycolor;
 
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
@@ -24,7 +24,7 @@ import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradien
 
 // 1.20.10
 @Mixin(ClientLevel.class)
-public abstract class MixinClientWorld {
+public abstract class MixinClientLevel {
 	@Shadow @Final private Minecraft minecraft;
 
 	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(((Level) (Object) this).getBiomeManager());
