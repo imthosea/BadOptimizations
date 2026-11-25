@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.renderer.entity;
+package me.thosea.badoptimizations.mixin.renderentity;
 
 import me.thosea.badoptimizations.interfaces.EntityMethods;
 import me.thosea.badoptimizations.interfaces.EntityTypeMethods;
@@ -56,7 +56,7 @@ public abstract class MixinEntityRendererDispatcher {
 			((EntityTypeMethods) entry.getKey()).bo$setRenderer(entry.getValue());
 		}
 
-		// Used by MixinClientPlayer
+		// Used by MixinAbstractClientPlayer
 		PlayerModelRendererHolder.WIDE_RENDERER = mannequinRenderers.get(PlayerModelType.WIDE);
 		PlayerModelRendererHolder.SLIM_RENDERER = mannequinRenderers.get(PlayerModelType.SLIM);
 	}

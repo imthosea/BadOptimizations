@@ -26,29 +26,19 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 	public boolean shouldApplyMixin(String targetClassName, String mixin) {
 		if(isOnServer) return false;
 
-		mixin = mixin.substring(mixinPackageLength);
-
-		if(mixin.equals("tick.MixinLightmapExtractor")) {
-			return Config.lightmapCaching;
-		} else if(mixin.startsWith("debug.")) {
-			return Config.debugRendererDisableIfNotNeeded;
-		} else if(mixin.equals("MixinParticleManager")) {
-			return Config.particleManagerOptimization;
-		} else if(mixin.equals("MixinToastComponent")) {
-			return Config.toastOptimizations;
-		} else if(mixin.startsWith("renderer.entity.")) {
-			return Config.entityRendererCaching;
-		} else if(mixin.startsWith("renderer.blockentity.")) {
-			return Config.blockEntityRendererCaching;
-		} else if(mixin.equals("tick.MixinAbstractClientPlayer")) {
-			return Config.removeRedundantFovCalcs;
-		} else if(mixin.equals("tick.MixinTutorial")) {
-			return Config.removeTutorialIfNotDemo;
-		} else if(mixin.equals("MixinDebugHud_AddText")) {
-			return Config.showF3Text;
-		}
-
-		throw new RuntimeException("No config option for mixin " + mixin);
+		String[] split = mixin.substring(mixinPackageLength).split("\\.");
+		return switch(split[0]) {
+			case "debughud" -> Config.showF3Text;
+			case "debugrender" -> Config.debugRendererDisableIfNotNeeded;
+			case "fov" -> Config.removeRedundantFovCalcs;
+			case "lightmap" -> Config.lightmapCaching;
+			case "particle" -> Config.particleManagerOptimization;
+			case "renderblockentity" -> Config.blockEntityRendererCaching;
+			case "renderentity" -> Config.entityRendererCaching;
+			case "toast" -> Config.toastOptimizations;
+			case "tutorial" -> Config.removeTutorialIfNotDemo;
+			default -> throw new RuntimeException("No config option for mixin " + mixin);
+		};
 	}
 
 	// blah

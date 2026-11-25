@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.renderer.entity;
+package me.thosea.badoptimizations.mixin.renderentity;
 
 import me.thosea.badoptimizations.other.PlayerModelRendererHolder;
 import net.minecraft.client.entity.ClientMannequin;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ClientMannequin.class)
-public abstract class MixinMannequinPlayer extends MixinEntity {  // renderer.MixinEntity
+public abstract class MixinClientMannequin extends MixinEntity {  // renderentity.MixinEntity
 	@Shadow
 	public abstract PlayerSkin getSkin();
 

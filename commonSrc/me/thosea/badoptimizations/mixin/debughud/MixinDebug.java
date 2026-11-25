@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.debughud;
 
 import me.thosea.badoptimizations.platform.PlatformMethods;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DebugScreenEntries.class)
-public class MixinDebugHud_AddText {
+public class MixinDebug {
 	private static final String BO$F3_TEXT = "BadOptimizations " + PlatformMethods.INSTANCE.getVersion();
 
 	@Inject(method = "<clinit>", at = @At("RETURN"))
