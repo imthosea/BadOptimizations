@@ -30,29 +30,29 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 		mixin = mixin.substring(mixinPackageLength);
 
 		if(mixin.equals("tick.MixinLightTextureOld")) {
-			return Config.lightmapCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
+			return Config.lightmapCaching && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("tick.MixinLightTextureNew")) {
-			return Config.lightmapCaching.effectiveValue && BadMcVersion.isAtLeast(21, 11);
+			return Config.lightmapCaching && BadMcVersion.isAtLeast(21, 11);
 		} else if(mixin.equals("tick.MixinClientWorld")) {
-			return Config.skyColorCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
+			return Config.skyColorCaching && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("debug.MixinDebugRendererOld")) {
-			return Config.debugRendererDisableIfNotNeeded.effectiveValue && BadMcVersion.isAtMost(21, 10);
+			return Config.debugRendererDisableIfNotNeeded && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("debug.MixinDebugRendererNew")) {
-			return Config.debugRendererDisableIfNotNeeded.effectiveValue && BadMcVersion.isAtLeast(21, 11);
+			return Config.debugRendererDisableIfNotNeeded && BadMcVersion.isAtLeast(21, 11);
 		} else if(mixin.startsWith("skycache.")) {
-			return Config.skyAngleCaching.effectiveValue && BadMcVersion.isAtMost(21, 10);
+			return Config.skyAngleCaching && BadMcVersion.isAtMost(21, 10);
 		} else if(mixin.equals("MixinParticleManager")) {
-			return Config.particleManagerOptimization.effectiveValue;
+			return Config.particleManagerOptimization;
 		} else if(mixin.equals("MixinToastComponent")) {
-			return Config.toastOptimizations.effectiveValue;
+			return Config.toastOptimizations;
 		} else if(mixin.startsWith("renderer.entity.")) {
-			return Config.entityRendererCaching.effectiveValue;
+			return Config.entityRendererCaching;
 		} else if(mixin.startsWith("renderer.blockentity.")) {
-			return Config.blockEntityRendererCaching.effectiveValue;
+			return Config.blockEntityRendererCaching;
 		} else if(mixin.equals("tick.MixinAbstractClientPlayer")) {
-			return Config.removeRedundantFovCalcs.effectiveValue;
+			return Config.removeRedundantFovCalcs;
 		} else if(mixin.equals("tick.MixinTutorial")) {
-			return Config.removeTutorialIfNotDemo.effectiveValue;
+			return Config.removeTutorialIfNotDemo;
 		} else if(mixin.equals("MixinDebugHud_AddText")) {
 			return Config.showF3Text;
 		}
