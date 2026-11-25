@@ -1,8 +1,8 @@
-package me.thosea.badoptimizations.mixin.debug;
+package me.thosea.badoptimizations.mixin.debugrender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.debug.BeeDebugRenderer;
+import net.minecraft.client.renderer.debug.GameTestDebugRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,14 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(BeeDebugRenderer.class)
-public class MixinBeeDebugRenderer {
-	@Shadow @Final private Map<?, ?> hives; // <BlockPos, HiveDebugInfo>
-	@Shadow @Final private Map<?, ?> beeInfosPerEntity; // <UUID, BeeDebugPayload.BeeInfo>
+@Mixin(GameTestDebugRenderer.class)
+public class MixinGameTestDebugRenderer {
+	@Shadow @Final private Map<?, ?> markers; // <BlockPos, Marker>
 
-	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;DDD)V", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void onRender(PoseStack matrices, MultiBufferSource vertexConsumers, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
-		if(hives.isEmpty() && beeInfosPerEntity.isEmpty())
-			ci.cancel();
+		if(markers.isEmpty()) ci.cancel();
 	}
 }

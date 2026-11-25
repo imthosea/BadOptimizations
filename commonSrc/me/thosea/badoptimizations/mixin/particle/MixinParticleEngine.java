@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.particle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 
 @Mixin(ParticleEngine.class)
-public class MixinParticleManager {
+public class MixinParticleEngine {
 	@Shadow @Final private Map<?, ?> particles; // <ParticleRenderType, Queue<Particle>>
 
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
