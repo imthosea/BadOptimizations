@@ -1,6 +1,6 @@
-package me.thosea.badoptimizations.mixin.debug;
+package me.thosea.badoptimizations.mixin.particle;
 
-import net.minecraft.client.renderer.debug.BrainDebugRenderer;
+import net.minecraft.client.particle.ParticleEngine;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,14 +10,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(BrainDebugRenderer.class)
-public class MixinVillageDebugRenderer {
-	@Shadow @Final private Map<?, ?> pois; // <BlockPos, PoiInfo>
-	@Shadow @Final private Map<?, ?> brainDumpsPerEntity; // <UUID, BrainDump>
+@Mixin(ParticleEngine.class)
+public class MixinParticleEngine {
+	@Shadow @Final private Map<?, ?> particles; // <ParticleRenderType, Queue<Particle>>
 
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
-		if(pois.isEmpty() && brainDumpsPerEntity.isEmpty())
+		if(particles.isEmpty()) {
 			ci.cancel();
+		}
 	}
 }

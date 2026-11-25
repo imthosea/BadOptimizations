@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.toast;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
@@ -11,7 +11,7 @@ import java.util.Deque;
 import java.util.List;
 
 @Mixin(ToastComponent.class)
-public abstract class MixinToastComponent {
+public abstract class MixinToastManager {
 	@Shadow @Final private List<?> visible; // <ToastInstance<?>>
 	@Shadow @Final private Deque<?> queued; // <Toast>
 
