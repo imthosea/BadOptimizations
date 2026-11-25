@@ -1,6 +1,6 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.debugrender;
 
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.renderer.debug.BeeDebugRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,14 +10,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(ParticleEngine.class)
-public class MixinParticleManager {
-	@Shadow @Final private Map<?, ?> particles; // <ParticleRenderType, Queue<Particle>>
+@Mixin(BeeDebugRenderer.class)
+public class MixinBeeDebugRenderer {
+	@Shadow @Final private Map<?, ?> hives; // <BlockPos, HiveDebugInfo>
+	@Shadow @Final private Map<?, ?> beeInfosPerEntity; // <UUID, BeeDebugPayload.BeeInfo>
 
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
-		if(particles.isEmpty()) {
+		if(hives.isEmpty() && beeInfosPerEntity.isEmpty())
 			ci.cancel();
-		}
 	}
 }

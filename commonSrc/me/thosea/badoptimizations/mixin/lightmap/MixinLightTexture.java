@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.tick;
+package me.thosea.badoptimizations.mixin.lightmap;
 
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;

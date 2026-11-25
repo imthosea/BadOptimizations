@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.skycache;
+package me.thosea.badoptimizations.mixin.skyangle;
 
 import me.thosea.badoptimizations.interfaces.LevelMethods;
 import net.minecraft.world.level.Level;

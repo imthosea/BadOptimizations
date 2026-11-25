@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.tick;
+package me.thosea.badoptimizations.mixin.tutorial;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.tutorial.Tutorial;

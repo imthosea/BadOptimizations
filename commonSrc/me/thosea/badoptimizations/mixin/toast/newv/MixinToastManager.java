@@ -1,7 +1,8 @@
-package me.thosea.badoptimizations.mixin;
+package me.thosea.badoptimizations.mixin.toast.newv;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.gui.components.toasts.ToastManager;
+import net.minecraft.client.gui.components.toasts.ToastManager.ToastInstance;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -9,18 +10,24 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Deque;
 import java.util.List;
+import java.util.Set;
 
-// 1.21.5-
+// 1.21.6+
 @Mixin(ToastManager.class)
-public abstract class MixinToastComponentOld {
+public abstract class MixinToastManager {
 	@Shadow @Final private List<?> visibleToasts; // <ToastInstance<?>>
 	@Shadow @Final private Deque<?> queued; // <Toast>
+	@Shadow @Final private Set<?> playedToastSounds; // <SoundEvent>
+	@Shadow private ToastInstance<?> nowPlayingToast; // <NowPlayingToast>
 
 	// Don't do anything if we don't need to
 	@ModifyExpressionValue(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;hideGui:Z"))
 	private boolean shouldSkipDraw(boolean hudHidden) {
 		if(hudHidden) return true;
 
-		return visibleToasts.isEmpty() && queued.isEmpty();
+		return visibleToasts.isEmpty()
+				&& queued.isEmpty()
+				&& playedToastSounds.isEmpty()
+				&& nowPlayingToast == null;
 	}
 }
