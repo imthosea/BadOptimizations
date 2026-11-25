@@ -66,7 +66,7 @@ final class ConfigLoader {
 			} else if(value.equalsIgnoreCase("false")) {
 				return false;
 			} else {
-				throw new IllegalStateException("Config option " + name + " is not \"true\" or \"false\" (\"" + name + "\")");
+				throw new IllegalStateException("Config option " + name + " is not \"true\" or \"false\" (\"" + value + "\")");
 			}
 		});
 	}
