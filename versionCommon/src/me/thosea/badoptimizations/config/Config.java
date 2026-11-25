@@ -48,7 +48,7 @@ public final class Config {
 	public static void init() {}
 
 	// mozilla's regex guide is awesome:
-	// https://developer.mozilla.org/en-US/d    ocs/Web/JavaScript/Guide/Regular_expressions/Cheatsheet
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Cheatsheet
 	// this is only used in generateConfig, but has to be before teh static block
 	@SuppressWarnings("RegExpRedundantEscape")
 	private static final Pattern VALUE_PATTERN = Pattern.compile("\\{(.*)\\}");
