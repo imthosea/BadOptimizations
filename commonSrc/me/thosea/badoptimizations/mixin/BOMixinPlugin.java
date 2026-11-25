@@ -30,27 +30,27 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 		mixin = mixin.substring(mixinPackageLength);
 
 		if(mixin.equals("tick.MixinLightTexture")) {
-			return Config.lightmapCaching.effectiveValue;
+			return Config.lightmapCaching;
 		} else if(mixin.equals("tick.MixinClientWorld")) {
-			return Config.skyColorCaching.effectiveValue;
+			return Config.skyColorCaching;
 		} else if(mixin.startsWith("debug.")) {
-			return Config.debugRendererDisableIfNotNeeded.effectiveValue;
+			return Config.debugRendererDisableIfNotNeeded;
 		} else if(mixin.equals("MixinParticleManager")) {
-			return Config.particleManagerOptimization.effectiveValue;
+			return Config.particleManagerOptimization;
 		} else if(mixin.equals("MixinToastComponentOld")) {
-			return Config.toastOptimizations.effectiveValue && BadMcVersion.isAtMost(21, 5);
+			return Config.toastOptimizations && BadMcVersion.isAtMost(21, 5);
 		} else if(mixin.equals("MixinToastComponentNew")) {
-			return Config.toastOptimizations.effectiveValue && BadMcVersion.isAtLeast(21, 6);
+			return Config.toastOptimizations && BadMcVersion.isAtLeast(21, 6);
 		} else if(mixin.startsWith("skycache.")) {
-			return Config.skyAngleCaching.effectiveValue;
+			return Config.skyAngleCaching;
 		} else if(mixin.startsWith("renderer.entity.")) {
-			return Config.entityRendererCaching.effectiveValue;
+			return Config.entityRendererCaching;
 		} else if(mixin.startsWith("renderer.blockentity.")) {
-			return Config.blockEntityRendererCaching.effectiveValue;
+			return Config.blockEntityRendererCaching;
 		} else if(mixin.equals("tick.MixinAbstractClientPlayer")) {
-			return Config.removeRedundantFovCalcs.effectiveValue;
+			return Config.removeRedundantFovCalcs;
 		} else if(mixin.equals("tick.MixinTutorial")) {
-			return Config.removeTutorialIfNotDemo.effectiveValue;
+			return Config.removeTutorialIfNotDemo;
 		} else if(mixin.equals("MixinDebugHud_AddText")) {
 			return Config.showF3Text;
 		}

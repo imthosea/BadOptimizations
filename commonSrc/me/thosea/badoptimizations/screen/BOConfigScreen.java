@@ -19,11 +19,7 @@ public final class BOConfigScreen extends Screen {
 	@Override
 	protected void init() {
 		if(!Files.exists(Config.FILE)) {
-			try {
-				Config.writeConfig();
-			} catch(Exception e) {
-				throw new RuntimeException("Failed to generate BadOptimizations config", e);
-			}
+			Config.writeConfig(Config.generateConfig(/*values*/ null));
 		}
 		Util.getPlatform().openUri(Config.FILE.toUri());
 		minecraft.setScreen(parent);
