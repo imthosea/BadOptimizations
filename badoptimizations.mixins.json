@@ -5,6 +5,7 @@
   "plugin": "me.thosea.badoptimizations.mixin.BOMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "configerror.MixinClientPacketListener",
     "debughud.MixinDebug",
     "debugrender.MixinBeeDebugRenderer",
     "debugrender.MixinBrainDebugRenderer",
