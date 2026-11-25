@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.debugrender;
+package me.thosea.badoptimizations.mixin.debugrender.newv;
 
 import net.minecraft.client.renderer.debug.DebugRenderer;
 import org.spongepowered.asm.mixin.Final;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(DebugRenderer.class)
-public class MixinDebugRendererNew {
+public class MixinDebugRenderer {
 	@Shadow @Final private List<?> renderers; // <SimpleDebugRenderer>
 	@Inject(method = "emitGizmos", at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {

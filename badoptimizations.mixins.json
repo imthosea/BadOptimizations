@@ -7,8 +7,8 @@
   "client": [
     "configerror.MixinClientPacketListener",
     "debughud.MixinDebug",
-    "debugrender.MixinDebugRendererNew",
-    "debugrender.MixinDebugRendererOld",
+    "debugrender.newv.MixinDebugRenderer",
+    "debugrender.oldv.MixinDebugRenderer",
     "fov.MixinAbstractClientPlayer",
     "lightmap.newv.MixinLightTexture",
     "lightmap.oldv.MixinLightTexture",

@@ -1,4 +1,4 @@
-package me.thosea.badoptimizations.mixin.debugrender;
+package me.thosea.badoptimizations.mixin.debugrender.oldv;
 
 import net.minecraft.client.renderer.debug.DebugRenderer;
 import org.spongepowered.asm.mixin.Final;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(DebugRenderer.class)
-public class MixinDebugRendererOld {
+public class MixinDebugRenderer {
 	@Shadow(aliases = "field_63070", remap = false) @Final
 	private List<?> opaqueRenderers; // <SimpleDebugRenderer>
 	@Shadow(aliases = "field_63071", remap = false) @Final
