@@ -2,14 +2,16 @@ package me.thosea.badoptimizations.mixin.renderentity;
 
 import me.thosea.badoptimizations.interfaces.EntityMethods;
 import me.thosea.badoptimizations.interfaces.EntityTypeMethods;
-import me.thosea.badoptimizations.other.PlayerModelRendererHolder;
+import me.thosea.badoptimizations.other.AvatarModelRendererHolder;
 import net.minecraft.client.entity.ClientAvatarEntity;
+import net.minecraft.client.entity.ClientMannequin;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -24,7 +26,8 @@ import java.util.Map.Entry;
 @Mixin(value = EntityRenderDispatcher.class, priority = 700)
 public abstract class MixinEntityRendererDispatcher {
 	@Shadow private Map<EntityType<?>, EntityRenderer<?, ?>> renderers;
-	@Shadow private Map<PlayerModelType, EntityRenderer<? extends Player, ?>> mannequinRenderers;
+	@Shadow private Map<PlayerModelType, AvatarRenderer<AbstractClientPlayer>> playerRenderers;
+	@Shadow private Map<PlayerModelType, AvatarRenderer<ClientMannequin>> mannequinRenderers;
 
 	@Overwrite
 	public <T extends Entity & EntityMethods> EntityRenderer<? super T, ?> getRenderer(T entity) {
@@ -56,8 +59,10 @@ public abstract class MixinEntityRendererDispatcher {
 			((EntityTypeMethods) entry.getKey()).bo$setRenderer(entry.getValue());
 		}
 
-		// Used by MixinAbstractClientPlayer
-		PlayerModelRendererHolder.WIDE_RENDERER = mannequinRenderers.get(PlayerModelType.WIDE);
-		PlayerModelRendererHolder.SLIM_RENDERER = mannequinRenderers.get(PlayerModelType.SLIM);
+		// Used by MixinAbstractClientPlayer & MixinClientMannequin
+		AvatarModelRendererHolder.PLAYER_WIDE_RENDERER = playerRenderers.get(PlayerModelType.WIDE);
+		AvatarModelRendererHolder.PLAYER_SLIM_RENDERER = playerRenderers.get(PlayerModelType.SLIM);
+		AvatarModelRendererHolder.MANNEQUIN_WIDE_RENDERER = mannequinRenderers.get(PlayerModelType.WIDE);
+		AvatarModelRendererHolder.MANNEQUIN_SLIM_RENDERER = mannequinRenderers.get(PlayerModelType.SLIM);
 	}
 }
