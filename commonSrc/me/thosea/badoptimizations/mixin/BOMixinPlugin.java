@@ -28,6 +28,7 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 		if(isOnServer) return false;
 		String[] split = mixin.substring(mixinPackageLength).split("\\.");
 		return switch(split[0]) {
+			case "configerror" -> Config.isError;
 			case "debughud" -> Config.showF3Text;
 			case "debugrender" -> Config.debugRendererDisableIfNotNeeded;
 			case "fov" -> Config.removeRedundantFovCalcs;
