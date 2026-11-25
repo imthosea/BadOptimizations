@@ -25,7 +25,6 @@ public class BOMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixin) {
 		if(isOnServer) return false;
-
 		String[] split = mixin.substring(mixinPackageLength).split("\\.");
 		return switch(split[0]) {
 			case "debughud" -> Config.showF3Text;
