@@ -3,6 +3,7 @@ package me.thosea.badoptimizations.mixin.toast;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.gui.components.toasts.ToastManager;
 import net.minecraft.client.gui.components.toasts.ToastManager.ToastInstance;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,7 +21,12 @@ public abstract class MixinToastManager {
 	@Shadow private ToastInstance<?> nowPlayingToast; // <NowPlayingToast>
 
 	// Don't do anything if we don't need to
-	@ModifyExpressionValue(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;isHidden()Z"))
+	@ModifyExpressionValue(method = "extractRenderState", at = {
+			// 26.1
+			@At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/Options;hideGui:Z"),
+			// 26.2+
+			@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;isHidden()Z")
+	})
 	private boolean shouldSkipDraw(boolean hudHidden) {
 		if(hudHidden) return true;
 
