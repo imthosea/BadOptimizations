@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -22,7 +21,7 @@ public abstract class MixinBlockEntityRenderDispatcher {
 	@Shadow private Map<BlockEntityType<?>, BlockEntityRenderer<?>> renderers;
 
 	@Overwrite
-	@Nullable
+	@SuppressWarnings("OverwriteModifiers")
 	public <E extends BlockEntity> BlockEntityRenderer<E> getRenderer(E blockEntity) {
 		return ((BlockEntityTypeMethods) blockEntity.getType()).bo$getRenderer();
 	}

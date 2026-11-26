@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 @Mixin(value = Entity.class, priority = 700)
@@ -68,7 +67,7 @@ public abstract class MixinEntity implements EntityMethods {
 	@Overwrite
 	public int getAirSupply() {return bo$remainingAirTicks;}
 	@Overwrite
-	@Nullable
+	@SuppressWarnings("OverwriteModifiers")
 	public Component getCustomName() {return bo$customName.orElse(null);}
 	@Overwrite
 	public boolean hasCustomName() {return bo$customName.isPresent();}
