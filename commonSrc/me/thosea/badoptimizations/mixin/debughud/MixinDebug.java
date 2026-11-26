@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.debug.DebugScreenEntry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
+import org.jetbrains.annotations.Contract;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,6 +41,7 @@ public class MixinDebug {
 		);
 	}
 
+	@Contract // pure = false
 	@Shadow
 	private static Identifier register(Identifier id, DebugScreenEntry entry) {
 		return null;

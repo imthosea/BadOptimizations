@@ -21,6 +21,7 @@ public abstract class MixinToastManager {
 	@Shadow private ToastInstance<?> nowPlayingToast; // <NowPlayingToast>
 
 	// Don't do anything if we don't need to
+	@SuppressWarnings({"UnresolvedMixinReference", "MixinAnnotationTarget"})
 	@ModifyExpressionValue(method = "extractRenderState", at = {
 			// 26.1
 			@At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/Options;hideGui:Z"),
