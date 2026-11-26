@@ -47,7 +47,7 @@ If it's true, then each prism instance for that branch will run one by one.
 The next instance will start when Minecraft and Prism are fully closed.  
 If it's false, then all prism instances for that branch will launch at the same time.
 If you do this, be sure to close most other applications on your computer, or at least have a fire extinguisher nearby.  
-![Six Minecrafts running at once!](asset-many-minecrafts.png)
+<img src="asset-many-minecrafts.png" alt="Six Minecrafts running at once!" width="650"/>  
 
 ### Instances, served instan-taneously
 
@@ -61,9 +61,9 @@ prismTests = "26.1fabric,26.1neo,26.2fabric,26.2neo,26.3fabric,26.3neo"
 ```
 That one, for example, means you'll need six instances, named `bo_26.1fabric`, `bo_26.1neo`, `bo_26.1fabric` and so on.  
 Make these instances in PrismLauncher with the correct version and loader:  
-![All six instances for this branch in PrismLauncher](asset-instances-26.1-3.png)  
+<img src="asset-instances-26.1-3.png" alt="All six instances for this branch in PrismLauncher" width="450"/>  
 These are the instances you'd need if you were to test all branches:  
-![So many instances](asset-instances-all.png)
+<img src="asset-instances-all.png" alt="So many instances" width="450"/>  
 
 ### And now, we run
 ...run `gradle :testPrism`. 
