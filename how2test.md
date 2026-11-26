@@ -6,7 +6,7 @@ Except, that only tests the higher version boundary of the branch (i.e. only 1.2
 
 ### Prism testing
 Hope you have PrismLauncher installed. 
-The `gradle :testPrism` task builds the mod, then copies it to prism, then runs the game. 
+The `gradle :testPrism` task builds the mod, then copies it to prism, then runs several versions of the game to make sure it all works. 
 But it needs some setup beforehand.
 
 ### Properties of ~~water~~ gradle
