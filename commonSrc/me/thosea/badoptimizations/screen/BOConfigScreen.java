@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import java.nio.file.Files;
 
 // Opens the config file and exits, generates one if not there
+@SuppressWarnings("unused")
 public final class BOConfigScreen extends Screen {
 	private final Screen parent;
 
