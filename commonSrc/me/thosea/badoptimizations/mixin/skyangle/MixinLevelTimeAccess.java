@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(LevelTimeAccess.class)
 public interface MixinLevelTimeAccess {
 	@WrapOperation(
-			method = {"getTimeOfDay"},
+			method = "getTimeOfDay",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;timeOfDay(J)F")
 	)
 	private float onGetTimeOfDay(DimensionType type, long time, Operation<Float> original) {

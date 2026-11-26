@@ -55,6 +55,7 @@ public final class BadVersionHacks {
 		}
 	}
 
+	@SuppressWarnings("ConditionalCanBePushedInsideExpression")
 	public static float getPartialTick() {
 		try {
 			return objDeltaTracker != null
