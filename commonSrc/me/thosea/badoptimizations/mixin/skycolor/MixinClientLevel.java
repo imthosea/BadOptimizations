@@ -51,7 +51,7 @@ public abstract class MixinClientLevel {
 			}
 		}
 
-		if(BadMcVersion.MAJOR >= 21 && BadMcVersion.MINOR >= 2) {
+		if(BadMcVersion.isAtLeast(21, 2)) {
 			// CallbackInfoReturnable<Integer>
 			cir.setReturnValue(bo$skyColorCache);
 		} else {
@@ -130,7 +130,7 @@ public abstract class MixinClientLevel {
 
 	@Inject(method = "getSkyColor", at = @At("RETURN"))
 	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Object> cir) {
-		if(BadMcVersion.MAJOR >= 21 && BadMcVersion.MINOR >= 2) {
+		if(BadMcVersion.isAtLeast(21, 2)) {
 			// CallbackInfoReturnable<Integer>
 			bo$skyColorCache = (int) cir.getReturnValue();
 		} else {
