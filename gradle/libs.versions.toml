@@ -1,6 +1,7 @@
 [versions]
 moddevgradle = "2.0.148"
 loom = "1.18-SNAPSHOT"
+publish-plugin = "2.2.1"
 
 build-asm = "9.10.1"
 
@@ -25,6 +26,8 @@ mixinextras-fabric = { module = "io.github.llamalad7:mixinextras-fabric", versio
 mixinextras-forge = { module = "io.github.llamalad7:mixinextras-forge", version.ref = "mixinextras" }
 
 [plugins]
+publish-plugin = { id = "me.modmuss50.mod-publish-plugin", version.ref = "publish-plugin" }
+
 # 1.20.2+
 moddevgradle = { id = "net.neoforged.moddev", version.ref = "moddevgradle" }
 # 1.20.1

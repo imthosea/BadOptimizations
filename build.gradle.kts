@@ -12,6 +12,7 @@ buildscript {
 
 plugins {
 	idea
+	alias(libs.plugins.publish.plugin)
 	// stops weird casting errors
 	alias(libs.plugins.loom) apply false
 	alias(libs.plugins.loom.legacy) apply false
@@ -239,5 +240,36 @@ tasks.register("testPrism") {
 			crashChecks.forEach { it.invoke() }
 		}
 		println("Congrats")
+	}
+}
+
+publishMods {
+	displayName = "${project.version} ${branch.versions.publishTitle.get()}"
+	type = if(providers.gradleProperty("isReleaseStable").get().toBooleanStrict()) {
+		this.STABLE
+	} else {
+		this.BETA
+	}
+
+	file.set(assembleMonoJar.flatMap { it.archiveFile })
+	changelog = file("changelog.md").let { provider { it.readText() } }
+
+	val versions = branch.versions.publishVersions.map { it.split(",") }
+	val loaders = branch.versions.publishLoaders.map { it.split(",") }
+
+	modLoaders.set(loaders)
+
+	curseforge {
+		accessToken = providers.gradleProperty("bo.cfToken")
+		projectId = "949555"
+		minecraftVersions.set(versions)
+		client = true
+		server = false
+	}
+	modrinth {
+		accessToken = providers.gradleProperty("bo.mrToken")
+		projectId = "g96Z4WVZ"
+		environment = CLIENT_ONLY
+		minecraftVersions.set(versions)
 	}
 }
