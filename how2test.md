@@ -9,7 +9,7 @@ Hope you have PrismLauncher installed.
 The `gradle :testPrism` task builds the mod, then copies it to prism, then runs the game. 
 But it needs some setup beforehand.
 
-### Properties of ~~water~~ Gradle
+### Properties of ~~water~~ gradle
 You'll need to add some stuff to `$HOME/.gradle/gradle.properties`.  
 
 `bo.prismInstancesDir` should be set to where your prism launcher's `instances` folder is.
@@ -66,7 +66,7 @@ These are the instances you'd need if you were to test all branches:
 ![So many instances](asset-instances-all.png)
 
 ### And now, we run
-...run `gradle :prismTest`. 
+...run `gradle :testPrism`. 
 
 > [!WARNING]
 > Make sure Minecraft and PrismLauncher are totally closed before running this.
