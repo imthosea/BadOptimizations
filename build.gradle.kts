@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
@@ -157,6 +156,7 @@ val assembleMonoJar = tasks.register<Jar>("assembleMonoJar") {
 	archiveAppendix = version.toString()
 	archiveVersion = branch.versions.jarTitle
 	destinationDirectory = layout.buildDirectory
+	dependsOn(setupMonoJar)
 	from(setupMonoJar.map { it.destinationDir })
 
 	if(branch.versions.minecraft.get() == "1.20.1") {
@@ -170,18 +170,69 @@ tasks.register<Delete>("clean") {
 	delete(layout.buildDirectory)
 }
 
-fun prismTestTask(platform: String) {
-	tasks.register<Exec>("testPrism${platform.uppercaseFirstChar()}") {
-		doNotTrackState("no")
-		dependsOn(assembleMonoJar)
-		doFirst {
-
-		}
-	}
+interface InjectedStuff {
+	@get:Inject
+	val exec: ExecOperations
 }
-prismTestTask("fabric")
-prismTestTask("forge")
 tasks.register("testPrism") {
-	dependsOn(":testPrismFabric")
-	dependsOn(":testPrismForge")
+	doNotTrackState("no")
+	dependsOn(assembleMonoJar)
+
+	val prismInstancesDir = providers.gradleProperty("bo.prismInstancesDir").map(::File)
+	val prismCmd = providers.gradleProperty("bo.prismCmd")
+	val prismBaseName = providers.gradleProperty("bo.prismBaseName").orElse("bo_")
+	val prismSequential = providers.gradleProperty("bo.prismSequential").map(String::toBooleanStrict)
+	val prismTests = branch.versions.prismTests.map { it.split(",") }
+
+	val inject = objects.newInstance<InjectedStuff>()
+	val jar = assembleMonoJar.flatMap { it.archiveFile }
+
+	doLast {
+		val prismInstancesDir = prismInstancesDir.get()
+		val prismBaseName = prismBaseName.get()
+		val prismTests = prismTests.get()
+		// seems like the prism CLI doesn't report when there's a crash
+		// so as hack we just check if a new crash file was added
+		val crashChecks = ArrayDeque<() -> Unit>()
+
+		for(test in prismTests) {
+			val dir = prismInstancesDir.resolve("$prismBaseName$test/minecraft")
+			check(dir.isDirectory) { "Missing dir: $dir" }
+			val mod = dir.resolve("mods/BadOptimizations.jar")
+			mod.parentFile.mkdirs()
+			jar.get().asFile.copyTo(mod, overwrite = true)
+
+			val crashFolder = dir.resolve("crash-reports").takeIf(File::isDirectory)
+			val crashFiles = crashFolder?.list() ?: emptyArray()
+			val hsErrPids = dir.list()!!.filter { it.startsWith("hs_err_pid") }
+			crashChecks.add {
+				val newCrashFiles = crashFolder?.list() ?: emptyArray()
+				val newHsErrPids = dir.list()?.filter { it.startsWith("hs_err_pid") }
+				check(crashFiles.contentEquals(newCrashFiles) && hsErrPids == newHsErrPids) {
+					"Prism instance $test crashed"
+				}
+			}
+		}
+
+		val tasks = mutableListOf<Thread>()
+		for(test in prismTests) { // after we made sure they all exist
+			val task = Runnable {
+				inject.exec.exec {
+					commandLine(*prismCmd.get().split(" ").toTypedArray(), "--launch", "$prismBaseName$test")
+				}.assertNormalExitValue()
+			}
+			if(prismSequential.get()) {
+				task.run()
+				crashChecks.removeFirst().invoke()
+			} else {
+				// good luck
+				tasks.add(Thread.startVirtualThread(task))
+			}
+		}
+		if(!prismSequential.get()) {
+			tasks.forEach(Thread::join)
+			crashChecks.forEach { it.invoke() }
+		}
+		println("Congrats")
+	}
 }
