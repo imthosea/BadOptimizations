@@ -155,7 +155,7 @@ val assembleMonoJar = tasks.register<Jar>("assembleMonoJar") {
 	// basename-appendix-version-classifier.jar
 	archiveBaseName = "BadOptimizations"
 	archiveAppendix = version.toString()
-	archiveVersion = branch.versions.minecraft
+	archiveVersion = branch.versions.jarTitle
 	destinationDirectory = layout.buildDirectory
 	from(setupMonoJar.map { it.destinationDir })
 
