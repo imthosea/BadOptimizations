@@ -82,6 +82,7 @@ public abstract class MixinClientLevel {
 		bo$biomeColorVector = Vec3.fromRGB24(color);
 	}
 
+	@SuppressWarnings("UnreachableCode")
 	private Vec3 bo$calcSkyColor(float delta) {
 		float angle = Mth.cos(((Level) (Object) this).getTimeOfDay(1.0f) * 6.2831855F) * 2.0F + 0.5F;
 		angle = Mth.clamp(angle, 0.0F, 1.0F);
