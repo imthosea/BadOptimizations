@@ -1,8 +1,8 @@
 package me.thosea.badoptimizations.utils;
 
 import me.thosea.badoptimizations.hook.CacheHooks;
-import me.thosea.badoptimizations.mixin.skycolor.MixinClientLevel;
 import me.thosea.badoptimizations.mixin.lightmap.MixinLightTexture;
+import me.thosea.badoptimizations.mixin.skycolor.MixinClientLevel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 
@@ -33,6 +33,8 @@ public final class CommonColorFactors {
 	private long lastTime;
 
 	public static void tick(float tickDelta) {
+		assert client.player != null;
+		assert client.level != null;
 		int tick = client.player.tickCount;
 		if(lastUpdateTick == tick) return;
 		lastUpdateTick = tick;
