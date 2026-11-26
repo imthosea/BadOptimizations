@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Set;
 
-public class BOMixinPlugin implements IMixinConfigPlugin {
+@SuppressWarnings("unused")
+public final class BOMixinPlugin implements IMixinConfigPlugin {
 	private static final boolean isOnServer = PlatformMethods.INSTANCE.isOnServer();
 	// remap-independent way to get it
 	private static final int mixinPackageLength = BOMixinPlugin.class.getName().indexOf("BOMixinPlugin");

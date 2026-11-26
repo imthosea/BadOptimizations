@@ -16,6 +16,8 @@ public class MixinDebugRenderer {
 	private List<?> opaqueRenderers; // <SimpleDebugRenderer>
 	@Shadow(aliases = "field_63071", remap = false) @Final
 	private List<?> translucentRenderers; // <SimpleDebugRenderer>
+
+	@SuppressWarnings({"UnresolvedMixinReference", "MixinAnnotationTarget"})
 	@Inject(remap = false, method = {"render", "method_23099"}, at = @At("HEAD"), cancellable = true)
 	private void onRender(CallbackInfo ci) {
 		if(this.opaqueRenderers.isEmpty() && this.translucentRenderers.isEmpty())

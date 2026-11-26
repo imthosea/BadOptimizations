@@ -58,6 +58,8 @@ public abstract class MixinLightTexture {
 			return true;
 		}
 
+		assert minecraft.player != null;
+		assert minecraft.level != null;
 		if(minecraft.player.isUnderWater() && minecraft.player.waterVisionTime < 600)
 			return true; // water light fading
 

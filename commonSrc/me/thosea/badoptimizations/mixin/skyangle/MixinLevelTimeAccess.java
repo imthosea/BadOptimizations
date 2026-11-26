@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 		"net.minecraft.class_5424"
 }, remap = false)
 public interface MixinLevelTimeAccess {
+	@SuppressWarnings({"UnresolvedMixinReference", "MixinAnnotationTarget"})
 	@WrapOperation(
 			method = {"getTimeOfDay", "method_30274"},
 			at = {

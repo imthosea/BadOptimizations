@@ -34,6 +34,8 @@ public final class CommonColorFactors {
 	private long lastTime;
 
 	public static void tick() {
+		assert client.player != null;
+		assert client.level != null;
 		int tick = client.player.tickCount;
 		if(lastUpdateTick == tick) return;
 		lastUpdateTick = tick;
@@ -42,7 +44,6 @@ public final class CommonColorFactors {
 		float tickDelta = client.getDeltaTracker().getGameTimeDeltaPartialTick(false);
 		boolean result = false;
 
-		assert world != null;
 		float rainGradient = world.getRainLevel(tickDelta);
 		float thunderGradient = world.getThunderLevel(tickDelta);
 		int lightningTicks = world.getSkyFlashTime();

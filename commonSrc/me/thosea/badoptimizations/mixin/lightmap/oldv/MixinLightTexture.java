@@ -33,6 +33,8 @@ public abstract class MixinLightTexture {
 	private float bo$previousSkyDarkness;
 
 	private boolean bo$isDirty() {
+		assert minecraft.player != null;
+		assert minecraft.level != null;
 		if(bo$commonFactors.getTimeDelta() >= Config.lightmapTimeForUpdate)
 			return true;
 		if(minecraft.player.isUnderWater() && minecraft.player.waterVisionTime < 600)
