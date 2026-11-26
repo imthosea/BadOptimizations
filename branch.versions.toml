@@ -12,6 +12,13 @@ forgeMinecraftRange = "[1.20.6,1.21.8]"
 fabricLoader = "0.15.0"
 modmenu = "15.0.2"
 
+jarTitle = "1.20.6-1.21.8"
+publishTitle = "(1.20.6-1.21.8)"
+publishVersions = "1.20.6,1.21,1.21.1,1.21.2,1.21.3,1.21.4,1.21.5,1.21.6,1.21.7,1.21.8"
+publishLoaders = "fabric,neoforge"
+
+prismTests = "fabric1.20.6,neo1.20.6,fabric1.21.1,neo1.21.1,fabric1.21.8,neo1.21.8"
+
 [libraries]
 fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabricLoader" }
