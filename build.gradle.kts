@@ -179,7 +179,8 @@ tasks.register("testPrism") {
 	dependsOn(assembleMonoJar)
 
 	val prismInstancesDir = providers.gradleProperty("bo.prismInstancesDir").map(::File)
-	val prismCmd = providers.gradleProperty("bo.prismCmd")
+	val prismBin = providers.gradleProperty("bo.prismBin")
+	val prismArgs = providers.gradleProperty("bo.prismArgs").orElse("")
 	val prismBaseName = providers.gradleProperty("bo.prismBaseName").orElse("bo_")
 	val prismSequential = providers.gradleProperty("bo.prismSequential").map(String::toBooleanStrict)
 	val prismTests = branch.versions.prismTests.map { it.split(",") }
@@ -218,7 +219,11 @@ tasks.register("testPrism") {
 		for(test in prismTests) { // after we made sure they all exist
 			val task = Runnable {
 				inject.exec.exec {
-					commandLine(*prismCmd.get().split(" ").toTypedArray(), "--launch", "$prismBaseName$test")
+					commandLine(
+						prismBin.get(),
+						*prismArgs.get().split(" ").toTypedArray(),
+						"--launch", "$prismBaseName$test"
+					)
 				}.assertNormalExitValue()
 			}
 			if(prismSequential.get()) {
