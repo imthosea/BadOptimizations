@@ -1,5 +1,6 @@
 package me.thosea.badoptimizations.platform;
 
+@SuppressWarnings("unused")
 public final class BadMcVersion {
 	private BadMcVersion() {}
 

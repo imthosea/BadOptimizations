@@ -18,6 +18,7 @@ import static me.thosea.badoptimizations.config.Config.LOGGER;
  * This class lets mods hook extra conditions that would cause a lightmap/skycolor update
  * so there doesn't need to be a hard incompatibility instead.
  */
+@SuppressWarnings("unused")
 public final class CacheHooks {
 	private CacheHooks() {}
 
