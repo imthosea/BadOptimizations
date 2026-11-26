@@ -75,7 +75,6 @@ public abstract class MixinClientLevel {
 		if(bo$checkBiome(x - 2, y + 3, z + 3, color)) return true;
 		return false;
 	}
-
 	private boolean bo$checkBiome(int x, int y, int z, int color) {
 		// make sure this stays small so it gets inlined!
 		int newColor = bo$biomeColors.get(x, y, z);
@@ -86,7 +85,6 @@ public abstract class MixinClientLevel {
 			return false;
 		}
 	}
-
 	private void bo$changeColor(int color) {
 		bo$lastBiomeColor = color;
 		bo$biomeColorVector = Vec3.fromRGB24(color);
