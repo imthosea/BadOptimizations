@@ -138,6 +138,7 @@ tasks.processResources {
 		}
 	}
 
+	inputs.property("version", version)
 	inputs.file("../branch/branch.versions.toml")
 }
 
