@@ -1,8 +1,8 @@
 package me.thosea.badoptimizations.utils;
 
 import me.thosea.badoptimizations.hook.CacheHooks;
-import me.thosea.badoptimizations.mixin.skycolor.MixinClientLevel;
 import me.thosea.badoptimizations.mixin.lightmap.MixinLightTexture;
+import me.thosea.badoptimizations.mixin.skycolor.MixinClientLevel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
 public final class CommonColorFactors {
 	private CommonColorFactors() {}
 
-	private static final Minecraft CLIENT = Objects.requireNonNull(Minecraft.getInstance(), "loaded too early");
+	private static final Minecraft client = Objects.requireNonNull(Minecraft.getInstance(), "loaded too early");
 
 	public static final CommonColorFactors SKY_COLOR = new CommonColorFactors();
 	public static final CommonColorFactors LIGHTMAP = new CommonColorFactors();
@@ -33,11 +33,13 @@ public final class CommonColorFactors {
 	private long lastTime;
 
 	public static void tick(float tickDelta) {
-		int tick = CLIENT.player.tickCount;
+		assert client.player != null;
+		assert client.level != null;
+		int tick = client.player.tickCount;
 		if(lastUpdateTick == tick) return;
 		lastUpdateTick = tick;
 
-		ClientLevel world = CLIENT.level;
+		ClientLevel world = client.level;
 		boolean result = false;
 
 		float rainGradient = world.getRainLevel(tickDelta);
@@ -102,10 +104,12 @@ public final class CommonColorFactors {
 	 * @return in-game time passed since the last call of {@link #updateLastTime()}
 	 */
 	public long getTimeDelta() {
-		return Math.abs(CLIENT.level.dayTime() - lastTime);
+		assert client.level != null;
+		return Math.abs(client.level.dayTime() - lastTime);
 	}
 
 	public void updateLastTime() {
-		lastTime = CLIENT.level.dayTime();
+		assert client.level != null;
+		lastTime = client.level.dayTime();
 	}
 }

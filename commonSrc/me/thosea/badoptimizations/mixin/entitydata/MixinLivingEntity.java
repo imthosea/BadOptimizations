@@ -32,6 +32,7 @@ public abstract class MixinLivingEntity extends MixinEntity {
 	private int bo$potionSwirlsColor = 0;
 	private int bo$stuckArrowCount = 0;
 	private int bo$stingerCount = 0;
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	private Optional<BlockPos> bo$sleepingPosition = Optional.empty();
 
 	@Redirect(method = "tickEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;get(Lnet/minecraft/network/syncher/EntityDataAccessor;)Ljava/lang/Object;", ordinal = 0))

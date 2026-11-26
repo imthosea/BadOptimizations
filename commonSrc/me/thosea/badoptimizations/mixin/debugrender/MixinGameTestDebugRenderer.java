@@ -1,7 +1,5 @@
 package me.thosea.badoptimizations.mixin.debugrender;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.debug.GameTestDebugRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +15,7 @@ public class MixinGameTestDebugRenderer {
 	@Shadow @Final private Map<?, ?> markers; // <BlockPos, Marker>
 
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
-	private void onRender(PoseStack matrices, MultiBufferSource vertexConsumers, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
+	private void onRender(CallbackInfo ci) {
 		if(markers.isEmpty()) ci.cancel();
 	}
 }

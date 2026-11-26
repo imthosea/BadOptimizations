@@ -7,7 +7,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -15,6 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 @Mixin(value = Entity.class, priority = 700)
@@ -41,6 +41,7 @@ public abstract class MixinEntity implements EntityMethods {
 	private boolean bo$noGravity = false;
 	private int bo$frozenTicks = 0;
 	private Pose bo$pose = Pose.STANDING;
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	private Optional<Component> bo$customName = Optional.empty();
 	private int bo$remainingAirTicks = getMaxAirSupply();
 
