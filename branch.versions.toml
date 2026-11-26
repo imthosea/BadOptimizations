@@ -17,7 +17,7 @@ publishTitle = "(1.20.2-1.20.4)"
 publishVersions = "1.20.2,1.20.3,1.20.4"
 publishLoaders = "fabric,neoforge"
 
-prismTests = "fabric1.20.2,neo1.20.2,fabric1.20.4,neo1.20.4"
+prismTests = "1.20.2fabric,1.20.2neo,1.20.4fabric,1.20.4neo"
 
 [libraries]
 fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
