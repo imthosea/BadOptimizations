@@ -27,7 +27,7 @@ import static me.thosea.badoptimizations.utils.CommonColorFactors.thunderGradien
 public abstract class MixinClientLevel {
 	@Shadow @Final private Minecraft minecraft;
 
-	private final BiomeSkyColorGetter bo$biomeColors = BiomeSkyColorGetter.of(((Level) (Object) this).getBiomeManager());
+	private final BiomeSkyColorGetter bo$biomeColors = new BiomeSkyColorGetter(((Level) (Object) this).getBiomeManager());
 	private final CommonColorFactors bo$commonFactors = CommonColorFactors.SKY_COLOR;
 
 	private int bo$skyColorCache;
@@ -60,17 +60,30 @@ public abstract class MixinClientLevel {
 		int x = Mth.floor(pos.x);
 		int y = Mth.floor(pos.y);
 		int z = Mth.floor(pos.z);
-
-		int color = bo$biomeColors.get(x - 2, y - 2, z - 2);
-		if(bo$lastBiomeColor != color) {
-			bo$lastBiomeColor = color;
-			bo$biomeColorVector = BadVersionHacks.fromRGB24(color);
-			return true;
-		} else if(bo$biomeColors.get(x + 3, y + 3, z + 3) != color) {
-			return true;
-		}
-
+		int color = bo$lastBiomeColor;
+		if(bo$checkBiome(x + 3, y + 3, z + 3, color)) return true;
+		if(bo$checkBiome(x + 3, y - 2, z + 3, color)) return true;
+		if(bo$checkBiome(x + 3, y + 3, z - 2, color)) return true;
+		if(bo$checkBiome(x + 3, y - 2, z - 2, color)) return true;
+		if(bo$checkBiome(x - 2, y - 2, z - 2, color)) return true;
+		if(bo$checkBiome(x - 2, y + 3, z - 2, color)) return true;
+		if(bo$checkBiome(x - 2, y - 2, z + 3, color)) return true;
+		if(bo$checkBiome(x - 2, y + 3, z + 3, color)) return true;
 		return false;
+	}
+	private boolean bo$checkBiome(int x, int y, int z, int color) {
+		// make sure this stays small so it gets inlined!
+		int newColor = bo$biomeColors.get(x, y, z);
+		if(newColor != color) {
+			bo$changeColor(newColor);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	private void bo$changeColor(int color) {
+		bo$lastBiomeColor = color;
+		bo$biomeColorVector = BadVersionHacks.fromRGB24(color);
 	}
 
 	private int bo$calcSkyColor(float delta) {
