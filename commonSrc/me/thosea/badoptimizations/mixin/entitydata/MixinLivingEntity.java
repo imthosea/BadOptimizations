@@ -82,4 +82,7 @@ public abstract class MixinLivingEntity extends MixinEntity {
 			bo$sleepingPosition = entityData.get(SLEEPING_POS_ID);
 		}
 	}
+
+	// implicit constructor in mixin makes member variables not initialize!
+	protected MixinLivingEntity() {}
 }
