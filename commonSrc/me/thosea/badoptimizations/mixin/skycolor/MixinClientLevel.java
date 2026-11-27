@@ -139,4 +139,6 @@ public abstract class MixinClientLevel {
 			bo$skyColorCache = BadVersionHacks.toColorInt(vec.x, vec.y, vec.z);
 		}
 	}
+
+	protected MixinClientLevel() {}
 }

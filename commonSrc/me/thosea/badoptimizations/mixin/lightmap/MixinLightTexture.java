@@ -86,4 +86,6 @@ public abstract class MixinLightTexture {
 			ci.cancel();
 		}
 	}
+
+	protected MixinLightTexture() {}
 }
