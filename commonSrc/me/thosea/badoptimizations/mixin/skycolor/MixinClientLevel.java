@@ -124,4 +124,6 @@ public abstract class MixinClientLevel {
 	private void afterGetSkyColor(Vec3 cameraPos, float tickDelta, CallbackInfoReturnable<Vec3> cir) {
 		bo$skyColorCache = cir.getReturnValue();
 	}
+
+	protected MixinClientLevel() {}
 }

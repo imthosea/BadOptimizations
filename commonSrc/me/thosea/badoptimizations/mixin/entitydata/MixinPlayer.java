@@ -83,4 +83,7 @@ public abstract class MixinPlayer extends MixinEntity {
 			bo$shoulderEntityRight = entityData.get(DATA_SHOULDER_RIGHT);
 		}
 	}
+
+	// implicit constructor in mixin makes member variables not initialize!
+	protected MixinPlayer() {}
 }

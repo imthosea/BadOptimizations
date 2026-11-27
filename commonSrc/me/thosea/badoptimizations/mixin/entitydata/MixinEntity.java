@@ -117,4 +117,7 @@ public abstract class MixinEntity implements EntityMethods {
 	private boolean bo$getFlag(byte flags, int index) {
 		return (flags & 1 << index) != 0;
 	}
+
+	// implicit constructor in mixin makes member variables not initialize!
+	protected MixinEntity() {}
 }
