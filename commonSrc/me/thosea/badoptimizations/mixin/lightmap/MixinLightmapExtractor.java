@@ -138,4 +138,6 @@ public abstract class MixinLightmapExtractor {
 		}
 		return false;
 	}
+
+	protected MixinLightmapExtractor() {}
 }
