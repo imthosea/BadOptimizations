@@ -111,4 +111,6 @@ public abstract class MixinLightTexture {
 		}
 		return false;
 	}
+
+	protected MixinLightTexture() {}
 }

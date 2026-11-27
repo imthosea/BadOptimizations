@@ -23,4 +23,6 @@ public final class MixinLevel implements LevelMethods {
 		bo$lastTimeOfDayTime = time;
 		bo$lastTimeOfDay = value;
 	}
+
+	private MixinLevel() {}
 }
