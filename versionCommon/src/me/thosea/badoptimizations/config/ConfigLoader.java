@@ -75,7 +75,7 @@ final class ConfigLoader {
 	}
 
 	public boolean optimization(String name, boolean loadCondition) {
-		return !incompats.isIncompatible(name) && bool(name, loadCondition);
+		return bool(name, loadCondition) && !incompats.isIncompatible(name);
 	}
 	public boolean optimization(String name) {
 		return optimization(name, /*load*/ true);

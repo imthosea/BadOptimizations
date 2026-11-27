@@ -1,5 +1,6 @@
 package me.thosea.badoptimizations.config;
 
+import me.thosea.badoptimizations.platform.BadMcVersion;
 import me.thosea.badoptimizations.platform.PlatformMethods;
 
 import java.util.ArrayList;
@@ -24,6 +25,12 @@ public final class ModIncompatibilities {
 		builtIn("enable_lightmap_caching", "polytone");
 		builtIn("enable_entity_flag_caching", "biomeswevegone", "performant");
 		builtIn("enable_remove_redundant_fov_calculations", "camera_lock_on");
+		if(BadMcVersion.isAtMost(20, 4)) {
+			// newer skyangle caching is compatible but cannot be backported,
+			// because it mixins into an interface
+			// neoforge didn't switch to fabric mixin until 1.20.5
+			builtIn("enable_sky_angle_caching_in_worldrenderer", "citadel");
+		}
 
 		PlatformMethods.INSTANCE.getModIncompatibilities().forEach((id, options) -> {
 			IncompatibleMod mod = new IncompatibleMod(false, id);
