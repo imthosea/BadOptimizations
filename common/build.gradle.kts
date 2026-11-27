@@ -38,7 +38,7 @@ if(branch.versions.minecraft.get() != "1.20.1") {
 	}
 } else {
 	extensions.configure<LegacyForgeExtension> {
-		mcpVersion = branch.versions.minecraft.get()
+		mcpVersion = "1.20.1"
 		validateAccessTransformers = true
 		accessTransformers.from(access)
 	}
