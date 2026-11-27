@@ -1,9 +1,9 @@
 [versions]
-minecraft = "26.3"
+minecraft = "26.4-pre-2"
 java = "25"
 isObfuscated = "false"
 
-neoform = "26.3-1"
+neoform = "26.4-pre-2-1"
 neoforge = "26.3.0.100"
 
 fabricMinecraftRange = ">=26.1"

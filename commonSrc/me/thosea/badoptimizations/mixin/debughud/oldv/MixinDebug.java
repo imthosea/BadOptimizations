@@ -1,6 +1,7 @@
-package me.thosea.badoptimizations.mixin.debughud;
+package me.thosea.badoptimizations.mixin.debughud.oldv;
 
 import me.thosea.badoptimizations.platform.PlatformMethods;
+import me.thosea.badoptimizations.utils.BadVersionHacks;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.gui.components.debug.DebugScreenEntry;
@@ -30,7 +31,7 @@ public class MixinDebug {
 							LevelChunk clientChunk,
 							LevelChunk chunk
 					) {
-						lines.addLine(BO$F3_TEXT);
+						BadVersionHacks.addLine(lines, BO$F3_TEXT);
 					}
 
 					@Override
@@ -41,6 +42,7 @@ public class MixinDebug {
 		);
 	}
 
+	@SuppressWarnings("MixinAnnotationTarget")
 	@Contract // pure = false
 	@Shadow
 	private static Identifier register(Identifier id, DebugScreenEntry entry) {

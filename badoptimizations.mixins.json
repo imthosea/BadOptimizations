@@ -6,7 +6,8 @@
   "compatibilityLevel": "JAVA_25",
   "client": [
     "configerror.MixinClientPacketListener",
-    "debughud.MixinDebug",
+    "debughud.newv.MixinDebug",
+    "debughud.oldv.MixinDebug",
     "debugrender.MixinDebugRenderer",
     "fov.MixinAbstractClientPlayer",
     "lightmap.MixinLightmapExtractor",

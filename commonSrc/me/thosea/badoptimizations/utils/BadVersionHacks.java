@@ -1,11 +1,13 @@
 package me.thosea.badoptimizations.utils;
 
 import com.mojang.blaze3d.Blaze3D;
+import me.thosea.badoptimizations.platform.BadMcVersion;
 import me.thosea.badoptimizations.reflect.BadReflection;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Util;
 import net.minecraft.util.Util.OS;
@@ -18,7 +20,7 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.net.URI;
 
-// 26.1-3
+// 26.1-4
 public final class BadVersionHacks {
 	private BadVersionHacks() {}
 
@@ -63,9 +65,30 @@ public final class BadVersionHacks {
 		}
 	}
 
+	// 26.1-3:
+	// DebugScreenDisplayer.addLine
+	// 26.4:
+	// a group is used in the mixin, do not call this
+	private static final MethodHandle addLine = BadMcVersion.isAtMost(26, 3) ? BadReflection.getVirtual(
+			DebugScreenDisplayer.class,
+			MethodType.methodType(void.class, String.class),
+			"addLine"
+	) : null;
+	public static void addLine(DebugScreenDisplayer lines, String line) {
+		// will get JIT'd out
+		if(!BadMcVersion.isAtMost(26, 3)) {
+			throw new AssertionError("too new version");
+		}
+		try {
+			addLine.invokeExact(lines, line);
+		} catch(Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	// 26.1/2:
 	// Util.getPlatform().openUri
-	// 26.3:
+	// 26.3+:
 	// Blaze3D.openUri
 	// use normal reflection here cause this isn't gonna get JIT'd anyway
 	private static final Object objOpenUri;

@@ -2,6 +2,7 @@ package me.thosea.badoptimizations.mixin;
 
 import me.thosea.badoptimizations.config.Config;
 import me.thosea.badoptimizations.hook.CacheHooks;
+import me.thosea.badoptimizations.platform.BadMcVersion;
 import me.thosea.badoptimizations.platform.PlatformMethods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -29,7 +30,12 @@ public final class BOMixinPlugin implements IMixinConfigPlugin {
 		String[] split = mixin.substring(mixinPackageLength).split("\\.");
 		return switch(split[0]) {
 			case "configerror" -> Config.isError;
-			case "debughud" -> Config.showF3Text;
+			case "debughud" -> {
+				if(!Config.showF3Text) yield false;
+				else if(split[1].equals("oldv")) yield BadMcVersion.isAtMost(26, 3);
+				else if(split[1].equals("newv")) yield BadMcVersion.isAtLeast(26, 4);
+				else yield true;
+			}
 			case "debugrender" -> Config.debugRendererDisableIfNotNeeded;
 			case "fov" -> Config.removeRedundantFovCalcs;
 			case "lightmap" -> Config.lightmapCaching;
