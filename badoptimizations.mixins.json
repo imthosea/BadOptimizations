@@ -30,7 +30,7 @@
     "tutorial.MixinTutorial"
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   },
   "mixinPriority": 1200
 }
