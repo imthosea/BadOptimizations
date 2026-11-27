@@ -14,7 +14,7 @@ modmenu = "21.0.0"
 
 jarTitle = "26.1-3"
 publishTitle = "(26.1-26.3)"
-publishVersions = "26.1,26.2,26.3"
+publishVersions = "26.1,26.1.1,26.1.2,26.2,26.3"
 publishLoaders = "fabric,neoforge"
 
 prismTests = "26.1fabric,26.1neo,26.2fabric,26.2neo,26.3fabric,26.3neo"
